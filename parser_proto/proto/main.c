@@ -16,6 +16,9 @@ int	main(int ac, char **av)
 	return (EXIT_SUCCESS);
 }
 
+void	start_scanner(t_core *core);
+void	clean_scanner(t_core *core);
+
 void	repl(void)
 {
 	t_core	core;
@@ -32,10 +35,26 @@ void	repl(void)
 		}
 		if (*core.line)
 			add_history(core.line);
-		core.scanner = init_scanner(&core);
+		start_scanner(&core);
 		link_tok(core.scanner);
-		free(core.line);
+		clean_scanner(&core);
 	}
+	rl_clear_history();
+}
+
+void	start_scanner(t_core *core)
+{
+	core->scanner = init_scanner(core);
+	core->tok_head = wr_calloc(1, sizeof(t_token *), core);
+}
+
+void	clean_scanner(t_core *core)
+{
+	free_tokens(*core->tok_head);
+	free(core->tok_head);
+	core->tok_head = NULL;
+	free(core->scanner);
+	free(core->line);
 }
 
 void	link_tok(t_scanner *scanner)
@@ -57,7 +76,8 @@ void	print_tok(t_token *head)
 {
 	while (head)
 	{
-		printf("%2d '%.*s'\n", head->type, (int)head->length, head->start);
+		printf("\n----\n %2d '%.*s'\n", head->type, (int)head->length, head->start);
+		printf("Prev: %p | Curr: %p | Next: %p\n", head->prev, head, head->next);
 		if (head->type == EOF_TOK)
 			break;
 		head = head->next;

@@ -19,7 +19,7 @@ typedef struct	s_core t_core;
 typedef enum	e_token_type
 {
 	// single character tokens
-	PIPE, SINGLE_QUOTE, DOUBLE_QUOTE, LEFT_PAREN, RIGHT_PAREN,
+	PIPE, LEFT_PAREN, RIGHT_PAREN,
 	DOLLAR, DASH,
 	// single or double character tokens
 	REDIR_OUT, REDIR_IN, APPEND, HERE_DOC,
@@ -58,8 +58,8 @@ typedef struct	s_token
 
 typedef struct	s_ast {
 	t_token	token;
-	t_ast	*left_node;
-	t_ast	*right_node;
+	t_ast	*left;
+	t_ast	*right;
 }				t_ast;
 
 // main.c

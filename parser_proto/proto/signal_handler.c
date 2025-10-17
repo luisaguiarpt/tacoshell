@@ -7,9 +7,6 @@ void	handle_sigint(int	signo)
 	(void)signo;
 	g_signal = 1;
 	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
 }
 
 void	handle_sigquit(int signo)

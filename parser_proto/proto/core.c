@@ -6,7 +6,7 @@ t_core	init_core(void)
 	
 	core.line = NULL;
 	core.scanner = NULL;
-	core.tok_head = wr_calloc(1, sizeof(t_token *), &core);
+	core.tok_head = NULL;
 	core.error_code = 0;
 	return (core);
 }
