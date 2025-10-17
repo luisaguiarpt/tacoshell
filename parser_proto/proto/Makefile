@@ -2,7 +2,8 @@ CC=cc
 FLAGS=-Wall -Wextra -Werror -g
 LIBREADLINE=-lreadline -lncurses
 
-SRCS=main.c signal_handler.c
+SRCS=main.c signal_handler.c core.c scanner.c tokenizer.c wrapper_alloc.c \
+	 utils.c exit.c
 
 OBJS=$(SRCS:%.c=%.o)
 
