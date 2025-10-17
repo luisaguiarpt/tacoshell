@@ -3,7 +3,7 @@ FLAGS=-Wall -Wextra -Werror -g
 LIBREADLINE=-lreadline -lncurses
 
 SRCS=main.c signal_handler.c core.c scanner.c tokenizer.c wrapper_alloc.c \
-	 utils.c exit.c
+	 utils.c exit.c scanner_utils.c
 
 OBJS=$(SRCS:%.c=%.o)
 

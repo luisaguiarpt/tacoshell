@@ -18,3 +18,17 @@ bool	is_alpha(char c)
 		return (true);
 	return (false);
 }
+
+bool	is_identi(char c)
+{
+	if (is_alpha(c) || c == '.' || c == '-')
+		return (true);
+	return (false);
+}
+
+bool	is_digit(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (true);
+	return (false);
+}

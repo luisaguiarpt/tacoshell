@@ -1,6 +1,7 @@
 #include "tacoshell.h"
 
-void	print_tok(t_scanner *scanner);
+void	print_tok(t_token *head);
+void	link_tok(t_scanner *scanner);
 
 int	main(int ac, char **av)
 {
@@ -21,7 +22,7 @@ void	repl(void)
 
 	setup_signals();
 	core = init_core();
-	while (1)
+	while (true)
 	{
 		core.line = readline("$> ");
 		if (!core.line)
@@ -32,18 +33,33 @@ void	repl(void)
 		if (*core.line)
 			add_history(core.line);
 		core.scanner = init_scanner(&core);
-		print_tok(core.scanner);
+		link_tok(core.scanner);
 		free(core.line);
 	}
 }
 
-void	print_tok(t_scanner *scanner)
+void	link_tok(t_scanner *scanner)
 {
+	t_token	*token;
+
 	while (1)
 	{
-		t_token	token = scan_token(scanner);
-		printf("%2d '%.*s'\n", token.type, (int)token.length, token.start);
-		if (token.type == EOF_TOK)
+		token = wr_calloc(1, sizeof(t_token), scanner->core);
+		*token = scan_token(scanner);
+		append_token(scanner->core->tok_head, token);
+		if (token->type == EOF_TOK)
 			break;
+	}
+	print_tok(*scanner->core->tok_head);
+}
+
+void	print_tok(t_token *head)
+{
+	while (head)
+	{
+		printf("%2d '%.*s'\n", head->type, (int)head->length, head->start);
+		if (head->type == EOF_TOK)
+			break;
+		head = head->next;
 	}
 }
