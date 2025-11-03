@@ -2,6 +2,10 @@
 
 void	print_tok(t_token *head);
 void	link_tok(t_scanner *scanner);
+void	start_scanner(t_core *core);
+void	clean_scanner(t_core *core);
+void	repl(void);
+char	*set_cwd(void);
 
 int	main(int ac, char **av)
 {
@@ -16,9 +20,6 @@ int	main(int ac, char **av)
 	return (EXIT_SUCCESS);
 }
 
-void	start_scanner(t_core *core);
-void	clean_scanner(t_core *core);
-
 void	repl(void)
 {
 	t_core	core;
@@ -27,7 +28,10 @@ void	repl(void)
 	core = init_core();
 	while (true)
 	{
-		core.line = readline("$> ");
+		char	*current_dir;
+
+		current_dir = set_cwd();
+		core.line = readline(current_dir);
 		if (!core.line)
 		{
 			write(1, "exit\n", 5);
@@ -82,4 +86,15 @@ void	print_tok(t_token *head)
 			break;
 		head = head->next;
 	}
+}
+
+char	*set_cwd(void)
+{
+		char	cwd_result[PATH_MAX];
+		char	*current_dir;
+
+		getcwd(cwd_result, sizeof(cwd_result));
+		current_dir = malloc((ft_strlen(cwd_result) + 4));
+		current_dir = ft_strjoin(cwd_result, " $> ");
+		return (current_dir);
 }

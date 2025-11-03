@@ -1,6 +1,7 @@
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
 
+#include <limits.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,6 +12,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <libft.h>
 
 typedef struct	s_ast t_ast;
 typedef struct	s_token t_token;
@@ -40,7 +42,7 @@ typedef struct	s_scanner
 
 typedef struct	s_core
 {
-	char	*line;
+	char		*line;
 	t_ast		**ast_root;
 	t_scanner	*scanner;
 	t_token		**tok_head;
@@ -102,7 +104,7 @@ void	handle_sigquit(int signo);
 void	setup_signals(void);
 
 // Utils - utils.c
-size_t	ft_strlen(char	*str);
+//size_t	ft_strlen(char	*str);
 bool	is_alpha(char c);
 bool	is_digit(char c);
 bool	is_identi(char c);

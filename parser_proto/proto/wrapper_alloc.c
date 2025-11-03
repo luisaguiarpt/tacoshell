@@ -1,5 +1,6 @@
 #include "tacoshell.h"
 
+/*
 static void	*ft_memset(void *s, int c, size_t n)
 {
 	size_t	i;
@@ -24,6 +25,7 @@ static void	*ft_calloc(size_t nmemb, size_t size)
 	ptr = ft_memset(ptr, 0, nmemb * size);
 	return (ptr);
 }
+*/
 
 void	*wr_calloc(size_t nmemb, size_t size, t_core *core)
 {

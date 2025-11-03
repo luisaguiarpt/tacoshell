@@ -1,5 +1,6 @@
 #include "tacoshell.h"
 
+/*
 size_t	ft_strlen(char	*str)
 {
 	size_t	len;
@@ -11,6 +12,7 @@ size_t	ft_strlen(char	*str)
 		len++;
 	return (len);
 }
+*/
 
 bool	is_alpha(char c)
 {
