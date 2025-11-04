@@ -8,11 +8,14 @@ t_ast	create_ast(t_core)
 {
 	t_token	*start;
 	t_token	*end;
+	t_ast	ast;
 
 	start = *core->tok_head;
 	end = start;
 	while (end->next)
 		end = end->next;
+	ast = parse_tokens(start, end);
+	return (ast);
 }
 
 // Need a function to create a node out of an operator
@@ -24,18 +27,21 @@ t_ast	*parse_tokens(t_token *start, t_token *end)
 
 	op = find_lowest_prec(start, end);
 	if (!op)
-		return (create_node(start, end));
+		return (create_node(CMD, start, end));
+	else
+		return (create_node(PIPE, start, end));
 	node = create_node(op);
 }
 
-t_ast	*create_node(t_token *token, t_core *core)
+t_ast	*create_node(t_token_type type, t_token *start, t_token *end)
 {
 	t_ast	*node;
 
 	node = wr_calloc(1, sizeof(t_ast), core);
-	node->token = token;
-	node->left = token->prev;
-	node->right = token->next;
+	node->type = type;
+	if (type == CMD)
+	{
+		node->args = gen_args(start, end);
 	return (node);
 }
 
