@@ -5,7 +5,6 @@ void	link_tok(t_scanner *scanner);
 void	start_scanner(t_core *core);
 void	clean_scanner(t_core *core);
 void	repl(void);
-char	*set_cwd(void);
 
 int	main(int ac, char **av)
 {
@@ -28,10 +27,8 @@ void	repl(void)
 	core = init_core();
 	while (true)
 	{
-		char	*current_dir;
-
-		current_dir = set_cwd();
-		core.line = readline(current_dir);
+    set_cwd(&core); // acho que faz sentido aqui porque temos que atualizar o cwd sempre antes de receber um prompt
+		core.line = readline(core.cwd);
 		if (!core.line)
 		{
 			write(1, "exit\n", 5);
@@ -86,15 +83,4 @@ void	print_tok(t_token *head)
 			break;
 		head = head->next;
 	}
-}
-
-char	*set_cwd(void)
-{
-		char	cwd_result[PATH_MAX];
-		char	*current_dir;
-
-		getcwd(cwd_result, sizeof(cwd_result));
-		current_dir = malloc((ft_strlen(cwd_result) + 4));
-		current_dir = ft_strjoin(cwd_result, " $> ");
-		return (current_dir);
 }
