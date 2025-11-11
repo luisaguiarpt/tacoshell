@@ -41,6 +41,7 @@ void	repl(void)
 		clean_scanner(&core);
 	}
 	rl_clear_history();
+  exit_ts(&core);
 }
 
 void	start_scanner(t_core *core)
