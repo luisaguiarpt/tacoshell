@@ -1,4 +1,4 @@
-#include "tacoshell.h"
+#include "../../headers/tacoshell.h"
 
 void	print_tok(t_token *head);
 void	link_tok(t_scanner *scanner);
@@ -27,7 +27,6 @@ void	repl(void)
 	core = init_core();
 	while (true)
 	{
-    set_cwd(&core); // acho que faz sentido aqui porque temos que atualizar o cwd sempre antes de receber um prompt
 		core.line = readline(core.cwd);
 		if (!core.line)
 		{
@@ -41,7 +40,7 @@ void	repl(void)
 		clean_scanner(&core);
 	}
 	rl_clear_history();
-  free(core.cwd);
+	free(core.cwd);
 }
 
 void	start_scanner(t_core *core)

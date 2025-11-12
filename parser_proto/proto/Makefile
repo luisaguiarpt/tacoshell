@@ -3,11 +3,11 @@ FLAGS=-Wall -Wextra -Werror -g
 LIBREADLINE=-lreadline -lncurses
 
 SRCS=main.c signal_handler.c core.c scanner.c tokenizer.c wrapper_alloc.c \
-    utils.c exit.c scanner_utils.c
+    utils.c exit.c scanner_utils.c ../../builtins/cd.c ../../builtins/echo.c
 
 OBJS=$(SRCS:%.c=%.o)
 
-LIBFT_DIR=libft
+LIBFT_DIR=../../libft
 LIBFT_A=$(LIBFT_DIR)/libft.a
 
 INCLUDES = -I/usr/include -I$(LIBFT_DIR)

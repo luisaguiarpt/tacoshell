@@ -1,4 +1,4 @@
-#include "tacoshell.h"
+#include "../../headers/tacoshell.h"
 
 /*
 size_t	ft_strlen(char	*str)
@@ -35,18 +35,3 @@ bool	is_digit(char c)
 	return (false);
 }
 
-void  set_cwd(t_core *core)
-{
-		char	cwd_result[PATH_MAX];
-		char	*current_dir;
-
-    if (core->cwd)
-    {
-      free(core->cwd);
-      core->cwd = NULL;
-    }
-		getcwd(cwd_result, sizeof(cwd_result));
-		current_dir = ft_strjoin(cwd_result, " $> ");
-		core->cwd = current_dir;
-    return ;
-}

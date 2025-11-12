@@ -42,7 +42,8 @@ typedef struct	s_scanner
 
 typedef struct	s_core
 {
-  char    *cwd;
+	char		*cwd;
+	char		*old_pwd;
 	char		*line;
 	t_ast		**ast_root;
 	t_scanner	*scanner;
@@ -109,6 +110,8 @@ void	setup_signals(void);
 bool	is_alpha(char c);
 bool	is_digit(char c);
 bool	is_identi(char c);
-void  set_cwd(t_core *core);
 
+// Builtins
+int	ft_cd(t_core *core, char *dir_path);
+int	ft_echo(int nflag, char *arg);
 #endif

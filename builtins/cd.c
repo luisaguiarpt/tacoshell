@@ -1,4 +1,36 @@
-int ft_cd(char *directory)
+#include "../headers/tacoshell.h"
+
+static int check_access(char *dir_path)
 {
-  return (EXIT_SUCCESS);
+	if (access(dir_path, F_OK) != 0) //F_OK flag - check exxistence
+	{
+    	perror("Error");
+		return(1);
+	}
+	if (access(dir_path, R_OK) != 0) //R_OK flag - check read access
+	{
+    	perror("Error");
+		return(1);
+	}
+	return (0);
+}
+
+int ft_cd(t_core *core, char *dir_path)
+{
+	char	*og_path;
+
+	og_path = core->cwd;
+	if (check_access(dir_path) == 1)
+		return (EXIT_FAILURE);
+	if (chdir(dir_path) == -1)
+	{
+		perror("cd");
+		return (EXIT_FAILURE);
+	}
+	free(core->cwd);
+	core->cwd = dir_path;
+	if(core->old_pwd)
+		free(core->old_pwd);
+	core->old_pwd = og_path;
+	return (EXIT_SUCCESS);
 }
