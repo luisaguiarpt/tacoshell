@@ -114,4 +114,8 @@ bool	is_identi(char c);
 // Builtins
 int	ft_cd(t_core *core, char *dir_path);
 int	ft_echo(int nflag, char *arg);
+
+// Test - DELETE!!
+void	exec_cmd(char *prompt, t_core *core);
+
 #endif

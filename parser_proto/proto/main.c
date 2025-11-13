@@ -35,6 +35,7 @@ void	repl(void)
 		}
 		if (*core.line)
 			add_history(core.line);
+		exec_cmd(core.line, &core);//
 		start_scanner(&core);
 		link_tok(core.scanner);
 		clean_scanner(&core);

@@ -18,6 +18,8 @@ static int check_access(char *dir_path)
 int ft_cd(t_core *core, char *dir_path)
 {
 	char	*og_path;
+	char	*new_path;
+	char	tmp[PATH_MAX];
 
 	og_path = core->cwd;
 	if (check_access(dir_path) == 1)
@@ -27,8 +29,14 @@ int ft_cd(t_core *core, char *dir_path)
 		perror("cd");
 		return (EXIT_FAILURE);
 	}
+	if (!getcwd(tmp, sizeof(tmp)))
+	{
+		perror("getcwd");
+		return (EXIT_FAILURE);
+	}
+	new_path = ft_strdup(tmp);
 	free(core->cwd);
-	core->cwd = dir_path;
+	core->cwd = new_path;
 	if(core->old_pwd)
 		free(core->old_pwd);
 	core->old_pwd = og_path;
