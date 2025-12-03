@@ -1,5 +1,16 @@
 #include "../../headers/tacoshell.h"
 
+static void	env_append(t_core *core, t_env *new)
+{
+	t_env *tmp;
+
+	tmp = core->env;
+
+	while(tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}
+
 void	env_init(t_core *core, char **envp)
 {
 	int		i;
@@ -12,6 +23,8 @@ void	env_init(t_core *core, char **envp)
 	{
 		env_split(envp[i], &key, &value);
 		set_env(core, key, value);
+		free(key); //
+		free(value); //
 		i++;
 	}
 }
@@ -38,7 +51,7 @@ void	set_env(t_core *core, char *key, char *value)
 	new->key = ft_strdup(key);
 	new->value = ft_strdup(value);
 	new->next = NULL;
-	ft_lstadd_front(&core.env, new)
+	env_append(core, new);
 }
 
 /*

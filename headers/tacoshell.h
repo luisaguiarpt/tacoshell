@@ -131,9 +131,9 @@ void	exec_cmd(char *prompt, t_core *core);
 
 // Env
 void	env_init(t_core *core, char **envp);
+void	set_env(t_core *core, char *key, char *value);
 /*
 t_env	*get_env(t_core *core, char *key);
-void	set_env(t_core *core, char *key, char *value);
 void	unset_env(t_core *core, char *key);
 */
 void	env_split(char *env, char **key, char **value);
