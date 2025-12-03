@@ -1,0 +1,72 @@
+#include "../../headers/tacoshell.h"
+
+void	env_init(t_core *core, char **envp)
+{
+	int		i;
+	char	*key;
+	char	*value;
+
+	i = 0;
+
+	while (envp[i])
+	{
+		env_split(envp[i], &key, &value);
+		set_env(core, key, value);
+		i++;
+	}
+}
+
+void	set_env(t_core *core, char *key, char *value)
+{
+	t_env	*tmp;
+	t_env	*new;
+	
+	tmp = core->env;
+
+	while(tmp)
+	{
+		if (ft_strcmp(key, tmp->key) == 0)
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(value);
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	
+	new = malloc(sizeof(t_env));
+	new->key = ft_strdup(key);
+	new->value = ft_strdup(value);
+	new->next = NULL;
+	ft_lstadd_front(&core.env, new)
+}
+
+/*
+t_env	*get_env(t_core *core, char *key)
+{
+
+}
+
+void	unset_env(t_core *core, char *key)
+{
+
+}
+*/
+
+// Split modificado que so procura o primeiro '='
+// para casos que usam varios '=' como por exemplo: "XMODIFIERS=@im=fcitx"
+void	env_split(char *env, char **key, char **value)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (env[i] != '=')
+		i++;
+	*key = ft_substr(env, 0, i);
+	while (env[j])
+		j++;
+	i++; //i++ ignora o '='
+	*value = ft_substr(env, i, j - i); 
+}

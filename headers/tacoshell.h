@@ -17,6 +17,7 @@
 typedef struct	s_ast t_ast;
 typedef struct	s_token t_token;
 typedef struct	s_core t_core;
+typedef struct	s_env t_env;
 
 typedef enum	e_token_type
 {
@@ -42,9 +43,10 @@ typedef struct	s_scanner
 
 typedef struct	s_core
 {
-	char		*cwd;
-	char		*old_pwd;
+	char		*cwd; // DELETE
+	char		*old_pwd; //DELETE
 	char		*line;
+	t_env		*env;
 	t_ast		**ast_root;
 	t_scanner	*scanner;
 	t_token		**tok_head;
@@ -60,14 +62,22 @@ typedef struct	s_token
 	t_token			*prev;
 }				t_token;
 
-typedef struct	s_ast {
-	t_token	token;
-	t_ast	*left;
-	t_ast	*right;
+typedef struct	s_ast
+{
+	t_token		token;
+	t_ast		*left;
+	t_ast		*right;
 }				t_ast;
 
+typedef struct	s_env
+{
+	char		*key;
+	char		*value;
+	t_env		*next;
+}				t_env;
+
 // main.c
-void	repl(void);
+void	repl(char **envp);
 
 // Scanner - scanner.c
 t_token		scan_token(t_scanner *scanner);
@@ -114,8 +124,18 @@ bool	is_identi(char c);
 // Builtins
 int	ft_cd(t_core *core, char *dir_path);
 int	ft_echo(int nflag, char *arg);
+int	ft_pwd(t_core *core);
 
 // Test - DELETE!!
 void	exec_cmd(char *prompt, t_core *core);
+
+// Env
+void	env_init(t_core *core, char **envp);
+/*
+t_env	*get_env(t_core *core, char *key);
+void	set_env(t_core *core, char *key, char *value);
+void	unset_env(t_core *core, char *key);
+*/
+void	env_split(char *env, char **key, char **value);
 
 #endif

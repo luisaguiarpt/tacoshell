@@ -9,7 +9,9 @@ void	exec_cmd(char *prompt, t_core *core)
 		else 
 			ft_echo(0, &prompt[5]);
 	}
-	else
+	else if (prompt[0] == 'c')
 		ft_cd(core, &prompt[3]);
+	else if (prompt[0] == 'p')
+		ft_pwd(core);
 	return ;
 }

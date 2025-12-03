@@ -4,13 +4,13 @@ void	print_tok(t_token *head);
 void	link_tok(t_scanner *scanner);
 void	start_scanner(t_core *core);
 void	clean_scanner(t_core *core);
-void	repl(void);
+void	repl(char **envp);
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **envp)
 {
 	(void)av;
 	if (ac == 1)
-		repl();
+		repl(envp);
 	else if (ac > 1)
 	{
 		printf("Usage: ./minishell\n");
@@ -19,12 +19,13 @@ int	main(int ac, char **av)
 	return (EXIT_SUCCESS);
 }
 
-void	repl(void)
+void	repl(char **envp)
 {
 	t_core	core;
 
 	setup_signals();
 	core = init_core();
+	env_init(&core, envp);
 	while (true)
 	{
 		core.line = readline(core.cwd);
@@ -35,7 +36,7 @@ void	repl(void)
 		}
 		if (*core.line)
 			add_history(core.line);
-		exec_cmd(core.line, &core);//
+		exec_cmd(core.line, &core);
 		start_scanner(&core);
 		link_tok(core.scanner);
 		clean_scanner(&core);
