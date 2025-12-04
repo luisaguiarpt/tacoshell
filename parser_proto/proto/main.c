@@ -28,7 +28,7 @@ void	repl(char **envp)
 	env_init(&core, envp);
 	while (true)
 	{
-		core.line = readline(core.cwd);
+		core.line = readline(get_env(&core, "PWD"));
 		if (!core.line)
 		{
 			write(1, "exit\n", 5);
@@ -42,7 +42,6 @@ void	repl(char **envp)
 		clean_scanner(&core);
 	}
 	rl_clear_history();
-	free(core.cwd);
 }
 
 void	start_scanner(t_core *core)

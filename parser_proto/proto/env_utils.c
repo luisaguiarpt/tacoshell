@@ -58,12 +58,21 @@ void	set_env(t_core *core, char *key, char *value)
 	env_append(core, new);
 }
 
-/*
-t_env	*get_env(t_core *core, char *key)
+char	*get_env(t_core *core, char *key)
 {
+	t_env	*tmp;
 
+	tmp = core->env;
+	while (tmp)
+	{
+		if (ft_strcmp(key, tmp->key) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
 
+/*
 void	unset_env(t_core *core, char *key)
 {
 

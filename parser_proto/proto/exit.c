@@ -19,7 +19,5 @@ static void	free_all(t_core *core)
 {
 	free(core->scanner);
   core->scanner = NULL;
-  free(core->cwd);
-  core->cwd = NULL;
 	//free(core);
 }

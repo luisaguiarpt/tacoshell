@@ -43,8 +43,6 @@ typedef struct	s_scanner
 
 typedef struct	s_core
 {
-	char		*cwd; // DELETE
-	char		*old_pwd; //DELETE
 	char		*line;
 	t_env		*env;
 	t_ast		**ast_root;
@@ -133,8 +131,8 @@ void	exec_cmd(char *prompt, t_core *core);
 // Env
 void	env_init(t_core *core, char **envp);
 void	set_env(t_core *core, char *key, char *value);
+char	*get_env(t_core *core, char *key);
 /*
-t_env	*get_env(t_core *core, char *key);
 void	unset_env(t_core *core, char *key);
 */
 void	env_split(char *env, char **key, char **value);
