@@ -5,7 +5,11 @@ static void	env_append(t_core *core, t_env *new)
 	t_env *tmp;
 
 	tmp = core->env;
-
+	if (core->env == NULL)
+	{
+		core->env = new;
+		return ;
+	}
 	while(tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
@@ -18,7 +22,7 @@ void	env_init(t_core *core, char **envp)
 	char	*value;
 
 	i = 0;
-
+	core->env = NULL; //
 	while (envp[i])
 	{
 		env_split(envp[i], &key, &value);

@@ -125,6 +125,7 @@ bool	is_identi(char c);
 int	ft_cd(t_core *core, char *dir_path);
 int	ft_echo(int nflag, char *arg);
 int	ft_pwd(t_core *core);
+int	ft_env(t_core *core);
 
 // Test - DELETE!!
 void	exec_cmd(char *prompt, t_core *core);
