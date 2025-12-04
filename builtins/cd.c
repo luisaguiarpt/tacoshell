@@ -32,9 +32,11 @@ int ft_cd(t_core *core, char *dir_path)
 		perror("getcwd");
 		return (EXIT_FAILURE);
 	}
-
-	current_path = get_env(core, "PWD");
+	current_path = ft_strdup(get_env(core, "PWD"));
+	if (!current_path)
+		return (EXIT_FAILURE);
 	set_env(core, "PWD", tmp);
 	set_env(core, "OLDPWD", current_path);
+	free(current_path);
 	return (EXIT_SUCCESS);
 }

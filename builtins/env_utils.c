@@ -1,4 +1,4 @@
-#include "../../headers/tacoshell.h"
+#include "../headers/tacoshell.h"
 
 static void	env_append(t_core *core, t_env *new)
 {
@@ -13,24 +13,6 @@ static void	env_append(t_core *core, t_env *new)
 	while(tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
-}
-
-void	env_init(t_core *core, char **envp)
-{
-	int		i;
-	char	*key;
-	char	*value;
-
-	i = 0;
-	core->env = NULL; //
-	while (envp[i])
-	{
-		env_split(envp[i], &key, &value);
-		set_env(core, key, value);
-		free(key); //
-		free(value); //
-		i++;
-	}
 }
 
 void	set_env(t_core *core, char *key, char *value)
@@ -72,12 +54,27 @@ char	*get_env(t_core *core, char *key)
 	return (NULL);
 }
 
-/*
-void	unset_env(t_core *core, char *key)
+int	unset_env(t_core *core, char *key)
 {
+	t_env	*tmp;
 
+	tmp = core->env;
+	while (tmp)
+	{
+		if (ft_strcmp(key, tmp->key) == 0)
+		{
+			if (tmp->value)
+			{
+				free(tmp->value);
+				tmp->value = NULL;
+				return (EXIT_SUCCESS);
+			}
+		}
+		tmp = tmp->next;
+	}
+	ft_printf("%s variable not found", key); //
+	return (EXIT_FAILURE);
 }
-*/
 
 // Split modificado que so procura o primeiro '='
 // para casos que usam varios '=' como por exemplo: "XMODIFIERS=@im=fcitx"

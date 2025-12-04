@@ -132,9 +132,7 @@ void	exec_cmd(char *prompt, t_core *core);
 void	env_init(t_core *core, char **envp);
 void	set_env(t_core *core, char *key, char *value);
 char	*get_env(t_core *core, char *key);
-/*
-void	unset_env(t_core *core, char *key);
-*/
+int		unset_env(t_core *core, char *key);
 void	env_split(char *env, char **key, char **value);
 
 #endif

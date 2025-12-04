@@ -4,7 +4,7 @@ LIBREADLINE=-lreadline -lncurses
 
 SRCS=main.c signal_handler.c core.c scanner.c tokenizer.c wrapper_alloc.c \
     utils.c exit.c scanner_utils.c ../../builtins/cd.c ../../builtins/echo.c \
-	exec_cmd.c ../../builtins/pwd.c ../../builtins/env.c env_utils.c
+	exec_cmd.c ../../builtins/pwd.c ../../builtins/env.c ../../builtins/env_utils.c
 
 OBJS=$(SRCS:%.c=%.o)
 

@@ -37,9 +37,11 @@ void	repl(char **envp)
 		if (*core.line)
 			add_history(core.line);
 		exec_cmd(core.line, &core);
+		/*
 		start_scanner(&core);
 		link_tok(core.scanner);
 		clean_scanner(&core);
+		*/
 	}
 	rl_clear_history();
 }
