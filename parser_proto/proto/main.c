@@ -28,7 +28,7 @@ void	repl(char **envp)
 	env_init(&core, envp);
 	while (true)
 	{
-		core.line = readline(get_env(&core, "PWD"));
+		core.line = readline(ft_strjoin(get_env(&core, "PWD"), "$> "));
 		if (!core.line)
 		{
 			write(1, "exit\n", 5);
