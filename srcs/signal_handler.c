@@ -11,17 +11,12 @@ void	handle_sigint(int signo)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		signal(SIGINT, handle_sigint);
 	}
-}
-
-void	handle_sigquit(int signo)
-{
-	(void)signo;
-	write(1, "/b/b /b/b", 6);
 }
 
 void	setup_signals(void)
 {
 	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
+	signal(SIGQUIT, SIG_IGN);
 }
