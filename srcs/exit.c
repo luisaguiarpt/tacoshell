@@ -1,4 +1,4 @@
-#include "../../headers/tacoshell.h"
+#include "../headers/tacoshell.h"
 
 static void	free_all(t_core *core);
 static void	prt_n_bounce(char *msg, t_core *core);

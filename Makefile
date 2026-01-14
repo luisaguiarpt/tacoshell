@@ -2,13 +2,15 @@ CC=cc
 FLAGS=-Wall -Wextra -Werror -g
 LIBREADLINE=-lreadline -lncurses
 
-SRCS=main.c signal_handler.c core.c scanner.c tokenizer.c wrapper_alloc.c \
-    utils.c exit.c scanner_utils.c ../../builtins/cd.c ../../builtins/echo.c \
-	exec_cmd.c ../../builtins/pwd.c ../../builtins/env.c ../../builtins/env_utils.c
+SRCS=srcs/main.c srcs/signal_handler.c srcs/core.c srcs/scanner.c \
+	srcs/tokenizer.c srcs/wrapper_alloc.c srcs/utils.c srcs/exit.c \
+	srcs/scanner_utils.c srcs/exec_builtin.c srcs/builtins/cd.c \
+	srcs/builtins/echo.c srcs/builtins/pwd.c srcs/builtins/env.c \
+	srcs/builtins/env_utils.c
 
 OBJS=$(SRCS:%.c=%.o)
 
-LIBFT_DIR=../../libft
+LIBFT_DIR=libft
 LIBFT_A=$(LIBFT_DIR)/libft.a
 
 INCLUDES = -I/usr/include -I$(LIBFT_DIR)

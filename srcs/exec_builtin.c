@@ -1,4 +1,4 @@
-#include "../../headers/tacoshell.h"
+#include "../headers/tacoshell.h"
 
 void	exec_cmd(char *prompt, t_core *core)
 {

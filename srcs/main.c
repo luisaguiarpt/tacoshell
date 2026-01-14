@@ -1,4 +1,4 @@
-#include "../../headers/tacoshell.h"
+#include "../headers/tacoshell.h"
 
 void	print_tok(t_token *head);
 void	link_tok(t_scanner *scanner);

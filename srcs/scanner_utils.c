@@ -1,4 +1,4 @@
-#include "../../headers/tacoshell.h"
+#include "../headers/tacoshell.h"
 
 t_scanner	*init_scanner(t_core *core)
 {
