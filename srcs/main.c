@@ -37,11 +37,14 @@ void	repl(char **envp)
 		}
 		if (*core.line)
 			add_history(core.line);
-		/*
+
 		start_scanner(&core);
 		link_tok(core.scanner);
+		core.ast_root = create_ast(&core);
+		printf("\n\n\n");
+		print_ast(core.ast_root, 0);
 		clean_scanner(&core);
-		*/
+
 	}
 	rl_clear_history();
 }
@@ -78,12 +81,15 @@ void	link_tok(t_scanner *scanner)
 
 void	print_tok(t_token *head)
 {
+	t_token *tmp;
+
+	tmp = head;
 	while (head)
 	{
-		printf("\n----\n %2d '%.*s'\n", head->type, (int)head->length, head->start);
-		printf("Prev: %p | Curr: %p | Next: %p\n", head->prev, head, head->next);
-		if (head->type == EOF_TOK)
+		printf("\n----\n %2d '%.*s'\n", tmp->type, (int)tmp->length, tmp->start);
+		printf("Prev: %p | Curr: %p | Next: %p\n", tmp->prev, tmp, tmp->next);
+		if (tmp->type == EOF_TOK)
 			break;
-		head = head->next;
+		tmp = tmp->next;
 	}
 }

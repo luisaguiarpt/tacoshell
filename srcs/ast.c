@@ -17,11 +17,11 @@ bool	is_operator(t_token token);
 t_token	*find_lowest_prec(t_token *start, t_token *end);
 void	*free_mem_arr(char **arr, int index);
 
-t_ast	create_ast(t_core *core)
+t_ast	*create_ast(t_core *core)
 {
 	t_token	*start;
 	t_token	*end;
-	t_ast	ast;
+	t_ast	*ast;
 
 	start = *core->tok_head;
 	end = start;
@@ -36,39 +36,49 @@ t_ast	create_ast(t_core *core)
 t_ast	*parse_tokens(t_token *start, t_token *end, t_core *core)
 {
 	t_token	*op;
-	t_ast	node;
+	t_ast	*new_node;
 
 	op = find_lowest_prec(start, end);
-	if (!op)
-		return (create_node(CMD, start, end, core));
+	if (op)
+	{
+		new_node = create_node(PIPE_NODE, op, op, core);
+		new_node->left = parse_tokens(start, op->prev, core);
+		new_node->right = parse_tokens(op->next, end, core);
+		return (new_node);
+	}
 	else
-		return (create_node(PIPE, start, end, core));
-	node = create_node(op);
+	{
+		new_node = create_node(CMD_NODE, start, end, core);
+		return (new_node);
+	}
 }
 
-t_ast	*create_node(t_token_type type, t_token *start, t_token *end, t_core *core)
+t_ast	*create_node(t_ast_node_type type, t_token *start, t_token *end, t_core *core)
 {
 	t_ast	*node;
 
 	node = wr_calloc(1, sizeof(t_ast), core);
 	node->type = type;
-	if (type == CMD)
+	node->left = NULL;
+	node->right = NULL;
+	if (type == CMD_NODE)
 	{
 		node->cmd = gen_cmd(start, end, core);
     } 
 	return (node);
 }
 
-t_ast_cmd   gen_cmd(t_token *start, t_token *end, t_core *core)
+t_ast_cmd   *gen_cmd(t_token *start, t_token *end, t_core *core)
 {
-	t_ast_cmd	cmd;
+	t_ast_cmd	*cmd;
 
 	cmd = wr_calloc(1, sizeof(t_ast_cmd), core);
-	cmd.argv = gen_argv(start, end, core);
-	cmd.cmd_path = get_path(argv[0], core.env);
+	cmd->argv = gen_argv(start, end, core);
+	cmd->cmd_path = get_path(cmd->argv[0], core);
+	return (cmd);
 }
 
-char	*get_path(char *av_cmd, char **ep)
+char	*get_path(char *av_cmd,  t_core *core)
 {
 	int		i;
 	char	**cmd;
@@ -125,7 +135,7 @@ char	**gen_argv(t_token *start, t_token *end, t_core *core)
 	i = 0;
 	while (i < n_tokens)
 	{
-		argv[i] = ft_substr(core.line, token->start, token->length);
+		argv[i] = ft_substr(token->start, 0, token->length);
 		if (!argv[i])
 			return (free_mem_arr(argv, i));
 		i++;
@@ -162,15 +172,16 @@ t_token	*find_lowest_prec(t_token *start, t_token *end)
 	token = start;
 	while (token != end->next)
 	{
-		if (is_operator(&token))
+		if (is_operator(*token))
 		{
-			prec = precedence(&token);
+			prec = precedence(*token);
 			if (prec <= min_prec)
 			{
 				min_prec = prec;
-				lowest = t;
+				lowest = token;
 			}
 		}
+		token = token->next;
 	}
 	return (lowest);
 }
@@ -184,14 +195,32 @@ bool	is_operator(t_token token)
 	return (false);
 }
 
-bool	precedence(t_token token)
+int	precedence(t_token token)
 {
 	if (token.type == PIPE)
-		return (PREC_1);
-	if (token.type == REDIR_IN || token.type == REDIR_OUT)
-		return (PREC_2);
-	if (token.type == APPEND || token.type == HERE_DOC)
-		return (PREC_2);
+		return (2);
+	if (token.type >= REDIR_OUT && token.type <= HERE_DOC)
+		return (3);
 	else
 		return (4);
+}
+
+void	print_ast(t_ast *ast, int level)
+{
+	int	i;
+	t_ast *node;
+
+	i = 0;
+	node = ast;
+	if (!node)
+		return ;
+	while (i < level)
+	{
+		printf("  ");
+		i++;
+	}
+	printf("%s (%d)\n", node->cmd->argv[0], node->type);
+	
+	print_ast(ast->left, level + 1);
+	print_ast(ast->right, level + 1);
 }
