@@ -2,10 +2,10 @@
 # define STRUCTS_H
 
 typedef struct	s_core t_core;
-typedef struct	s_ast t_ast;
 typedef struct	s_env t_env;
 typedef struct	s_scanner t_scanner;
 typedef struct	s_token t_token;
+typedef struct	s_ast t_ast;
 typedef enum	e_token_type t_token_type;
 
 typedef enum	e_token_type
@@ -50,13 +50,6 @@ typedef struct	s_core
 	int			error_code;
 }				t_core;
 
-typedef struct	s_ast
-{
-	t_token		token;
-	t_ast		*left;
-	t_ast		*right;
-}				t_ast;
-
 typedef struct	s_env
 {
 	char		*key;
@@ -66,9 +59,32 @@ typedef struct	s_env
 
 typedef struct	s_scanner
 {
-	char	*start;
-	char	*current;
+	char		*start;
+	char		*current;
 	t_core		*core;
 }				t_scanner;
+
+typedef	enum	e_ast_node_type
+{
+	PIPE = 1,
+	CMD = 2,
+	BUILTIN = 3 // may or may not be used!!
+}				t_ast_node_type;
+
+typedef struct	s_ast_cmd
+{
+	char		*cmd_path;
+	char		**argv;
+	int			redir_in;
+	int			redir_out;
+}				t_ast_cmd;
+
+typedef struct	s_ast
+{
+	t_ast_node_type	type;
+	t_ast_cmd		cmd;
+	t_ast			*left;
+	t_ast			*right;
+}				t_ast;
 
 #endif

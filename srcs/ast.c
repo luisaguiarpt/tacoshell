@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/15 14:10:58 by josepedr          #+#    #+#             */
+/*   Updated: 2026/01/15 14:17:28 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/tacoshell.h"
 
 bool	is_operator(t_token token);
@@ -82,11 +94,11 @@ bool	is_operator(t_token token)
 bool	precedence(t_token token)
 {
 	if (token.type == PIPE)
-		return (2);
+		return (PREC_1);
 	if (token.type == REDIR_IN || token.type == REDIR_OUT)
-		return (3);
+		return (PREC_2);
 	if (token.type == APPEND || token.type == HERE_DOC)
-		return (3);
+		return (PREC_2);
 	else
 		return (4);
 }
