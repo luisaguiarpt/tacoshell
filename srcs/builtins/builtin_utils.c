@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:06:37 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 16:06:38 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 16:14:49 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	is_builtin(char *cmd)
 void	exec_builtin(t_core *core, char *cmd, char **argv)
 {
 	if (ft_strcmp("echo", cmd) == 0)
-		//ft_echo(core, argv[0]);
+		//ft_echo(argv[0]);
 	else if (ft_strcmp("cd", cmd) == 0)
 		ft_cd(core, argv[0]);
 	else if (ft_strcmp("pwd", cmd) == 0)
