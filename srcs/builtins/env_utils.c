@@ -1,4 +1,16 @@
-#include "../headers/tacoshell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/15 16:07:00 by josepedr          #+#    #+#             */
+/*   Updated: 2026/01/15 16:07:00 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../headers/tacoshell.h"
 
 static void	env_append(t_core *core, t_env *new)
 {
