@@ -3,39 +3,17 @@
 
 # include "tacoshell.h"
 
-typedef struct	s_ast t_ast;
-typedef struct	s_redir t_redir;
-
-typedef enum	e_node_type {
-	PIPE,
-	CMD
-}				t_node_type;
-
-typedef struct	s_cmd {
-	char	**args;
-	t_redir	*redir;
-}				t_cmd;
-
-typedef struct	s_pip {
-	t_ast	*left;
-	t_ast	*right;
-}				t_pip;
-
-typedef struct s_redir {
-	t_redir_type	type;
-	t_redir			*redir;
-}				t_redir;
-
-typedef union	u_node {
-	t_cmd	cmd;
-    t_pip	pipe;
-}				t_node;
-
-typedef struct	s_ast {
-	t_node_type	type;
-	t_node		node;
-	t_ast		*left;
-	t_ast		*right;
-}				t_ast;
+t_ast	*create_ast(t_core *core);
+t_ast	*parse_tokens(t_token *start, t_token *end, t_core *core);
+t_ast	*create_node(t_ast_node_type type, t_token *start, t_token *end, t_core *core);
+t_ast_cmd   *gen_cmd(t_token *start, t_token *end, t_core *core);
+char	*get_path(char *av_cmd,  t_core *core);
+int		count_tokens(t_token *start, t_token *end);
+char	**gen_argv(t_token *start, t_token *end, t_core *core);
+void	*free_mem_arr(char **arr, int index);
+t_token	*find_lowest_prec(t_token *start, t_token *end);
+bool	is_operator(t_token token);
+int	precedence(t_token token);
+void	print_ast(t_ast *ast, int level);
 
 #endif
