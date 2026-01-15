@@ -44,7 +44,7 @@ typedef struct	s_core
 {
 	char		*line;
 	t_env		*env;
-	t_ast		**ast_root;
+	t_ast		*ast_root;
 	t_scanner	*scanner;
 	t_token		**tok_head;
 	int			error_code;
@@ -83,7 +83,7 @@ typedef struct	s_ast_cmd
 typedef struct	s_ast
 {
 	t_ast_node_type	type;
-	t_ast_cmd		cmd;
+	t_ast_cmd		*cmd;
 	t_ast			*left;
 	t_ast			*right;
 }				t_ast;

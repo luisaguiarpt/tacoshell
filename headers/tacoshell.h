@@ -23,6 +23,7 @@
 # include "tokenizer.h"
 # include "scanner.h"
 # include "envptr.h"
+# include "ast.h"
 
 // main.c
 void	repl(char **envp);
