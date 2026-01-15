@@ -6,7 +6,7 @@
 // Builtin commands
 // exit -> exit_ts ([...].h)
 int		ft_cd(t_core *core, char *dir_path);
-int		ft_echo(int nflag, char *arg);
+int		ft_echo(char **argv);
 int		ft_pwd(t_core *core);
 int		ft_env(t_core *core);
 int		ft_export(t_core *core, char *argv);

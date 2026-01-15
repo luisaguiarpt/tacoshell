@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:06:37 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 16:14:49 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:00:49 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,13 @@
 
 int	is_builtin(char *cmd)
 {
-	if (cmd == "echo" || cmd == "cd" || cmd == "pwd" || cmd == "export"
-		|| cmd == "unset" || cmd == "env" || cmd == "exit")
+	if (ft_strcmp("echo", cmd) == 0
+		|| ft_strcmp("cd", cmd) == 0
+		|| ft_strcmp("pwd", cmd) == 0
+		|| ft_strcmp("export", cmd) == 0
+		|| ft_strcmp("unset", cmd) == 0
+		|| ft_strcmp("env", cmd) == 0
+		|| ft_strcmp("exit", cmd) == 0)
 		return (1);
 	else
 		return (0);
@@ -34,7 +39,7 @@ int	is_builtin(char *cmd)
 void	exec_builtin(t_core *core, char *cmd, char **argv)
 {
 	if (ft_strcmp("echo", cmd) == 0)
-		//ft_echo(argv[0]);
+		ft_echo(argv);
 	else if (ft_strcmp("cd", cmd) == 0)
 		ft_cd(core, argv[0]);
 	else if (ft_strcmp("pwd", cmd) == 0)
@@ -42,9 +47,9 @@ void	exec_builtin(t_core *core, char *cmd, char **argv)
 	else if (ft_strcmp("export", cmd) == 0)
 		ft_export(core, argv[0]);
 	else if (ft_strcmp("unset", cmd) == 0)
-		ft_unset(core, arv[0]);
+		ft_unset(core, argv[0]);
 	else if (ft_strcmp("env", cmd) == 0)
 		ft_env(core);
-	else if (ft_strcmp("exit", cmd) == 0)
+	else if(ft_strcmp("exit", cmd) == 0)
 		exit_ts(core);
 }
