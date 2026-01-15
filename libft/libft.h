@@ -51,6 +51,7 @@ void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *str);
 char	*ft_substr(const char *str, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin2(char *s1, char *s2, int flag);
 char	*ft_strtrim(const char *s1, const char *set);
 char	**ft_split(const char *str, char c);
 char	*ft_itoa(int n);
@@ -61,6 +62,7 @@ void	ft_putstr_fd(char *str, int fd);
 void	ft_putendl_fd(char *str, int fd);
 void	ft_putnbr_fd(int n, int fd);
 int		ft_strcmp(const char *s1, const char *s2);
+void	ft_free_tab(char **tab);
 
 // libft bonus
 t_list	*ft_lstnew(void *content);
