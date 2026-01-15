@@ -3,15 +3,6 @@
 
 # include "tacoshell.h"
 
-typedef struct	s_env t_env;
-
-typedef struct	s_env
-{
-	char		*key;
-	char		*value;
-	t_env		*next;
-}				t_env;
-
 // Builtin commands
 int	ft_cd(t_core *core, char *dir_path);
 int	ft_echo(int nflag, char *arg);

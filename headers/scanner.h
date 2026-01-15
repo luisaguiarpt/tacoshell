@@ -3,13 +3,6 @@
 
 # include "tacoshell.h"
 
-typedef struct	s_scanner
-{
-	char	*start;
-	char	*current;
-	t_core		*core;
-}				t_scanner;
-
 // scanner.c
 t_token		scan_token(t_scanner *scanner);
 t_token	scan_identi(t_scanner *scanner);

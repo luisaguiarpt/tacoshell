@@ -1,6 +1,7 @@
 #ifndef TACOSHELL_H
 # define TACOSHELL_H
 
+// C libraries
 # include <limits.h>
 # include <signal.h>
 # include <stdlib.h>
@@ -12,30 +13,15 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <stdint.h>
+
+//libft
 # include <libft.h>
+
+// minishell headers
+# include "structs.h"
 # include "builtins.h"
 # include "tokenizer.h"
 # include "scanner.h"
-
-typedef struct	s_ast t_ast;
-typedef struct	s_core t_core;
-
-typedef struct	s_core
-{
-	char		*line;
-	t_env		*env;
-	t_ast		**ast_root;
-	t_scanner	*scanner;
-	t_token		**tok_head;
-	int			error_code;
-}				t_core;
-
-typedef struct	s_ast
-{
-	t_token		token;
-	t_ast		*left;
-	t_ast		*right;
-}				t_ast;
 
 // main.c
 void	repl(char **envp);
