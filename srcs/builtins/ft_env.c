@@ -6,11 +6,22 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:06:56 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 16:42:41 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:03:07 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/tacoshell.h"
+
+void	update_shlvl(t_core *core)
+{
+	int		shlvl_int;
+	char	*shlvl_ascii;
+
+	shlvl_int = ft_atoi(get_env(core, "SHLVL"));
+	shlvl_ascii = ft_itoa(shlvl_int);
+	set_env(core, "SHLVL", shlvl_ascii);
+	free(shlvl_ascii);
+}
 
 void	env_init(t_core *core, char **envp)
 {
@@ -29,17 +40,6 @@ void	env_init(t_core *core, char **envp)
 		i++;
 	}
 	update_shlvl(core);
-}
-
-void	update_shlvl(t_core *core)
-{
-	int		shlvl_int;
-	char	*shlvl_ascii;
-
-	shlvl_int = ft_atoi(get_env(core, "SHLVL"));
-	shlvl_ascii = ft_itoa(shlvl_int);
-	set_env(core, "SHLVL", shlvl_ascii);
-	free(shlvl_ascii);
 }
 
 int	ft_env(t_core *core)
