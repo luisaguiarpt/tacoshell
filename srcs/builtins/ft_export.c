@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 15:45:38 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 17:04:38 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 19:53:51 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	ft_export(t_core *core, char *argv)
 
 	env_split(argv, &key, &value);
 	set_env(core, key, value);
+	update_env_ptr(core);
 	free(key);
 	free(value);
 	return(EXIT_SUCCESS);

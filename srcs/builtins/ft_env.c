@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:06:56 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 17:03:07 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 19:51:36 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	env_init(t_core *core, char **envp)
 		i++;
 	}
 	update_shlvl(core);
+	env_ptr_init(core);
 }
 
 int	ft_env(t_core *core)

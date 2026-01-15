@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 15:56:37 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 17:04:18 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 19:54:02 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	ft_unset(t_core *core, char *arg)
 
 	env_split(arg, &key, &value);
 	unset_env(core, key);
+	update_env_ptr(core);
 	free(key);
 	free(value);
 	return (EXIT_SUCCESS);

@@ -7,7 +7,7 @@ SRCS=srcs/main.c srcs/signal_handler.c srcs/core.c srcs/scanner.c \
 	srcs/scanner_utils.c srcs/builtins/builtin_utils.c srcs/builtins/ft_cd.c \
 	srcs/builtins/ft_echo.c srcs/builtins/ft_pwd.c srcs/builtins/ft_env.c \
 	srcs/builtins/ft_unset.c srcs/builtins/ft_export.c \
-	srcs/builtins/env_utils.c 
+	srcs/builtins/env_utils.c srcs/builtins/env_ptr_init.c
 
 OBJS=$(SRCS:%.c=%.o)
 

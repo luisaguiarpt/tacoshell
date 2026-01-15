@@ -48,6 +48,7 @@ typedef struct	s_core
 	t_scanner	*scanner;
 	t_token		**tok_head;
 	int			error_code;
+	char		**env_ptr;
 }				t_core;
 
 typedef struct	s_env

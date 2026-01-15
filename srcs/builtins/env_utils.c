@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:07:00 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 16:07:00 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 19:53:37 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	set_env(t_core *core, char *key, char *value)
 		}
 		tmp = tmp->next;
 	}
-	
 	new = malloc(sizeof(t_env));
 	new->key = ft_strdup(key);
 	new->value = ft_strdup(value);

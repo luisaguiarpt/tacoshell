@@ -22,6 +22,7 @@
 # include "builtins.h"
 # include "tokenizer.h"
 # include "scanner.h"
+# include "envptr.h"
 
 // main.c
 void	repl(char **envp);
