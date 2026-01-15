@@ -1,7 +1,7 @@
 #ifndef AST_H
 # define AST_H
 
-# include "tokenizer.h"
+# include "tacoshell.h"
 
 typedef struct	s_ast t_ast;
 typedef struct	s_redir t_redir;
