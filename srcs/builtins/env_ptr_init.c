@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 18:08:23 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 20:26:56 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 20:46:34 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	free_array(char **array)
 		free(array[i]);
 		i++;
 	}
+	free(array[i]);
 	free(array);
 }
 
