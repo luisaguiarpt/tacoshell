@@ -25,6 +25,17 @@
 # include "envptr.h"
 # include "ast.h"
 
+// splash screen colors
+// \033[0m supostamente reseta o texto todo (https://ansi.tools/lookup) -- testar!!!
+# define TXT_BOLD "\033[1m"
+# define BOLD_RESET "\033[22m"
+# define TXT_PINK "\033[35m"
+# define TXT_YELLOW "\033[33m"
+# define TXT_BLUE "\033[34m"
+# define TXT_RESET "\033[39m"
+# define BG_BLUE "\033[44m"
+# define BG_RESET "\033[49m"
+
 // main.c
 void	repl(char **envp);
 
@@ -52,5 +63,7 @@ bool	is_identi(char c);
 // Test - DELETE!!
 void	exec_cmd(char *prompt, t_core *core);
 
+//splash screen
+void	show_title(void);
 
 #endif

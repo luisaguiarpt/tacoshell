@@ -40,6 +40,7 @@ void	debug_exec(t_core *core, char *line)
 int	main(int ac, char **av, char **envp)
 {
 	(void)av;
+	show_title(); //
 	if (ac == 1)
 		repl(envp);
 	else if (ac > 1)
