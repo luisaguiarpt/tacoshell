@@ -41,7 +41,9 @@ void	repl(char **envp)
 		link_tok(core.scanner);
 		core.ast_root = create_ast(&core);
 		printf("\n\n\n");
-		print_ast(core.ast_root, 0);
+		print_ast(core.ast_root, 0, 0);
+		printf("\n\nDETAILS:\n\n");
+		print_ast_dfs(core.ast_root);
 		clean_scanner(&core);
 
 	}

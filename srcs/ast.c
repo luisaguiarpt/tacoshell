@@ -73,7 +73,7 @@ t_ast_cmd   *gen_cmd(t_token *start, t_token *end, t_core *core)
 	t_ast_cmd	*cmd;
 
 	cmd = wr_calloc(1, sizeof(t_ast_cmd), core);
-	cmd->argv = gen_argv(start, end, core);
+	gen_argv_redir(cmd, start, end, core);
 	cmd->cmd_path = get_path(cmd->argv[0], core);
 	return (cmd);
 }
@@ -104,7 +104,7 @@ char	*get_path(char *av_cmd,  t_core *core)
 	return (NULL);
 }
 
-int		count_tokens(t_token *start, t_token *end)
+int		count_words(t_token *start, t_token *end)
 {
 	int		n;
 	t_token	*curr;
@@ -113,7 +113,8 @@ int		count_tokens(t_token *start, t_token *end)
 	curr = start;
 	while (curr && curr != end)
 	{
-		n++;
+		if (curr->type == WORD || curr->type == DOLLAR || curr->type == DASH)
+			n++;
 		curr = curr->next;
 	}
 	if (curr == end)
@@ -121,27 +122,46 @@ int		count_tokens(t_token *start, t_token *end)
 	return (n);
 }
 
-char	**gen_argv(t_token *start, t_token *end, t_core *core)
+void	gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core)
 {
 	t_token	*token;
 	char	**argv;
-	int		n_tokens;
+	int		n_words;
 	int		i;
 
 
 	token = start;
-	n_tokens = count_tokens(start, end);
-	argv = wr_calloc(n_tokens + 1, sizeof(char *), core);
+	n_words = count_words(start, end);
+	cmd->argv = wr_calloc(n_tokens + 1, sizeof(char *), core);
 	i = 0;
-	while (i < n_tokens)
+	while (token->next != end)
 	{
-		argv[i] = ft_substr(token->start, 0, token->length);
-		if (!argv[i])
-			return (free_mem_arr(argv, i));
+		if (is_redir_operator(*token))
+		{
+			if (!is_word(*token->next))
+			{
+				printf("Syntax error");
+				return ;
+			}
+			else
+			{
+				add_redir_node(cmd, start, end);
+				token = token->next->next;
+			}
+		}
+				
+		cmd->argv[i] = ft_substr(token->start, 0, token->length);
+		if (!cmd->argv[i])
+			return (free_mem_arr(cmd->argv, i));
 		i++;
+		token = token->next;
 	}
-	argv[i] = NULL;
-	return (argv);
+	cmd->argv[i] = NULL;
+}
+
+void	add_redir_node(t_ast_cmd *cmd, t_token *start, t_token *end)
+{
+	if (cmd->type == )
 }
 
 void	*free_mem_arr(char **arr, int index)
@@ -172,7 +192,7 @@ t_token	*find_lowest_prec(t_token *start, t_token *end)
 	token = start;
 	while (token != end->next)
 	{
-		if (is_operator(*token))
+		if (is_pipe(*token))
 		{
 			prec = precedence(*token);
 			if (prec <= min_prec)
@@ -186,11 +206,23 @@ t_token	*find_lowest_prec(t_token *start, t_token *end)
 	return (lowest);
 }
 
-bool	is_operator(t_token token)
+bool	is_pipe(t_token token)
 {
-	if (token.type == REDIR_OUT || token.type == REDIR_IN || token.type == PIPE)
+	if (token.type == PIPE)
 		return (true);
-	if (token.type == APPEND || token.type == HERE_DOC)
+	return (false);
+}
+
+bool	is_word(t_token token)
+{
+	if (token.type == WORD || token.type == DOLLAR || token.type == DASH)
+		return (true);
+	return (false);
+}
+
+bool	is_redir_operator(t_token token)
+{
+	if (token.type >= REDIR_OUT && token.type <= HERE_DOC)
 		return (true);
 	return (false);
 }
@@ -205,22 +237,69 @@ int	precedence(t_token token)
 		return (4);
 }
 
-void	print_ast(t_ast *ast, int level)
+// line: 0 (no line), 1 (right line), 2 (left line)
+void	print_ast(t_ast *node, int depth, int line)
 {
 	int	i;
-	t_ast *node;
 
-	i = 0;
-	node = ast;
 	if (!node)
-		return ;
-	while (i < level)
+		return;
+
+	// Print right subtree first
+	print_ast(node->right, depth + 1, 1);
+
+	// Indentation
+	for (i = 0; i < depth; i++)
+		printf("         ");
+
+	// Print current node
+	if (line == 1)
+		printf(" / ");
+	else if (line == 2)
+		printf(" \\ ");
+	if (node->cmd)
 	{
-		printf("  ");
+		printf("%s (%d)\n", node->cmd->argv[0], node->type);
+
+	}
+	else
+		printf("[PIPE %d]\n", node->type);
+
+	// Print left subtree
+	print_ast(node->left, depth + 1, 2);
+}
+
+void	print_ast_cmds(t_ast *node)
+{
+	char	**av = node->cmd->argv;
+	int i = 0;
+
+	printf("[NODE %d]\n", node->type);
+	printf("PATH:\n");
+	printf("\t%s\n", node->cmd->cmd_path);
+	printf("ARGS:\n");
+	while (av[i])
+	{
+		printf("%s,", av[i]);
 		i++;
 	}
-	printf("%s (%d)\n", node->cmd->argv[0], node->type);
-	
-	print_ast(ast->left, level + 1);
-	print_ast(ast->right, level + 1);
+	printf("\n");
+}
+
+void	print_ast_dfs(t_ast *node)
+{
+	if (!node)
+		return;
+
+	// Visit node
+	if (node->cmd)
+	{
+		print_ast_cmds(node);
+	}
+	else
+		printf("[NODE %d]\n\n", node->type);
+
+	// Traverse children
+	print_ast_dfs(node->left);
+	print_ast_dfs(node->right);
 }
