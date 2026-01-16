@@ -23,7 +23,7 @@ typedef enum	e_token_type
 	HERE_DOC = 8,
 	// literals
 	STRING = 9,
-   	IDENTI = 10,
+   	WORD = 10,
    	NUMB = 11,
 	// for end
 	EOF_TOK = 12,
@@ -72,12 +72,20 @@ typedef	enum	e_ast_node_type
 	BUILTIN_NODE = 3 // may or may not be used!!
 }				t_ast_node_type;
 
+typedef struct	s_redir	t_redir;
+
+typedef struct	s_redir
+{
+	t_token_type	type;
+	char			*file;
+	t_redir			*next;
+}				t_redir;
+
 typedef struct	s_ast_cmd
 {
 	char		*cmd_path;
 	char		**argv;
-	int			redir_in;
-	int			redir_out;
+	t_redir		*redirs;
 }				t_ast_cmd;
 
 typedef struct	s_ast

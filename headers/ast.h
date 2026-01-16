@@ -12,8 +12,11 @@ int		count_tokens(t_token *start, t_token *end);
 char	**gen_argv(t_token *start, t_token *end, t_core *core);
 void	*free_mem_arr(char **arr, int index);
 t_token	*find_lowest_prec(t_token *start, t_token *end);
-bool	is_operator(t_token token);
+bool	is_redir_operator(t_token token);
+bool	is_pipe(t_token token);
+bool	is_word(t_token token);
 int	precedence(t_token token);
-void	print_ast(t_ast *ast, int level);
+void	print_ast(t_ast *ast, int level, int line);
+void	print_ast_dfs(t_ast *node);
 
 #endif
