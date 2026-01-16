@@ -36,6 +36,7 @@ void	*wr_calloc(size_t nmemb, size_t size, t_core *core);
 
 // Exit handling - exit.c
 void	exit_ts(t_core *core);
+void	prt_n_bounce(char *msg, t_core *core);
 
 // Signal handler - signal_handler.c
 void	handle_sigint(int	signo);

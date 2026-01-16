@@ -6,6 +6,37 @@ void	start_scanner(t_core *core);
 void	clean_scanner(t_core *core);
 void	repl(char **envp);
 
+void	debug_exec(t_core *core, char *line)
+{
+	char	*cmd;
+	char	**argv;
+	int		i;
+	int		j;
+
+	i = 0;
+	while(line[i] != ' ' && line[i] != 0)
+		i++;
+	j = i;
+	cmd = malloc((i + 1) * sizeof(char));
+	cmd[i] = 0;
+	i--;
+	while (i >= 0)
+	{
+		cmd[i] = line[i];
+		i--;
+	}
+	argv = ft_split(&line[j], ' ');
+	exec_builtin(core, cmd, argv);
+	free(cmd);
+	i = 0;
+	while (argv[i])
+	{
+		free(argv[i]);
+		i++;
+	}
+	free(argv);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	(void)av;
@@ -28,7 +59,7 @@ void	repl(char **envp)
 	env_init(&core, envp);
 	while (true)
 	{
-		// line below needs to be tought out because of leaks
+		// line below needs to be thought out because of leaks
 		core.line = readline(ft_strjoin(get_env(&core, "PWD"), " › "));
 		if (!core.line)
 		{
@@ -37,13 +68,15 @@ void	repl(char **envp)
 		}
 		if (*core.line)
 			add_history(core.line);
+		/*
 		start_scanner(&core);
 		link_tok(core.scanner);
 		core.ast_root = create_ast(&core);
 		printf("\n\n\n");
 		print_ast(core.ast_root, 0);
 		clean_scanner(&core);
-
+		*/
+		debug_exec(&core, core.line);
 	}
 	rl_clear_history();
 }

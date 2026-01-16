@@ -1,7 +1,6 @@
 #include "../headers/tacoshell.h"
 
 static void	free_all(t_core *core);
-static void	prt_n_bounce(char *msg, t_core *core);
 
 void	exit_ts(t_core *core)
 {
@@ -9,7 +8,7 @@ void	exit_ts(t_core *core)
 		prt_n_bounce("", core);
 }
 
-static void	prt_n_bounce(char *msg, t_core *core)
+void	prt_n_bounce(char *msg, t_core *core)
 {
 	printf("%s\n", msg);
 	free_all(core);

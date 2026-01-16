@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:06:56 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 19:51:36 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 23:01:15 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	update_shlvl(t_core *core)
 	char	*shlvl_ascii;
 
 	shlvl_int = ft_atoi(get_env(core, "SHLVL"));
-	shlvl_ascii = ft_itoa(shlvl_int);
+	shlvl_ascii = ft_itoa(shlvl_int + 1);
 	set_env(core, "SHLVL", shlvl_ascii);
 	free(shlvl_ascii);
 }

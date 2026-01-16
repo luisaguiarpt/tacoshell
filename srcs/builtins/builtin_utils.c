@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:06:37 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 17:00:49 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 23:16:18 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	is_builtin(char *cmd)
  * export = set_env
  * unset = unset_env
  * env = ft_env
- * exit = exit_ts
+ * exit = print_n_bounce
  */
 
 void	exec_builtin(t_core *core, char *cmd, char **argv)
@@ -51,5 +51,5 @@ void	exec_builtin(t_core *core, char *cmd, char **argv)
 	else if (ft_strcmp("env", cmd) == 0)
 		ft_env(core);
 	else if(ft_strcmp("exit", cmd) == 0)
-		exit_ts(core);
+		ft_exit(core);
 }
