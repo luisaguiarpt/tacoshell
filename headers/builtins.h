@@ -21,6 +21,6 @@ void	env_split(char *env, char **key, char **value);
 
 // Utils
 void	exec_builtin(t_core *core, char *cmd, char **argv);
-int		is_builtin(char *cmd);
+bool	is_builtin(char *cmd);
 
 #endif
