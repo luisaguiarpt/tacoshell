@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 07:26:16 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/16 07:57:55 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/01/16 23:07:51 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,6 @@ void	show_title(void)
 	printf("  ⠘⣛⣛⣛⣛⣛⣿⣿⣷⢸⣿⣿⠿⠿⠿⣿⣿⡇⣿⣿⡟⠛⠛⠛⠃⣿⣿⣿⣀⣀⣀⣀⣿⣿⣿⣀⣀⣀⣀   \n");
 	printf("  ⠸⠿⠿⠿⠿⠿⠿⠿⠟⠸⠿⠿   ⠿⠿⠇⠿⠿⠿⠿⠿⠿⠇⠻⠿⠿⠿⠿⠿⠋⠿⠿⠿⠿⠿⠿⠋   \n" );
 	printf("\n");
-	printf(BG_BLUE TXT_BOLD "    ====   ldias-da && josepedr   ====    \n" TXT_RESET BOLD_RESET BG_RESET);
+	printf(BG_WHITE TXT_BOLD TXT_BLACK"    ====   ldias-da && josepedr   ====    \n" TXT_RESET BOLD_RESET BG_RESET);
 	printf("\n\n");
 }

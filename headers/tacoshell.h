@@ -30,10 +30,12 @@
 # define TXT_BOLD "\033[1m"
 # define BOLD_RESET "\033[22m"
 # define TXT_PINK "\033[35m"
+# define TXT_BLACK "\033[30m"
 # define TXT_YELLOW "\033[33m"
 # define TXT_BLUE "\033[34m"
 # define TXT_RESET "\033[39m"
 # define BG_BLUE "\033[44m"
+# define BG_WHITE "\033[47m"
 # define BG_RESET "\033[49m"
 
 // main.c
