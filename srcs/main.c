@@ -60,8 +60,9 @@ void	repl(char **envp)
 	env_init(&core, envp);
 	while (true)
 	{
+		get_prompt(&core);
 		// line below needs to be thought out because of leaks
-		core.line = readline(ft_strjoin(get_env(&core, "PWD"), " › "));
+		core.line = readline(core.prompt);
 		if (!core.line)
 		{
 			write(1, "exit\n", 5);

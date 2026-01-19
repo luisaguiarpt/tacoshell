@@ -68,4 +68,7 @@ void	exec_cmd(char *prompt, t_core *core);
 //splash screen
 void	show_title(void);
 
+//prompt
+void	get_prompt(t_core *core);
+
 #endif

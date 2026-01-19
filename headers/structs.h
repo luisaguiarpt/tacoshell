@@ -43,6 +43,7 @@ typedef struct	s_token
 typedef struct	s_core
 {
 	char		*line;
+	char		*prompt;
 	t_env		*env;
 	t_ast		*ast_root;
 	t_scanner	*scanner;
