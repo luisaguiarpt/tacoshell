@@ -12,7 +12,7 @@
 
 #include "../../headers/tacoshell.h"
 
-int	is_builtin(char *cmd)
+bool	is_builtin(char *cmd)
 {
 	if (ft_strcmp("echo", cmd) == 0
 		|| ft_strcmp("cd", cmd) == 0

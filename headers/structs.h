@@ -12,7 +12,7 @@ typedef enum	e_token_type
 {
 	// single character tokens
 	PIPE = 0,
- 	LEFT_PAREN = 1,
+	LEFT_PAREN = 1,
 	RIGHT_PAREN = 2,
 	DOLLAR = 3,
 	DASH = 4,
@@ -23,8 +23,8 @@ typedef enum	e_token_type
 	HERE_DOC = 8,
 	// literals
 	STRING = 9,
-   	IDENTI = 10,
-   	NUMB = 11,
+	IDENTI = 10,
+	NUMB = 11,
 	// for end
 	EOF_TOK = 12,
 	// for error
