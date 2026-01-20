@@ -1,57 +1,46 @@
 #include "../headers/tacoshell.h"
 
-t_redir	*redir_new(t_token_type	type, char *file_path)
+int	handle_redirs(t_redir *head)
 {
-	t_redir	*node;
-
-	node = malloc(sizeof(t_redir));
-	if (!node)
-		return (NULL);
-	node->type= type;
-	node->file_path = file_path;
-	node->next = NULL;
-	return (node);
-}
-
-void	redir_append(t_redir **lst, t_redir *new)
-{
-	t_redir	*last;
-
-	if (!lst)
-		return ;
-	if (*lst == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	last = redir_last(*lst);
-	last->next = new;
-}
-
-void	redir_clean(t_redir **lst)
-{
+	int		fd;
 	t_redir	*tmp;
 
-	if (!lst)
-		return ;
-	while (*lst)
+	tmp = head;
+	while (tmp)
 	{
-		tmp = (*lst)->next;
-		if ((*lst)->file_path)
-			free((*lst)->file_path);
-		free(*lst);
-		*lst = tmp;
+		if (tmp->type == REDIR_IN)
+		{
+			fd = open(tmp->file_path, O_RDONLY);
+			if (fd == -1)
+				return (perror(tmp->file_path), EXIT_FAILURE);
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		else if (tmp->type == REDIR_OUT)
+		{
+			fd = open(tmp->file_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+				return (perror(tmp->file_path), EXIT_FAILURE);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (tmp->type == APPEND)
+		{
+			fd = open(tmp->file_path, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (fd == -1)
+				return (perror(tmp->file_path), EXIT_FAILURE);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (tmp->type == HERE_DOC)
+		{
+			fd = open(tmp->file_path, O_RDONLY);
+			if (fd == -1)
+				return (perror(tmp->file_path), EXIT_FAILURE);
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		tmp = tmp->next;
 	}
-}
-
-t_redir	*redir_last(t_redir *lst)
-{
-	t_redir	*ptr;
-
-	ptr = lst;
-	if (ptr == NULL)
-		return (NULL);
-	while (ptr->next != 0)
-		ptr = ptr->next;
-	return (ptr);
+	return (EXIT_SUCCESS);
 }

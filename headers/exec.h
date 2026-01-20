@@ -1,0 +1,10 @@
+#ifndef EXEC_H
+# define EXEC_H
+
+// exec.c
+void	exec_control(t_ast *node, t_core *core);
+void	exec_node(t_ast *node, t_core *core);
+void	exec_pipe(t_ast *node, t_core *core);
+void	exec_cmd(t_ast *node, t_core *core, bool is_child);
+
+#endif

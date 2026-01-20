@@ -51,6 +51,7 @@ typedef struct	s_core
 	int			error_code;
 	char		**env_ptr;
 	bool		debug_mode;
+	int			exit_status;
 }				t_core;
 
 typedef struct	s_env
