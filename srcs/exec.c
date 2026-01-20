@@ -2,7 +2,7 @@
 
 void	exec_control(t_ast *node, t_core *core)
 {
-	if (node->type == CMD_NODE && is_builtin(node->cmd->cmd_path))
+	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
 	{
 		exec_builtin(core, node->cmd->argv);
 		return ;

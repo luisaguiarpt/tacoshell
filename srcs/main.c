@@ -37,7 +37,7 @@ void	debug_exec(t_core *core, char *line)
 int	main(int ac, char **av, char **envp)
 {
 	(void)av;
-	show_title(); //
+	//show_title();
 	//if (ac == 1)
 	(void)ac;
 	repl(envp, av[1]);
@@ -70,7 +70,6 @@ void	repl(char **envp, char	*flag)
 		}
 		if (*core.line)
 			add_history(core.line);
-		debug_exec(&core, core.line);
 		start_scanner(&core);
 		link_tok(core.scanner, flag);
 		core.ast_root = create_ast(&core);

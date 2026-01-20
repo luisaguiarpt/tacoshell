@@ -20,7 +20,7 @@ LIBFT_A=$(LIBFT_DIR)/libft.a
 
 INCLUDES = -I/usr/include -I$(LIBFT_DIR)
 
-NAME=tacoshell
+NAME=minishell
 
 all: $(LIBFT_A) $(NAME)
 
