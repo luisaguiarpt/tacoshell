@@ -70,7 +70,6 @@ void	repl(char **envp, char	*flag)
 		}
 		if (*core.line)
 			add_history(core.line);
-		debug_exec(&core, core.line);
 		start_scanner(&core);
 		link_tok(core.scanner, flag);
 		core.ast_root = create_ast(&core);

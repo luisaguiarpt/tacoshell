@@ -23,7 +23,7 @@ bool	is_alpha(char c)
 
 bool	is_identi(char c)
 {
-	if (is_alpha(c) || c == '.' || c == '-' || is_digit(c))
+	if (is_alpha(c) || c == '.' || c == '-' || is_digit(c) || c == '/')
 		return (true);
 	return (false);
 }
@@ -35,3 +35,10 @@ bool	is_digit(char c)
 	return (false);
 }
 
+bool	is_metachar(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\n' || c == '|' || c == '&'
+		|| c == ';' || c == '(' || c == ')' || c == '<' || c == '>')
+		return (true);
+	return (false);
+}
