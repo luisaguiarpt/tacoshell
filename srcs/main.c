@@ -25,7 +25,7 @@ void	debug_exec(t_core *core, char *line)
 		i--;
 	}
 	argv = ft_split(&line[j], ' ');
-	exec_builtin(core, cmd, argv);
+	exec_builtin(core, argv);
 	free(cmd);
 	i = 0;
 	while (argv[i])
@@ -78,7 +78,7 @@ void	repl(char **envp, char	*flag)
 		debug_ast(core.ast_root, flag);
 		exec_control(core.ast_root, &core);
 		clean_scanner(&core);
-		debug_exec(&core, core.line);
+		//debug_exec(&core, core.line);
 	}
 	rl_clear_history();
 }

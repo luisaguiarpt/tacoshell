@@ -20,7 +20,7 @@ int		unset_env(t_core *core, char *key);
 void	env_split(char *env, char **key, char **value);
 
 // Utils
-void	exec_builtin(t_core *core, char *cmd, char **argv);
+void	exec_builtin(t_core *core, char **argv);
 bool	is_builtin(char *cmd);
 
 #endif

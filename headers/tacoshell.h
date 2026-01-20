@@ -14,6 +14,7 @@
 # include <stdbool.h>
 # include <stdint.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 
 //libft
 # include <libft.h>
