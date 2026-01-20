@@ -67,7 +67,7 @@ t_token	scan_str(t_scanner *scanner)
 
 t_token	scan_identi(t_scanner *scanner)
 {
-	while (!is_metachar(peek(scanner)))
+	while (!is_metachar(peek(scanner)) && !is_at_end(scanner))
 		advance(scanner);
 	return (create_token(WORD, scanner));
 }

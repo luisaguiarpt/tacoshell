@@ -38,7 +38,8 @@ bool	is_digit(char c)
 bool	is_metachar(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n' || c == '|' || c == '&'
-		|| c == ';' || c == '(' || c == ')' || c == '<' || c == '>')
+		|| c == ';' || c == '(' || c == ')' || c == '<' || c == '>' || c == 0
+		|| c == '\'' || c == '"')
 		return (true);
 	return (false);
 }
