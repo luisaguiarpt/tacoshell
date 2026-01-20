@@ -50,6 +50,7 @@ typedef struct	s_core
 	t_token		**tok_head;
 	int			error_code;
 	char		**env_ptr;
+	bool		debug_mode;
 }				t_core;
 
 typedef struct	s_env

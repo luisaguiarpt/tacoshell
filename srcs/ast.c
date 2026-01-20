@@ -78,7 +78,7 @@ t_ast_cmd   *gen_cmd_node(t_token *start, t_token *end, t_core *core)
 	cmd->argv = NULL;
 	//cmd->argv = wr_calloc(1, sizeof(char *), core);
 	gen_argv_redir(cmd, start, end, core);
-	if (cmd->argv == NULL)
+	if (cmd->argv != NULL)
 		cmd->cmd_path = get_path(cmd->argv[0], core);
 	return (cmd);
 }
@@ -124,7 +124,8 @@ void	gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core)
 	n_words = count_args(start, end);
 	if (n_words < 0)
 	{
-		return ((void)printf("Syntax error. Refine this later."));
+		printf("Syntax error. Refine this later.\n");
+		return ;
 		//return ;
 	}
 	cmd->argv = wr_calloc(n_words + 1, sizeof(char *), core);
@@ -264,82 +265,3 @@ int	precedence(t_token token)
 		return (4);
 }
 
-// line: 0 (no line), 1 (right line), 2 (left line)
-void	print_ast(t_ast *node, int depth, int line)
-{
-	int	i;
-
-	if (!node)
-		return;
-
-	// Print right subtree first
-	print_ast(node->right, depth + 1, 1);
-
-	// Indentation
-	for (i = 0; i < depth; i++)
-		printf("         ");
-
-	// Print current node
-	if (line == 1)
-		printf(" / ");
-	else if (line == 2)
-		printf(" \\ ");
-	if (node->cmd)
-	{
-		printf("%s (%d)\n", node->cmd->argv[0], node->type);
-
-	}
-	else
-		printf("[PIPE %d]\n", node->type);
-
-	// Print left subtree
-	print_ast(node->left, depth + 1, 2);
-}
-
-void	print_ast_cmds(t_ast *node)
-{
-	char	**av = node->cmd->argv;
-	int i = 0;
-
-	printf("[NODE %d]\n", node->type);
-	printf("CMD PATH:\n");
-	printf("\t%s\n", node->cmd->cmd_path);
-	printf("ARGS:\n");
-	while (av[i])
-	{
-		printf("%s,", av[i]);
-		i++;
-	}
-	printf("\n");
-}
-
-void	print_ast_redirs(t_ast *node)
-{
-	printf("REDIRS:\n");
-	t_redir	**curr = node->cmd->redirs;
-
-	while (*curr)
-	{
-		printf("\tTYPE: %d | PATH: %s\n", (*curr)->type, (*curr)->file_path);
-		*curr = (*curr)->next;
-	}
-}
-
-void	print_ast_dfs(t_ast *node)
-{
-	if (!node)
-		return;
-
-	// Visit node
-	if (node->cmd)
-	{
-		print_ast_cmds(node);
-		print_ast_redirs(node);
-	}
-	else
-		printf("[NODE %d]\n\n", node->type);
-
-	// Traverse children
-	print_ast_dfs(node->left);
-	print_ast_dfs(node->right);
-}
