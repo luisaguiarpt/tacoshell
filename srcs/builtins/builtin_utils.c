@@ -21,9 +21,9 @@ bool	is_builtin(char *cmd)
 		|| ft_strcmp("unset", cmd) == 0
 		|| ft_strcmp("env", cmd) == 0
 		|| ft_strcmp("exit", cmd) == 0)
-		return (1);
+		return (true);
 	else
-		return (0);
+		return (false);
 }
 
 /*
@@ -36,8 +36,12 @@ bool	is_builtin(char *cmd)
  * exit = print_n_bounce
  */
 
-void	exec_builtin(t_core *core, char *cmd, char **argv)
+void	exec_builtin(t_core *core, char **argv)
 {
+
+	char	*cmd;
+
+	cmd = argv[0];
 	if (ft_strcmp("echo", cmd) == 0)
 		ft_echo(argv);
 	else if (ft_strcmp("cd", cmd) == 0)

@@ -32,6 +32,8 @@ int ft_cd(t_core *core, char *dir_path)
 	char	*current_path;
 	char	tmp[PATH_MAX];
 
+	if (!dir_path)
+		dir_path = get_env(core, "HOME");
 	if (check_access(dir_path) == 1)
 		return (EXIT_FAILURE);
 	if (chdir(dir_path) == -1)

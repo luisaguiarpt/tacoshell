@@ -14,15 +14,20 @@
 
 void	get_prompt(t_core *core)
 {
+	int		home_len;
 	char	*cwd;
+	char	*path_without_home;
 
+	path_without_home = NULL;
 	cwd = get_env(core, "PWD");
-// skips home and user folders
-	cwd++;
-	while (*cwd != '/')
-		cwd++;
-	cwd++;
-	while (*cwd != '/')
-		cwd++;
-	core->prompt = ft_strjoin(cwd, " › ");
+	home_len = ft_strlen(get_env(core, "HOME"));
+	if (ft_strncmp(cwd, get_env(core, "HOME"), home_len) == 0)
+		path_without_home = ft_strjoin("~", &cwd[home_len]);
+	if (path_without_home)
+	{
+		core->prompt = ft_strjoin(path_without_home, " › ");
+		free(path_without_home);
+	}
+	else
+		core->prompt = ft_strjoin(cwd, " › ");
 }

@@ -10,12 +10,10 @@ void	debug_exec(t_core *core, char *line)
 	char	*cmd;
 	char	**argv;
 	int		i;
-	int		j;
 
 	i = 0;
 	while(line[i] != ' ' && line[i] != 0)
 		i++;
-	j = i;
 	cmd = malloc((i + 1) * sizeof(char));
 	cmd[i] = 0;
 	i--;
@@ -24,8 +22,8 @@ void	debug_exec(t_core *core, char *line)
 		cmd[i] = line[i];
 		i--;
 	}
-	argv = ft_split(&line[j], ' ');
-	exec_builtin(core, cmd, argv);
+	argv = ft_split(line, ' ');
+	exec_builtin(core, argv);
 	free(cmd);
 	i = 0;
 	while (argv[i])
@@ -72,12 +70,12 @@ void	repl(char **envp, char	*flag)
 		}
 		if (*core.line)
 			add_history(core.line);
+		debug_exec(&core, core.line);
 		start_scanner(&core);
 		link_tok(core.scanner, flag);
 		core.ast_root = create_ast(&core);
 		debug_ast(core.ast_root, flag);
 		clean_scanner(&core);
-		debug_exec(&core, core.line);
 	}
 	rl_clear_history();
 }
