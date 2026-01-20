@@ -12,6 +12,16 @@
 
 #include "../../headers/tacoshell.h"
 
+int		count_args(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+	  i++;
+	return (i);
+}
+
 bool	is_builtin(char *cmd)
 {
 	if (ft_strcmp("echo", cmd) == 0
@@ -45,7 +55,7 @@ void	exec_builtin(t_core *core, char **argv)
 	if (ft_strcmp("echo", cmd) == 0)
 		ft_echo(argv);
 	else if (ft_strcmp("cd", cmd) == 0)
-		ft_cd(core, argv[1]);
+		ft_cd(core, argv);
 	else if (ft_strcmp("pwd", cmd) == 0)
 		ft_pwd(core);
 	else if (ft_strcmp("export", cmd) == 0)

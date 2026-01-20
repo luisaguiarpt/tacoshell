@@ -12,30 +12,30 @@
 
 #include "../../headers/tacoshell.h"
 
-static int check_access(char *dir_path)
+static int	handle_args(t_core *core, char **argv, char **dir_path)
 {
-	if (access(dir_path, F_OK) != 0) //F_OK flag - check exxistence
-	{
-    	perror("Error");
-		return(1);
-	}
-	if (access(dir_path, R_OK) != 0) //R_OK flag - check read access
-	{
-    	perror("Error");
-		return(1);
-	}
-	return (0);
+	if(count_args(argv) > 2)
+		return (0);
+	if (!argv[1])
+		*dir_path = get_env(core, "HOME");
+	else if (ft_strcmp(argv[1], "-") == 0)
+		*dir_path = get_env(core, "OLDPWD");
+	else
+		*dir_path = argv[1];
+	return (1);
 }
 
-int ft_cd(t_core *core, char *dir_path)
+int ft_cd(t_core *core, char **argv)
 {
+	char	*dir_path;
 	char	*current_path;
 	char	tmp[PATH_MAX];
 
-	if (!dir_path)
-		dir_path = get_env(core, "HOME");
-	if (check_access(dir_path) == 1)
+	if (!handle_args(core, argv, &dir_path))
+	{
+		write(2, "Error: too many args\n", 21);
 		return (EXIT_FAILURE);
+	}
 	if (chdir(dir_path) == -1)
 	{
 		perror("cd");
