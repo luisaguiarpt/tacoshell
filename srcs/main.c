@@ -1,10 +1,9 @@
 #include "../headers/tacoshell.h"
 
 void	print_tok(t_token *head);
-void	link_tok(t_scanner *scanner);
+void	link_tok(t_scanner *scanner, char *flag);
 void	start_scanner(t_core *core);
 void	clean_scanner(t_core *core);
-void	repl(char **envp);
 
 void	debug_exec(t_core *core, char *line)
 {
@@ -41,17 +40,20 @@ int	main(int ac, char **av, char **envp)
 {
 	(void)av;
 	show_title(); //
-	if (ac == 1)
-		repl(envp);
+	//if (ac == 1)
+	(void)ac;
+	repl(envp, av[1]);
+	/*
 	else if (ac > 1)
 	{
 		printf("Usage: ./minishell\n");
 		exit(EINVAL);
 	}
+	*/
 	return (EXIT_SUCCESS);
 }
 
-void	repl(char **envp)
+void	repl(char **envp, char	*flag)
 {
 	t_core	core;
 
@@ -70,14 +72,10 @@ void	repl(char **envp)
 		}
 		if (*core.line)
 			add_history(core.line);
-		printf("\n%s\n", core.line);
 		start_scanner(&core);
-		link_tok(core.scanner);
+		link_tok(core.scanner, flag);
 		core.ast_root = create_ast(&core);
-		printf("\n\n\n");
-		print_ast(core.ast_root, 0, 0);
-		printf("\n\nDETAILS:\n\n");
-		print_ast_dfs(core.ast_root);
+		debug_ast(core.ast_root, flag);
 		clean_scanner(&core);
 		debug_exec(&core, core.line);
 	}
@@ -99,7 +97,7 @@ void	clean_scanner(t_core *core)
 	free(core->line);
 }
 
-void	link_tok(t_scanner *scanner)
+void	link_tok(t_scanner *scanner, char *flag)
 {
 	t_token	*token;
 
@@ -111,6 +109,8 @@ void	link_tok(t_scanner *scanner)
 		if (token->type == EOF_TOK)
 			break;
 	}
+	if (!flag)
+		return ;
 	print_tok(*scanner->core->tok_head);
 }
 

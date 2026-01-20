@@ -111,6 +111,6 @@ void	show_title(void)
 	printf("  ⠘⣛⣛⣛⣛⣛⣿⣿⣷⢸⣿⣿⠿⠿⠿⣿⣿⡇⣿⣿⡟⠛⠛⠛⠃⣿⣿⣿⣀⣀⣀⣀⣿⣿⣿⣀⣀⣀⣀   \n");
 	printf("  ⠸⠿⠿⠿⠿⠿⠿⠿⠟⠸⠿⠿   ⠿⠿⠇⠿⠿⠿⠿⠿⠿⠇⠻⠿⠿⠿⠿⠿⠋⠿⠿⠿⠿⠿⠿⠋   \n" );
 	printf("\n");
-	printf(BG_WHITE TXT_BOLD TXT_BLACK"    ====   ldias-da && josepedr   ====    \n" );
-	printf(TXT_RESET BOLD_RESET BG_RESET "\n\n");
+	printf(BG_WHITE TXT_BOLD TXT_BLACK"    ====   ldias-da && josepedr   ====    " );
+	printf(TXT_RESET BOLD_RESET BG_RESET "\n\n\n");
 }

@@ -37,8 +37,10 @@ int		precedence(t_token token);
 void	*free_mem_arr(char **arr, int index);
 
 // Debugging
+void	debug_ast(t_ast	*node, char *flag);
 void	print_ast(t_ast *ast, int level, int line);
 void	print_ast_dfs(t_ast *node);
+void	print_ast_redirs(t_ast *node);
 void	print_ast_redirs(t_ast *node);
 
 #endif

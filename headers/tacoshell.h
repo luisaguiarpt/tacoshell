@@ -40,7 +40,7 @@
 # define BG_RESET "\033[49m"
 
 // main.c
-void	repl(char **envp);
+void	repl(char **envp, char *flag);
 
 // Core - core.c
 t_core	init_core(void);
