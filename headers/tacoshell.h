@@ -13,6 +13,8 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <stdint.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 
 //libft
 # include <libft.h>
@@ -25,6 +27,8 @@
 # include "envptr.h"
 # include "ast.h"
 # include "free.h"
+# include "redir.h"
+# include "exec.h"
 
 // splash screen colors
 // \033[0m supostamente reseta o texto todo (https://ansi.tools/lookup) -- testar!!!
@@ -62,9 +66,6 @@ void	setup_signals(void);
 bool	is_alpha(char c);
 bool	is_digit(char c);
 bool	is_identi(char c);
-
-// Test - DELETE!!
-void	exec_cmd(char *prompt, t_core *core);
 
 //splash screen
 void	show_title(void);

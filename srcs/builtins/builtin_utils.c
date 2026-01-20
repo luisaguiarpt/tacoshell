@@ -38,7 +38,6 @@ bool	is_builtin(char *cmd)
 
 void	exec_builtin(t_core *core, char **argv)
 {
-
 	char	*cmd;
 
 	cmd = argv[0];

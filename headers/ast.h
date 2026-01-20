@@ -11,7 +11,7 @@ t_ast	*create_node(t_ast_node_type type, t_token *start, t_token *end, t_core *c
 t_ast	*parse_tokens(t_token *start, t_token *end, t_core *core);
 t_ast_cmd   *gen_cmd(t_token *start, t_token *end, t_core *core);
 char	*get_path(char *av_cmd,  t_core *core);
-int		count_args(t_token *start, t_token *end);
+int		count_cmd_args(t_token *start, t_token *end);
 char	**gen_argv(t_token *start, t_token *end, t_core *core);
 void	gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core);
 

@@ -84,7 +84,7 @@ t_ast_cmd   *gen_cmd_node(t_token *start, t_token *end, t_core *core)
 }
 
 // Returns the amount of args in a cmd
-int		count_args(t_token *start, t_token *end)
+int		count_cmd_args(t_token *start, t_token *end)
 {
 	int		n;
 	t_token	*curr;
@@ -121,7 +121,7 @@ void	gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core)
 
 
 	token = start;
-	n_words = count_args(start, end);
+	n_words = count_cmd_args(start, end);
 	if (n_words < 0)
 	{
 		printf("Syntax error. Refine this later.\n");

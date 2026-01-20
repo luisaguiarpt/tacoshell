@@ -75,7 +75,9 @@ void	repl(char **envp, char	*flag)
 		link_tok(core.scanner, flag);
 		core.ast_root = create_ast(&core);
 		debug_ast(core.ast_root, flag);
+		exec_control(core.ast_root, &core);
 		clean_scanner(&core);
+		//debug_exec(&core, core.line);
 	}
 	rl_clear_history();
 }
