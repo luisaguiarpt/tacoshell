@@ -66,6 +66,7 @@ void	setup_signals(void);
 bool	is_alpha(char c);
 bool	is_digit(char c);
 bool	is_identi(char c);
+bool	is_metachar(char c);
 
 //splash screen
 void	show_title(void);
