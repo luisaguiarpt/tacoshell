@@ -24,6 +24,7 @@
 # include "scanner.h"
 # include "envptr.h"
 # include "ast.h"
+# include "free.h"
 
 // splash screen colors
 // \033[0m supostamente reseta o texto todo (https://ansi.tools/lookup) -- testar!!!
