@@ -77,7 +77,7 @@ typedef struct	s_redir	t_redir;
 typedef struct	s_redir
 {
 	t_token_type	type;
-	char			*file;
+	char			*file_path;
 	t_redir			*next;
 }				t_redir;
 
@@ -85,7 +85,7 @@ typedef struct	s_ast_cmd
 {
 	char		*cmd_path;
 	char		**argv;
-	t_redir		*redirs;
+	t_redir		**redirs;
 }				t_ast_cmd;
 
 typedef struct	s_ast

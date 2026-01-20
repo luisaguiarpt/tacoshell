@@ -37,6 +37,7 @@ void	repl(char **envp)
 		}
 		if (*core.line)
 			add_history(core.line);
+		printf("\n%s\n", core.line);
 		start_scanner(&core);
 		link_tok(core.scanner);
 		core.ast_root = create_ast(&core);
@@ -45,7 +46,6 @@ void	repl(char **envp)
 		printf("\n\nDETAILS:\n\n");
 		print_ast_dfs(core.ast_root);
 		clean_scanner(&core);
-
 	}
 	rl_clear_history();
 }

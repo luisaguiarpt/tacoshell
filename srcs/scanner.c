@@ -43,8 +43,8 @@ t_token	scan2(char c, t_scanner *scanner)
 	}
 	if (c == '"')
 		return (scan_str(scanner));
-	if (is_digit(c))
-		return (scan_numb(scanner));
+	//if (is_digit(c))
+	//	return (scan_numb(scanner));
 	return (scan_identi(scanner));
 }
 
@@ -69,5 +69,5 @@ t_token	scan_identi(t_scanner *scanner)
 {
 	while (is_identi(peek(scanner)))
 		advance(scanner);
-	return (create_token(IDENTI, scanner));
+	return (create_token(WORD, scanner));
 }

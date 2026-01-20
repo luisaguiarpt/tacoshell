@@ -63,19 +63,104 @@ t_ast	*create_node(t_ast_node_type type, t_token *start, t_token *end, t_core *c
 	node->right = NULL;
 	if (type == CMD_NODE)
 	{
-		node->cmd = gen_cmd(start, end, core);
+		node->cmd = gen_cmd_node(start, end, core);
     } 
 	return (node);
 }
 
-t_ast_cmd   *gen_cmd(t_token *start, t_token *end, t_core *core)
+
+t_ast_cmd   *gen_cmd_node(t_token *start, t_token *end, t_core *core)
 {
 	t_ast_cmd	*cmd;
 
 	cmd = wr_calloc(1, sizeof(t_ast_cmd), core);
+	cmd->redirs = wr_calloc(1, sizeof(t_redir), core);
+	cmd->argv = NULL;
+	//cmd->argv = wr_calloc(1, sizeof(char *), core);
 	gen_argv_redir(cmd, start, end, core);
-	cmd->cmd_path = get_path(cmd->argv[0], core);
+	if (cmd->argv == NULL)
+		cmd->cmd_path = get_path(cmd->argv[0], core);
 	return (cmd);
+}
+
+// Returns the amount of args in a cmd
+int		count_args(t_token *start, t_token *end)
+{
+	int		n;
+	t_token	*curr;
+
+	n = 0;
+	curr = start;
+	while (curr != end)
+	{
+		if (is_word(*curr))
+		{
+			n++;
+			curr = curr->next;
+		}
+		else if (is_redir_operator(*curr))
+		{
+			if (is_word(*(curr->next)))
+				curr = curr->next->next;
+			else
+				return (-1);
+		}
+		else
+			break ;
+	}
+	if (curr == end)
+		n++;
+	return (n);
+}
+
+void	gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core)
+{
+	t_token	*token;
+	int		n_words;
+	int		i;
+
+
+	token = start;
+	n_words = count_args(start, end);
+	if (n_words < 0)
+	{
+		return ((void)printf("Syntax error. Refine this later."));
+		//return ;
+	}
+	cmd->argv = wr_calloc(n_words + 1, sizeof(char *), core);
+	i = 0;
+	while (token != end->next && token->type != EOF_TOK)
+	{
+		if (is_redir_operator(*token) && is_word(*token->next))
+		{
+			add_redir_node(cmd, token, core);
+			token = token->next->next;
+		}
+		else
+		{
+			cmd->argv[i] = ft_substr(token->start, 0, token->length);
+			if (!cmd->argv[i])
+				return ((void)free_mem_arr(cmd->argv, i));
+			i++;
+			token = token->next;
+		}
+	}
+	cmd->argv[i] = NULL;
+}
+
+void	add_redir_node(t_ast_cmd *cmd, t_token *start, t_core *core)
+{
+	char	*filename;
+	char	*cwd;
+	char	*filepath;
+	t_redir	*new_node;
+
+	filename = ft_substr(start->next->start, 0, start->next->length);
+	cwd = ft_strjoin(get_env(core, "PWD"), "/");
+
+	filepath = ft_strjoin2(cwd, filename, 2);
+	new_node = redir_new(start->type, filepath);
+	redir_append(cmd->redirs, new_node);
 }
 
 char	*get_path(char *av_cmd,  t_core *core)
@@ -102,66 +187,6 @@ char	*get_path(char *av_cmd,  t_core *core)
 	ft_free_tab(cmd);
 	ft_free_tab(paths);
 	return (NULL);
-}
-
-int		count_words(t_token *start, t_token *end)
-{
-	int		n;
-	t_token	*curr;
-
-	n = 0;
-	curr = start;
-	while (curr && curr != end)
-	{
-		if (curr->type == WORD || curr->type == DOLLAR || curr->type == DASH)
-			n++;
-		curr = curr->next;
-	}
-	if (curr == end)
-		n++;
-	return (n);
-}
-
-void	gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core)
-{
-	t_token	*token;
-	char	**argv;
-	int		n_words;
-	int		i;
-
-
-	token = start;
-	n_words = count_words(start, end);
-	cmd->argv = wr_calloc(n_tokens + 1, sizeof(char *), core);
-	i = 0;
-	while (token->next != end)
-	{
-		if (is_redir_operator(*token))
-		{
-			if (!is_word(*token->next))
-			{
-				printf("Syntax error");
-				return ;
-			}
-			else
-			{
-				add_redir_node(cmd, start, end);
-				token = token->next->next;
-			}
-		}
-				
-		cmd->argv[i] = ft_substr(token->start, 0, token->length);
-		if (!cmd->argv[i])
-			return (free_mem_arr(cmd->argv, i));
-		i++;
-		token = token->next;
-	}
-	cmd->argv[i] = NULL;
-}
-
-void	add_redir_node(t_ast_cmd *cmd, t_token *start, t_token *end)
-{
-	if (cmd->type == )
 }
 
 void	*free_mem_arr(char **arr, int index)
@@ -220,6 +245,8 @@ bool	is_word(t_token token)
 	return (false);
 }
 
+// This function checks to see if the token is a redir token,
+// and if the following token is a valid token
 bool	is_redir_operator(t_token token)
 {
 	if (token.type >= REDIR_OUT && token.type <= HERE_DOC)
@@ -275,7 +302,7 @@ void	print_ast_cmds(t_ast *node)
 	int i = 0;
 
 	printf("[NODE %d]\n", node->type);
-	printf("PATH:\n");
+	printf("CMD PATH:\n");
 	printf("\t%s\n", node->cmd->cmd_path);
 	printf("ARGS:\n");
 	while (av[i])
@@ -284,6 +311,18 @@ void	print_ast_cmds(t_ast *node)
 		i++;
 	}
 	printf("\n");
+}
+
+void	print_ast_redirs(t_ast *node)
+{
+	printf("REDIRS:\n");
+	t_redir	**curr = node->cmd->redirs;
+
+	while (*curr)
+	{
+		printf("\tTYPE: %d | PATH: %s\n", (*curr)->type, (*curr)->file_path);
+		*curr = (*curr)->next;
+	}
 }
 
 void	print_ast_dfs(t_ast *node)
@@ -295,6 +334,7 @@ void	print_ast_dfs(t_ast *node)
 	if (node->cmd)
 	{
 		print_ast_cmds(node);
+		print_ast_redirs(node);
 	}
 	else
 		printf("[NODE %d]\n\n", node->type);

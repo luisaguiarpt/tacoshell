@@ -23,7 +23,7 @@ bool	is_alpha(char c)
 
 bool	is_identi(char c)
 {
-	if (is_alpha(c) || c == '.' || c == '-')
+	if (is_alpha(c) || c == '.' || c == '-' || is_digit(c))
 		return (true);
 	return (false);
 }

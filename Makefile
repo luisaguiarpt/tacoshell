@@ -5,6 +5,7 @@ LIBREADLINE=-lreadline -lncurses
 SRCS=srcs/main.c srcs/signal_handler.c srcs/core.c srcs/scanner.c \
 	srcs/tokenizer.c srcs/wrapper_alloc.c srcs/utils.c srcs/exit.c \
 	srcs/scanner_utils.c srcs/ast.c srcs/builtins/builtin_utils.c \
+	srcs/redir.c \
 	srcs/builtins/ft_cd.c \
 	srcs/builtins/ft_echo.c srcs/builtins/ft_pwd.c srcs/builtins/ft_env.c \
 	srcs/builtins/ft_unset.c srcs/builtins/ft_export.c \
