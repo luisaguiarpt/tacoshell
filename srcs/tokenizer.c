@@ -7,6 +7,11 @@ t_token	create_token(t_token_type type, t_scanner *scanner)
 	token.type = type;
 	token.start = scanner->start;
 	token.length = (int)(scanner->current - scanner->start);
+	if (type == STRING)
+	{
+		token.start++;
+		token.length -= 2;
+	}
 	token.prev = NULL;
 	token.next = NULL;
 	return (token);
