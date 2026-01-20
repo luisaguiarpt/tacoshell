@@ -27,8 +27,8 @@ int ft_echo(char **argv)
 	int flag;
 
 	i = 0;
-	flag = check_echo_flag(argv[0]);
-	j = check_echo_flag(argv[0]);
+	flag = check_echo_flag(argv[1]);
+	j = (check_echo_flag(argv[0]) + 1); // + 1 to skip argv[0]
 
 	while (argv[j])
 	{

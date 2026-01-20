@@ -41,13 +41,13 @@ void	exec_builtin(t_core *core, char *cmd, char **argv)
 	if (ft_strcmp("echo", cmd) == 0)
 		ft_echo(argv);
 	else if (ft_strcmp("cd", cmd) == 0)
-		ft_cd(core, argv[0]);
+		ft_cd(core, argv[1]);
 	else if (ft_strcmp("pwd", cmd) == 0)
 		ft_pwd(core);
 	else if (ft_strcmp("export", cmd) == 0)
-		ft_export(core, argv[0]);
+		ft_export(core, argv[1]);
 	else if (ft_strcmp("unset", cmd) == 0)
-		ft_unset(core, argv[0]);
+		ft_unset(core, argv[1]);
 	else if (ft_strcmp("env", cmd) == 0)
 		ft_env(core);
 	else if(ft_strcmp("exit", cmd) == 0)
