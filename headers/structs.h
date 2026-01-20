@@ -12,7 +12,7 @@ typedef enum	e_token_type
 {
 	// single character tokens
 	PIPE = 0,
- 	LEFT_PAREN = 1,
+	LEFT_PAREN = 1,
 	RIGHT_PAREN = 2,
 	DOLLAR = 3,
 	DASH = 4,
@@ -43,6 +43,7 @@ typedef struct	s_token
 typedef struct	s_core
 {
 	char		*line;
+	char		*prompt;
 	t_env		*env;
 	t_ast		*ast_root;
 	t_scanner	*scanner;

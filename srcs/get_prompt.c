@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   get_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/15 15:56:37 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 21:59:12 by josepedr         ###   ########.fr       */
+/*   Created: 2026/01/19 16:07:35 by josepedr          #+#    #+#             */
+/*   Updated: 2026/01/19 16:07:36 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/tacoshell.h"
+#include "../headers/tacoshell.h"
 
-int	ft_unset(t_core *core, char *arg)
+void	get_prompt(t_core *core)
 {
-	unset_env(core, arg);
-	update_env_ptr(core);
-	return (EXIT_SUCCESS);
+	char	*cwd;
+
+	cwd = get_env(core, "PWD");
+// skips home and user folders
+	cwd++;
+	while (*cwd != '/')
+		cwd++;
+	cwd++;
+	while (*cwd != '/')
+		cwd++;
+	core->prompt = ft_strjoin(cwd, " › ");
 }

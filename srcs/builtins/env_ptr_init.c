@@ -42,22 +42,6 @@ static char	*env_join(char *key, char *value)
 		return (result);
 }
 
-static void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	if (!array)
-		return ;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array[i]);
-	free(array);
-}
-
 int	env_ptr_init(t_core *core)
 {
 	int		i;

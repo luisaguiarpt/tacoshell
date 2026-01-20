@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:07:00 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 19:53:37 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/01/15 22:51:59 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,37 @@ char	*get_env(t_core *core, char *key)
 	return (NULL);
 }
 
+static void	remove_node(t_core *core, t_env *current, t_env *prev)
+{
+	bool	first_node;
+
+	first_node = 0;
+	if (!prev)
+		first_node = 1;
+	else
+		prev->next = current->next;
+	free(current->key);
+	free(current->value);
+	if (first_node)
+		core->env = current->next;
+	free(current);
+}
+
 int	unset_env(t_core *core, char *key)
 {
 	t_env	*tmp;
+	t_env	*prev;
 
 	tmp = core->env;
+	prev = NULL;
 	while (tmp)
 	{
 		if (ft_strcmp(key, tmp->key) == 0)
 		{
-			if (tmp->value)
-			{
-				free(tmp->value);
-				tmp->value = NULL;
-				return (EXIT_SUCCESS);
-			}
+			remove_node(core, tmp, prev);
+			return (EXIT_SUCCESS);
 		}
+		prev = tmp;
 		tmp = tmp->next;
 	}
 	ft_printf("%s variable not found", key); //

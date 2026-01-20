@@ -4,13 +4,13 @@
 # include "tacoshell.h"
 
 // Builtin commands
-// exit -> exit_ts ([...].h)
 int		ft_cd(t_core *core, char *dir_path);
 int		ft_echo(char **argv);
 int		ft_pwd(t_core *core);
 int		ft_env(t_core *core);
 int		ft_export(t_core *core, char *argv);
 int		ft_unset(t_core *core, char *arg);
+void	ft_exit(t_core *core);
 
 // Env
 void	env_init(t_core *core, char **envp);
@@ -21,6 +21,6 @@ void	env_split(char *env, char **key, char **value);
 
 // Utils
 void	exec_builtin(t_core *core, char *cmd, char **argv);
-int		is_builtin(char *cmd);
+bool	is_builtin(char *cmd);
 
 #endif
