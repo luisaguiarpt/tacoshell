@@ -78,6 +78,7 @@ void	repl(char **envp, char	*flag)
 		clean_scanner(&core);
 		//debug_exec(&core, core.line);
 	}
+	full_free(&core);
 	rl_clear_history();
 }
 

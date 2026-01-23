@@ -45,7 +45,6 @@ static char	*env_join(char *key, char *value)
 int	env_ptr_init(t_core *core)
 {
 	int		i;
-	int		len;
 	int		array_size;
 	t_env	*current;
 
@@ -57,10 +56,6 @@ int	env_ptr_init(t_core *core)
 		// MALLOC ERROR HANDLING
 	while (current)
 	{
-		len = ft_strlen(current->key) + ft_strlen(current->value) + 2;
-		core->env_ptr[i] = malloc(len * sizeof(char));
-		//if (!env_ptr[i])
-			// MALLOC ERROR HANDLING
 		core->env_ptr[i] = env_join(current->key, current->value);
 		current = current->next;
 		i++;
