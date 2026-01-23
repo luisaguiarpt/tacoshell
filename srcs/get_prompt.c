@@ -18,6 +18,8 @@ void	get_prompt(t_core *core)
 	char	*cwd;
 	char	*path_without_home;
 
+	if (core->prompt)
+		free(core->prompt);
 	path_without_home = NULL;
 	cwd = get_env(core, "PWD");
 	home_len = ft_strlen(get_env(core, "HOME"));
