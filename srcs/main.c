@@ -68,8 +68,11 @@ void	repl(char **envp, char	*flag)
 			write(1, "exit\n", 5);
 			break;
 		}
+		if (!*core.line)
+			continue ;
 		if (*core.line)
 			add_history(core.line);
+		expand(&core);
 		start_scanner(&core);
 		link_tok(core.scanner, flag);
 		core.ast_root = create_ast(&core);
@@ -77,7 +80,6 @@ void	repl(char **envp, char	*flag)
 		exec_control(core.ast_root, &core);
 		clean_scanner(&core);
 		//debug_exec(&core, core.line);
-		// FUNCTION TO 
 	}
 	full_free(&core);
 	rl_clear_history();

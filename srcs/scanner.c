@@ -42,7 +42,9 @@ t_token	scan2(char c, t_scanner *scanner)
 			return (create_token(REDIR_OUT, scanner));
 	}
 	if (c == '"')
-		return (scan_str(scanner));
+		return (scan_str_dq(scanner));
+	if (c == '\'')
+		return (scan_str_sq(scanner));
 	//if (is_digit(c))
 	//	return (scan_numb(scanner));
 	return (scan_identi(scanner));
@@ -55,14 +57,24 @@ t_token	scan_numb(t_scanner *scanner)
 	return (create_token(NUMB, scanner));
 }
 
-t_token	scan_str(t_scanner *scanner)
+t_token	scan_str_sq(t_scanner *scanner)
+{
+	while (peek(scanner) != '\'' && !is_at_end(scanner))
+		advance(scanner);
+	if (is_at_end(scanner))
+		return (error_token("Unterminated string."));
+	advance(scanner);
+	return (create_token(STRING_SQ, scanner));
+}
+
+t_token	scan_str_dq(t_scanner *scanner)
 {
 	while (peek(scanner) != '"' && !is_at_end(scanner))
 		advance(scanner);
 	if (is_at_end(scanner))
 		return (error_token("Unterminated string."));
 	advance(scanner);
-	return (create_token(STRING, scanner));
+	return (create_token(STRING_DQ, scanner));
 }
 
 t_token	scan_identi(t_scanner *scanner)

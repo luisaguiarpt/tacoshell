@@ -7,7 +7,7 @@ t_token	create_token(t_token_type type, t_scanner *scanner)
 	token.type = type;
 	token.start = scanner->start;
 	token.length = (int)(scanner->current - scanner->start);
-	if (type == STRING)
+	if (type == STRING_DQ || type == STRING_SQ)
 	{
 		token.start++;
 		token.length -= 2;

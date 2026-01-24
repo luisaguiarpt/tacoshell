@@ -61,6 +61,9 @@ void	handle_sigint(int	signo);
 void	handle_sigquit(int signo);
 void	setup_signals(void);
 
+// Expansion - expansion.c
+void	expand(t_core *core);
+
 // Utils - utils.c
 //size_t	ft_strlen(char	*str);
 bool	is_alpha(char c);
