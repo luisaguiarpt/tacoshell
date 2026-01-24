@@ -22,13 +22,14 @@ typedef enum	e_token_type
 	APPEND = 7,
 	HERE_DOC = 8,
 	// literals
-	STRING = 9,
-   	WORD = 10,
-   	NUMB = 11,
+	STRING_SQ = 9,
+	STRING_DQ = 10,
+	WORD = 11,
+	NUMB = 12,
 	// for end
-	EOF_TOK = 12,
+	EOF_TOK = 13,
 	// for error
-	ERROR_TOK = 13
+	ERROR_TOK = 14
 }				t_token_type;
 
 typedef struct	s_token

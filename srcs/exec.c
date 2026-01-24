@@ -25,10 +25,10 @@ void	exec_pipe(t_ast *node, t_core *core, bool is_child)
 	int		pipefd[2];
 	pid_t	pid_left;
 	pid_t	pid_right;
+	int		wstatus;
 
 	if (pipe(pipefd) == -1)
 		printf("Pipe error");
-
 	pid_left = fork();
 	if (pid_left == 0)
 	{
@@ -36,7 +36,6 @@ void	exec_pipe(t_ast *node, t_core *core, bool is_child)
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 		exec_node(node->left, core, true);
-		exit(EXIT_SUCCESS);
 	}
 	pid_right = fork();
 	if (pid_right == 0)
@@ -45,14 +44,13 @@ void	exec_pipe(t_ast *node, t_core *core, bool is_child)
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
 		exec_node(node->right, core, true);
-		exit(EXIT_SUCCESS);
 	}
 	close(pipefd[0]);
 	close(pipefd[1]);
 	waitpid(pid_left, NULL, 0);
-	waitpid(pid_right, &core->exit_status, 0);
-	if (is_child)
-		exit(core->exit_status);
+	waitpid(pid_right, &wstatus, 0);
+	if (is_child && WIFEXITED(wstatus))
+		core->exit_status = WEXITSTATUS(wstatus);
 }
 
 void	exec_cmd(t_ast *node, t_core *core, bool is_child)

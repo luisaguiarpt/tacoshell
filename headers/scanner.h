@@ -7,7 +7,8 @@
 t_token		scan_token(t_scanner *scanner);
 t_token	scan_identi(t_scanner *scanner);
 t_token	scan_numb(t_scanner *scanner);
-t_token	scan_str(t_scanner *scanner);
+t_token	scan_str_dq(t_scanner *scanner);
+t_token	scan_str_sq(t_scanner *scanner);
 t_token	scan2(char c, t_scanner *scanner);
 t_token	scan1(char c, t_scanner *scanner);
 
