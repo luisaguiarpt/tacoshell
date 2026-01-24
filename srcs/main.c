@@ -5,42 +5,15 @@ void	link_tok(t_scanner *scanner, char *flag);
 void	start_scanner(t_core *core);
 void	clean_scanner(t_core *core);
 
-void	debug_exec(t_core *core, char *line)
-{
-	char	*cmd;
-	char	**argv;
-	int		i;
-
-	i = 0;
-	while(line[i] != ' ' && line[i] != 0)
-		i++;
-	cmd = malloc((i + 1) * sizeof(char));
-	cmd[i] = 0;
-	i--;
-	while (i >= 0)
-	{
-		cmd[i] = line[i];
-		i--;
-	}
-	argv = ft_split(line, ' ');
-	exec_builtin(core, argv);
-	free(cmd);
-	i = 0;
-	while (argv[i])
-	{
-		free(argv[i]);
-		i++;
-	}
-	free(argv);
-}
-
 int	main(int ac, char **av, char **envp)
 {
+	int	exit_code;
+
 	(void)av;
 	//show_title();
 	//if (ac == 1)
 	(void)ac;
-	repl(envp, av[1]);
+	exit_code = repl(envp, av[1]);
 	/*
 	else if (ac > 1)
 	{
@@ -48,10 +21,10 @@ int	main(int ac, char **av, char **envp)
 		exit(EINVAL);
 	}
 	*/
-	return (EXIT_SUCCESS);
+	return (exit_code);
 }
 
-void	repl(char **envp, char	*flag)
+int	repl(char **envp, char	*flag)
 {
 	t_core	core;
 
@@ -61,7 +34,6 @@ void	repl(char **envp, char	*flag)
 	while (true)
 	{
 		get_prompt(&core);
-		// line below needs to be thought out because of leaks
 		core.line = readline(core.prompt);
 		if (!core.line)
 		{
@@ -76,11 +48,11 @@ void	repl(char **envp, char	*flag)
 		debug_ast(core.ast_root, flag);
 		exec_control(core.ast_root, &core);
 		clean_scanner(&core);
-		//debug_exec(&core, core.line);
 		// FUNCTION TO 
 	}
 	full_free(&core);
 	rl_clear_history();
+	return (core.exit_status);
 }
 
 void	start_scanner(t_core *core)

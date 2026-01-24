@@ -46,23 +46,24 @@ bool	is_builtin(char *cmd)
  * exit = print_n_bounce
  */
 
-void	exec_builtin(t_core *core, char **argv)
+int	exec_builtin(t_core *core, char **argv)
 {
 	char	*cmd;
 
 	cmd = argv[0];
 	if (ft_strcmp("echo", cmd) == 0)
-		ft_echo(argv);
+		return (ft_echo(argv));
 	else if (ft_strcmp("cd", cmd) == 0)
-		ft_cd(core, argv);
+		return (ft_cd(core, argv));
 	else if (ft_strcmp("pwd", cmd) == 0)
-		ft_pwd(core);
+		return (ft_pwd(core));
 	else if (ft_strcmp("export", cmd) == 0)
-		ft_export(core, argv[1]);
+		return (ft_export(core, argv[1]));
 	else if (ft_strcmp("unset", cmd) == 0)
-		ft_unset(core, argv[1]);
+		return (ft_unset(core, argv[1]));
 	else if (ft_strcmp("env", cmd) == 0)
-		ft_env(core);
+		return (ft_env(core));
 	else if(ft_strcmp("exit", cmd) == 0)
-		ft_exit(core);
+		(ft_exit(core, argv));
+	return (1); // just to deal with the error, int function has to return something (check in the future)
 }

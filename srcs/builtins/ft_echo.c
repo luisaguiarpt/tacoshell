@@ -37,9 +37,10 @@ int ft_echo(char **argv)
 			write(1, &argv[j][i], 1);
 			i++;
 		}
-		write(1, " ", 1);
-		i = 0;
 		j++;
+		i = 0;
+		if (argv[j])
+			write(1, " ", 1);
 	}
 	if (!flag)
 		write(1, "\n", 1);

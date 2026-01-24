@@ -10,7 +10,7 @@ int		ft_pwd(t_core *core);
 int		ft_env(t_core *core);
 int		ft_export(t_core *core, char *argv);
 int		ft_unset(t_core *core, char *arg);
-void	ft_exit(t_core *core);
+void		ft_exit(t_core *core, char **argv);
 
 // Env
 void	env_init(t_core *core, char **envp);
@@ -21,7 +21,7 @@ void	env_split(char *env, char **key, char **value);
 
 // Utils
 int		count_args(char **argv);
-void	exec_builtin(t_core *core, char **argv);
+int		exec_builtin(t_core *core, char **argv);
 bool	is_builtin(char *cmd);
 
 #endif

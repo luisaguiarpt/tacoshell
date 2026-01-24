@@ -4,7 +4,7 @@ void	exec_control(t_ast *node, t_core *core)
 {
 	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
 	{
-		exec_builtin(core, node->cmd->argv);
+		core->exit_status = exec_builtin(core, node->cmd->argv);
 		return ;
 	}
 	exec_node(node, core, false);
@@ -65,7 +65,7 @@ void	exec_cmd(t_ast *node, t_core *core, bool is_child)
 			exit(1);
 		if (is_builtin(node->cmd->argv[0]))
 		{
-			exec_builtin(core, node->cmd->argv);
+			core->exit_status = exec_builtin(core, node->cmd->argv);
 			exit(0);
 		}
 		else
