@@ -77,6 +77,7 @@ void	repl(char **envp, char	*flag)
 		exec_control(core.ast_root, &core);
 		clean_scanner(&core);
 		//debug_exec(&core, core.line);
+		// FUNCTION TO 
 	}
 	full_free(&core);
 	rl_clear_history();

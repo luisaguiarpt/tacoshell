@@ -42,7 +42,7 @@ void	exec_pipe(t_ast *node, t_core *core, bool is_child)
 	if (pid_right == 0)
 	{
 		close(pipefd[1]);
-		dup2(pipefd[0], STDOUT_FILENO);
+		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
 		exec_node(node->right, core, true);
 		exit(EXIT_SUCCESS);
