@@ -12,9 +12,14 @@
 
 #include "../../headers/tacoshell.h"
 
-int	ft_unset(t_core *core, char *arg)
+int	ft_unset(t_core *core, char **argv)
 {
-	unset_env(core, arg);
+	if (!argv[1])
+	{
+		write(2, "unset: not enough arguments\n", 28);
+		return (EXIT_FAILURE);
+    }
+	unset_env(core, argv[1]);
 	update_env_ptr(core);
 	return (EXIT_SUCCESS);
 }

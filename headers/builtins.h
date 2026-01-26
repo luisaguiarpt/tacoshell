@@ -8,8 +8,8 @@ int		ft_cd(t_core *core, char **argv);
 int		ft_echo(char **argv);
 int		ft_pwd(t_core *core);
 int		ft_env(t_core *core);
-int		ft_export(t_core *core, char *argv);
-int		ft_unset(t_core *core, char *arg);
+int		ft_export(t_core *core, char **argv);
+int		ft_unset(t_core *core, char **argv);
 void		ft_exit(t_core *core, char **argv);
 
 // Env

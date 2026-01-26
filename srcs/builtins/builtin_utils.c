@@ -58,9 +58,9 @@ int	exec_builtin(t_core *core, char **argv)
 	else if (ft_strcmp("pwd", cmd) == 0)
 		return (ft_pwd(core));
 	else if (ft_strcmp("export", cmd) == 0)
-		return (ft_export(core, argv[1]));
+		return (ft_export(core, argv));
 	else if (ft_strcmp("unset", cmd) == 0)
-		return (ft_unset(core, argv[1]));
+		return (ft_unset(core, argv));
 	else if (ft_strcmp("env", cmd) == 0)
 		return (ft_env(core));
 	else if(ft_strcmp("exit", cmd) == 0)
