@@ -14,7 +14,7 @@
 
 static int	check_echo_flag(char *arg)
 {
-	if (arg[0] == '-' && arg[1] == 'n')
+	if (arg[0] == '-' && arg[1] == 'n' && !arg[2])
 		return (1);
 	else
 		return (0);
@@ -28,7 +28,7 @@ int ft_echo(char **argv)
 
 	i = 0;
 	flag = check_echo_flag(argv[1]);
-	j = (check_echo_flag(argv[0]) + 1); // + 1 to skip argv[0]
+	j = (check_echo_flag(argv[1]) + 1); // + 1 to skip argv[0]
 
 	while (argv[j])
 	{
