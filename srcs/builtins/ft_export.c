@@ -36,13 +36,14 @@ static int	check_export_args(char **argv)
 	}
 	while (argv[1][i] != '=')
 	{
+		if (argv[1][i] == 0)
+			return (0);
 		if (check_var_char(argv[1][i]))
 		{
 			write(2, "export: not valid in this context\n", 34); // may need to be changed to print out argv[1]
 			return (1);
 		}
-		else
-			i++;
+		i++;
 	}
 	return (0);
 }

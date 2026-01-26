@@ -46,7 +46,8 @@ void	set_env(t_core *core, char *key, char *value)
 	}
 	new = malloc(sizeof(t_env));
 	new->key = ft_strdup(key);
-	new->value = ft_strdup(value);
+	if (value)
+		new->value = ft_strdup(value);
 	new->next = NULL;
 	env_append(core, new);
 }
@@ -111,11 +112,16 @@ void	env_split(char *env, char **key, char **value)
 
 	i = 0;
 	j = 0;
-	while (env[i] != '=')
+	while (env[i] != '=' && env[i])
 		i++;
 	*key = ft_substr(env, 0, i);
-	while (env[j])
-		j++;
-	i++; //i++ ignora o '='
-	*value = ft_substr(env, i, j - i); 
+	if (env[i] == '=')
+	{
+		while (env[j])
+			j++;
+		i++; //i++ ignora o '='
+		*value = ft_substr(env, i, j - i); 
+	}
+	else
+		*value = NULL;
 }
