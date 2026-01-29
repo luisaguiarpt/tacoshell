@@ -8,6 +8,7 @@ t_scanner	*init_scanner(t_core *core)
 	scanner->start = core->line;
 	scanner->current = core->line;
 	scanner->core = core;
+	scanner->state = NEUTRAL;
 	return (scanner);
 }
 
