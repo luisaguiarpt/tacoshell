@@ -40,7 +40,7 @@ t_token scan_word(t_scanner *scanner, char c)
 {
 	while (!(is_metachar(peek(scanner)) && scanner->state == NEUTRAL) && !is_at_end(scanner))
 	{
-		c = peek(scanner);
+//		c = peek(scanner);
 		if (c == '\'' && scanner->state == NEUTRAL)
 			scanner->state = IN_SINGLE_QUOTES;
 		else if (c == '\'' && scanner->state == IN_SINGLE_QUOTES)
@@ -49,9 +49,9 @@ t_token scan_word(t_scanner *scanner, char c)
 			scanner->state = IN_DOUBLE_QUOTES;
 		else if (c == '"' && scanner->state ==  IN_DOUBLE_QUOTES)
 			scanner->state = NEUTRAL;
-		c = advance(scanner);
 		if (is_at_end(scanner) && scanner->state != NEUTRAL)
 			return(error_token("Unterminated string."));
+		c = advance(scanner);
 	}
 	return (create_token(WORD, scanner));
 }
