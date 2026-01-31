@@ -29,9 +29,10 @@ static int	check_export_args(char **argv)
 	int	i;
 
 	i = 0;
-	if (is_digit(argv[1][0])) // first char of a VAR can not be a digit 
+	if (is_digit(argv[1][0]) || argv[1][0] == '=') // first char of a VAR can not be a digit or just an = char
 	{
-		write(2, "export: not valid in this context\n", 34); // may need to be changed to print out argv[1]
+		ft_printf_fd(2, "export: '%s': not a valid identifier\n", argv[1]);
+		//write(2, "export: not valid in this context\n", 34); // may need to be changed to print out argv[1]
 		return (1);
 	}
 	while (argv[1][i] != '=')
@@ -40,7 +41,8 @@ static int	check_export_args(char **argv)
 			return (0);
 		if (check_var_char(argv[1][i]))
 		{
-			write(2, "export: not valid in this context\n", 34); // may need to be changed to print out argv[1]
+			ft_printf_fd(2, "export: '%s': not a valid identifier\n", argv[1]);
+		//	write(2, "export: not valid in this context\n", 34); // may need to be changed to print out argv[1]
 			return (1);
 		}
 		i++;
