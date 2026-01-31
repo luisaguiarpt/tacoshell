@@ -62,11 +62,19 @@ typedef struct	s_env
 	t_env		*next;
 }				t_env;
 
+typedef enum	e_state
+{
+	NEUTRAL = 0,
+	IN_SINGLE_QUOTES = 1,
+	IN_DOUBLE_QUOTES = 2
+}				t_state;
+
 typedef struct	s_scanner
 {
 	char		*start;
 	char		*current;
 	t_core		*core;
+	t_state		state;
 }				t_scanner;
 
 typedef	enum	e_ast_node_type

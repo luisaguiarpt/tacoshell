@@ -11,6 +11,7 @@ t_token	scan_str_dq(t_scanner *scanner);
 t_token	scan_str_sq(t_scanner *scanner);
 t_token	scan2(char c, t_scanner *scanner);
 t_token	scan1(char c, t_scanner *scanner);
+t_token scan_word(t_scanner *scanner, char c);
 
 // Scanner utils - scanner_utils.c
 t_scanner	*init_scanner(t_core *core);

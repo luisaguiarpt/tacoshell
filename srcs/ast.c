@@ -113,6 +113,60 @@ int		count_cmd_args(t_token *start, t_token *end)
 	return (n);
 }
 
+// Changes state and returns true if state changed and false if not
+bool	get_state(char c, t_state *state)
+{
+	if (c == '\'' && *state == NEUTRAL)
+	{
+		*state = IN_SINGLE_QUOTES;
+		return (true);
+	}
+	else if (c == '\'' && *state == IN_SINGLE_QUOTES)
+	{
+		*state = NEUTRAL;
+		return (true);
+	}
+	else if (c == '"' && *state == NEUTRAL)
+	{
+		*state = IN_DOUBLE_QUOTES;
+		return (true);
+	}
+	else if (c == '"' && *state == IN_DOUBLE_QUOTES)
+	{
+		*state = NEUTRAL;
+		return (true);
+	}
+	return (false);
+}
+
+char	*remove_quotes(char	*str, t_core *core)
+{
+	int		i;
+	int		k;
+	t_state	state;
+	char	*tmp;
+
+	i = 0;
+	k = 0;
+	state = NEUTRAL;
+	tmp = wr_calloc(1, ft_strlen(str) + 1, core);
+	while (str[i])
+	{
+		if (get_state(str[i], &state))
+		{
+			i++;
+			continue ;
+		}
+		else
+			tmp[k++] = str[i++];
+	}
+	tmp[k] = 0;
+	free(str);
+	str = ft_strdup(tmp);
+	free(tmp);
+	return (str);
+}
+
 void	gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core)
 {
 	t_token	*token;
@@ -139,7 +193,7 @@ void	gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core)
 		}
 		else
 		{
-			cmd->argv[i] = ft_substr(token->start, 0, token->length);
+			cmd->argv[i] = remove_quotes(ft_substr(token->start, 0, token->length), core);
 			if (!cmd->argv[i])
 				return ((void)free_mem_arr(cmd->argv, i));
 			i++;

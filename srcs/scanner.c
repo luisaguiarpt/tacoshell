@@ -8,25 +8,9 @@ t_token	scan_token(t_scanner *scanner)
 	scanner->start = scanner->current;
 	if (is_at_end(scanner))
 		return (create_token(EOF_TOK, scanner));
-	c = advance(scanner);
-	return (scan1(c, scanner));
-}
-
-t_token	scan1(char c, t_scanner *scanner)
-{
+	c = peek(scanner);
 	if (c == '|')
 		return (create_token(PIPE, scanner));
-	if (c == '$')
-	{
-		while (peek(scanner) != ' ' && !is_at_end(scanner))
-			advance(scanner);
-		return (create_token(DOLLAR, scanner));
-	}
-	return (scan2(c, scanner));
-}
-
-t_token	scan2(char c, t_scanner *scanner)
-{
 	if (c == '<')
 	{
 		if (match('<', scanner))
@@ -41,45 +25,33 @@ t_token	scan2(char c, t_scanner *scanner)
 		else
 			return (create_token(REDIR_OUT, scanner));
 	}
-	if (c == '"')
-		return (scan_str_dq(scanner));
-	if (c == '\'')
-		return (scan_str_sq(scanner));
-	//if (is_digit(c))
-	//	return (scan_numb(scanner));
-	return (scan_identi(scanner));
+	if (c == '(' || c == ')')
+		return (error_token("Syntax error near ( or )."));
+	if (c == ';' || c == '&')
+		return (create_token(EOF_TOK, scanner));
+	return (scan_word(scanner, c));
 }
+// Peek returns the current character
+// Advance returns the current character and advances to the next character
+// Match checks to see if the argument matches the current character, if so, advances to the next character
+// is_at_end returns true if current character is \0
 
-t_token	scan_numb(t_scanner *scanner)
+t_token scan_word(t_scanner *scanner, char c)
 {
-	while (is_digit(peek(scanner)))
-		advance(scanner);
-	return (create_token(NUMB, scanner));
-}
-
-t_token	scan_str_sq(t_scanner *scanner)
-{
-	while (peek(scanner) != '\'' && !is_at_end(scanner))
-		advance(scanner);
-	if (is_at_end(scanner))
-		return (error_token("Unterminated string."));
-	advance(scanner);
-	return (create_token(STRING_SQ, scanner));
-}
-
-t_token	scan_str_dq(t_scanner *scanner)
-{
-	while (peek(scanner) != '"' && !is_at_end(scanner))
-		advance(scanner);
-	if (is_at_end(scanner))
-		return (error_token("Unterminated string."));
-	advance(scanner);
-	return (create_token(STRING_DQ, scanner));
-}
-
-t_token	scan_identi(t_scanner *scanner)
-{
-	while (!is_metachar(peek(scanner)) && !is_at_end(scanner))
-		advance(scanner);
+	while (!(is_metachar(peek(scanner)) && scanner->state == NEUTRAL) && !is_at_end(scanner))
+	{
+//		c = peek(scanner);
+		if (c == '\'' && scanner->state == NEUTRAL)
+			scanner->state = IN_SINGLE_QUOTES;
+		else if (c == '\'' && scanner->state == IN_SINGLE_QUOTES)
+			scanner->state = NEUTRAL;
+		if (c == '"' && scanner->state == NEUTRAL)
+			scanner->state = IN_DOUBLE_QUOTES;
+		else if (c == '"' && scanner->state ==  IN_DOUBLE_QUOTES)
+			scanner->state = NEUTRAL;
+		if (scanner->current[1] == 0 && scanner->state != NEUTRAL)
+			return(error_token("Unterminated string."));
+		c = advance(scanner);
+	}
 	return (create_token(WORD, scanner));
 }

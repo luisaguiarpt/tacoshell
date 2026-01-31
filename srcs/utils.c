@@ -14,6 +14,13 @@ size_t	ft_strlen(char	*str)
 }
 */
 
+bool	is_posix_var(char c)
+{
+	if (is_digit(c) || is_alpha(c) || c == '_')
+		return (true);
+	return (false);
+}
+
 bool	is_alpha(char c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
@@ -38,8 +45,7 @@ bool	is_digit(char c)
 bool	is_metachar(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n' || c == '|' || c == '&'
-		|| c == ';' || c == '(' || c == ')' || c == '<' || c == '>' || c == 0
-		|| c == '\'' || c == '"')
+		|| c == ';' || c == '(' || c == ')' || c == '<' || c == '>')
 		return (true);
 	return (false);
 }
