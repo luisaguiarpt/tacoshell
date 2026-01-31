@@ -29,7 +29,6 @@ static int	num_check(char *arg)
 			return (0);
 	}
 	return (1);
-
 }
 
 void	ft_exit(t_core *core, char **argv)
@@ -37,7 +36,7 @@ void	ft_exit(t_core *core, char **argv)
 	int	exit_code;
 
 	exit_code = -1;
-	write(2, "exit\n", 5); // i think it always writes, even when it fails to exit
+	write(1, "exit\n", 5); // i think it always writes, even when it fails to exit
 	if (!argv[1])
 		exit_code = core->exit_status;
 	else 

@@ -78,7 +78,7 @@ t_ast_cmd   *gen_cmd_node(t_token *start, t_token *end, t_core *core)
 	cmd->argv = NULL;
 	//cmd->argv = wr_calloc(1, sizeof(char *), core);
 	gen_argv_redir(cmd, start, end, core);
-	if (cmd->argv != NULL)
+	if (cmd->argv != NULL && cmd->argv[0] != NULL && !is_builtin(cmd->argv[0]))
 		cmd->cmd_path = get_path(cmd->argv[0], core);
 	return (cmd);
 }
