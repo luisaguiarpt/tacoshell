@@ -17,16 +17,17 @@ void	expand(t_core *core)
 	inside_sq = false;
 	while (core->line && core->line[i])
 	{
-		inside_sq = is_inside_squotes(core->line, inside_sq);
+		inside_sq = is_inside_squotes(&core->line[i], inside_sq);
 		if (!inside_sq && core->line[i] == '$' && core->line[i + 1] == '?')
 		{
 			tmp = ft_itoa(core->exit_status);
 			core->line = replace_str(core->line, "$?", tmp);
 			free(tmp);
 		}
-		else if (!inside_sq && core->line[i] == '$')
+		else if (!inside_sq && core->line[i] == '$' &&
+			   is_posix_var(core->line[i + 1]))
 		{
-			tmp = isolate_word(&(core->line[i]));
+			tmp = isolate_word(&core->line[i]);
 			core->line = replace_str(core->line, tmp, get_env(core, &tmp[1]));
 			free(tmp);
 		}
@@ -43,8 +44,8 @@ static char	*replace_str(char *s, char *old, char *new)
 	size_t	j;
 	char	*new_str;
 
-	//if (ft_strlen(old) == 0)
-	//	return (s);
+	if (!new)
+		return (NULL);
 	new_s_len = ft_strlen(s) - ft_strlen(old) + ft_strlen(new);
 	new_str = ft_calloc(new_s_len + 1, sizeof(char));
 	if (!new_str)
@@ -62,7 +63,6 @@ static char	*replace_str(char *s, char *old, char *new)
 		else
 			new_str[i++] = s[j++];
 	}
-	//new_str[i] = 0;
 	free(s);
 	return (new_str);
 }
@@ -72,20 +72,21 @@ static char	*isolate_word(char *line)
 {
 	char	*word;
 	size_t	i;
+	size_t	k;
 
 	i = 0;
 	if (!line)
 		return (NULL);
-	while (line && line[i] && line[i] != ' ')
+	while ((line[i] && is_posix_var(line[i])) || (i == 0 && line[i] == '$'))
 		i++;
 	word = ft_calloc(i + 1, sizeof(char));
 	if (!word)
 		return (NULL);
-	i = 0;
-	while (line[i])
+	k = 0;
+	while (k < i)
 	{
-		word[i] = line[i];
-		i++;
+		word[k] = line[k];
+		k++;
 	}
 	word[i] = 0;
 	return (word);

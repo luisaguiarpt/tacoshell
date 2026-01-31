@@ -8,7 +8,7 @@ t_token	scan_token(t_scanner *scanner)
 	scanner->start = scanner->current;
 	if (is_at_end(scanner))
 		return (create_token(EOF_TOK, scanner));
-	c = advance(scanner);
+	c = peek(scanner);
 	if (c == '|')
 		return (create_token(PIPE, scanner));
 	if (c == '<')
@@ -49,7 +49,7 @@ t_token scan_word(t_scanner *scanner, char c)
 			scanner->state = IN_DOUBLE_QUOTES;
 		else if (c == '"' && scanner->state ==  IN_DOUBLE_QUOTES)
 			scanner->state = NEUTRAL;
-		if (is_at_end(scanner) && scanner->state != NEUTRAL)
+		if (scanner->current[1] == 0 && scanner->state != NEUTRAL)
 			return(error_token("Unterminated string."));
 		c = advance(scanner);
 	}

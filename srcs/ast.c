@@ -113,6 +113,32 @@ int		count_cmd_args(t_token *start, t_token *end)
 	return (n);
 }
 
+// Changes state and returns true if state changed and false if not
+bool	get_state(char c, t_state *state)
+{
+	if (c == '\'' && *state == NEUTRAL)
+	{
+		*state = IN_SINGLE_QUOTES;
+		return (true);
+	}
+	else if (c == '\'' && *state == IN_SINGLE_QUOTES)
+	{
+		*state = NEUTRAL;
+		return (true);
+	}
+	else if (c == '"' && *state == NEUTRAL)
+	{
+		*state = IN_DOUBLE_QUOTES;
+		return (true);
+	}
+	else if (c == '"' && *state == IN_DOUBLE_QUOTES)
+	{
+		*state = NEUTRAL;
+		return (true);
+	}
+	return (false);
+}
+
 char	*remove_quotes(char	*str, t_core *core)
 {
 	int		i;
@@ -126,25 +152,10 @@ char	*remove_quotes(char	*str, t_core *core)
 	tmp = wr_calloc(1, ft_strlen(str) + 1, core);
 	while (str[i])
 	{
-		if (str[i] == '\'' && state == NEUTRAL)
+		if (get_state(str[i], &state))
 		{
-			state = IN_SINGLE_QUOTES;
 			i++;
-		}
-		else if (str[i] == '\'' && state == IN_SINGLE_QUOTES)
-		{
-			state = NEUTRAL;
-			i++;
-		}
-		if (str[i] == '"' && state == NEUTRAL)
-		{
-			state = IN_DOUBLE_QUOTES;
-			i++;
-		}
-		else if (str[i] == '"' && state == IN_DOUBLE_QUOTES)
-		{
-			state = NEUTRAL;
-			i++;
+			continue ;
 		}
 		else
 			tmp[k++] = str[i++];

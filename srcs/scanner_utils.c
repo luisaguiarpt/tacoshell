@@ -25,16 +25,16 @@ char	peek(t_scanner *scanner)
 char	advance(t_scanner *scanner)
 {
 	scanner->current++;
-	return (scanner->current[-1]);
+	return (scanner->current[0]);
 }
 
 bool	match(char expected, t_scanner *scanner)
 {
-	if (*scanner->current == '\0')
+	if (scanner->current[1] == '\0')
 		return (false);
-	if (*scanner->current != expected)
+	if (scanner->current[1] != expected)
 		return (false);
-	scanner->current++;
+	scanner->current += 2;
 	return (true);
 }
 
