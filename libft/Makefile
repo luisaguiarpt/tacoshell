@@ -11,7 +11,8 @@ SRC=ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c 
 	ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_atol.c ft_strcmp.c \
 	ft_free_tab.c
 
-PRINTF_SRC=printf/ft_printf.c printf/utils.c printf/utils_hex.c
+PRINTF_SRC=printf/ft_printf.c printf/utils.c printf/utils_hex.c \
+		   printf/ft_printf_fd.c printf/utils_fd.c
 
 GNL_SRC=get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 
