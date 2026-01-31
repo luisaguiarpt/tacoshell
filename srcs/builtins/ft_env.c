@@ -50,7 +50,8 @@ int	ft_env(t_core *core)
 	current = core->env;
 	while (current)
 	{
-		ft_printf("%s=%s\n", current->key, current->value);
+		if (current->value != NULL)
+			ft_printf("%s=%s\n", current->key, current->value);
 		current = current->next;
 	}
 	return (EXIT_SUCCESS);
