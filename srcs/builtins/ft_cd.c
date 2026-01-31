@@ -33,7 +33,7 @@ int ft_cd(t_core *core, char **argv)
 
 	if (!handle_args(core, argv, &dir_path))
 	{
-		write(2, "Error: too many args\n", 21);
+		write(2, "Error: too many arguments\n", 21);
 		return (EXIT_FAILURE);
 	}
 	if (chdir(dir_path) == -1)

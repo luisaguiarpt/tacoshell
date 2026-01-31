@@ -10,20 +10,20 @@ t_token	scan_token(t_scanner *scanner)
 		return (create_token(EOF_TOK, scanner));
 	c = peek(scanner);
 	if (c == '|')
-		return (create_token(PIPE, scanner));
+		return (advance(scanner), create_token(PIPE, scanner));
 	if (c == '<')
 	{
 		if (match('<', scanner))
-			return (create_token(HERE_DOC, scanner));
+			return (advance(scanner), create_token(HERE_DOC, scanner));
 		else
-			return (create_token(REDIR_IN, scanner));
+			return (advance2(scanner), create_token(REDIR_IN, scanner));
 	}
 	if (c == '>')
 	{
 		if (match('>', scanner))
-			return (create_token(APPEND, scanner));
+			return (advance(scanner), create_token(APPEND, scanner));
 		else
-			return (create_token(REDIR_OUT, scanner));
+			return (advance2(scanner), create_token(REDIR_OUT, scanner));
 	}
 	if (c == '(' || c == ')')
 		return (error_token("Syntax error near ( or )."));

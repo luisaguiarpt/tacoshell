@@ -28,6 +28,12 @@ char	advance(t_scanner *scanner)
 	return (scanner->current[0]);
 }
 
+char	advance2(t_scanner *scanner)
+{
+	scanner->current += 2;
+	return (scanner->current[0]);
+}
+
 bool	match(char expected, t_scanner *scanner)
 {
 	if (scanner->current[1] == '\0')

@@ -44,7 +44,7 @@ void	ft_exit(t_core *core, char **argv)
 	{
 		if (!num_check(argv[1]))
 		{
-			write(2, "numeric argument required\n", 26);
+			ft_printf_fd(2, "exit: %s: numeric argument required\n", argv[1]);
 			exit_code = 2;
 		}
     }

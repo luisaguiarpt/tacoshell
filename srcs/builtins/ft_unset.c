@@ -14,12 +14,16 @@
 
 int	ft_unset(t_core *core, char **argv)
 {
+	int	i;
+
 	if (!argv[1])
-	{
-//		write(2, "unset: not enough arguments\n", 28);
 		return (EXIT_SUCCESS);
-    }
-	unset_env(core, argv[1]);
+	i = 1;
+	while (argv[i])
+	{
+		unset_env(core, argv[i]);
+		i++;
+	}
 	update_env_ptr(core);
 	return (EXIT_SUCCESS);
 }

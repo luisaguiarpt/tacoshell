@@ -18,6 +18,7 @@ t_scanner	*init_scanner(t_core *core);
 bool	is_at_end(t_scanner *scanner);
 char	peek(t_scanner *scanner);
 char	advance(t_scanner *scanner);
+char	advance2(t_scanner *scanner);
 bool	match(char expected, t_scanner *scanner);
 void	skip_space(t_scanner *scanner);
 
