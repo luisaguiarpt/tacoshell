@@ -17,9 +17,9 @@ static int	handle_args(t_core *core, char **argv, char **dir_path)
 	if(count_args(argv) > 2)
 		return (0);
 	if (!argv[1])
-		*dir_path = get_env(core, "HOME");
+		*dir_path = get_env(core->env, "HOME");
 	else if (ft_strcmp(argv[1], "-") == 0)
-		*dir_path = get_env(core, "OLDPWD");
+		*dir_path = get_env(core->env, "OLDPWD");
 	else
 		*dir_path = argv[1];
 	return (1);
@@ -46,11 +46,11 @@ int ft_cd(t_core *core, char **argv)
 		perror("getcwd");
 		return (EXIT_FAILURE);
 	}
-	current_path = ft_strdup(get_env(core, "PWD"));
+	current_path = ft_strdup(get_env(core->env, "PWD"));
 	if (!current_path)
 		return (EXIT_FAILURE);
-	set_env(core, "PWD", tmp);
-	set_env(core, "OLDPWD", current_path);
+	set_env(&core->env, "PWD", tmp);
+	set_env(&core->env, "OLDPWD", current_path);
 	free(current_path);
 	return (EXIT_SUCCESS);
 }

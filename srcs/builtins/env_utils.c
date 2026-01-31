@@ -12,27 +12,28 @@
 
 #include "../../headers/tacoshell.h"
 
-static void	env_append(t_core *core, t_env *new)
+static void	env_append(t_env **env, t_env *new)
 {
 	t_env *tmp;
 
-	tmp = core->env;
-	if (core->env == NULL)
+	tmp = *env;
+	if (*env == NULL)
 	{
-		core->env = new;
+		*env = new;
 		return ;
 	}
 	while(tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
+	return ;
 }
 
-void	set_env(t_core *core, char *key, char *value)
+t_env	*set_env(t_env **env, char *key, char *value)
 {
 	t_env	*tmp;
 	t_env	*new;
 	
-	tmp = core->env;
+	tmp = *env;
 
 	while(tmp)
 	{
@@ -40,7 +41,7 @@ void	set_env(t_core *core, char *key, char *value)
 		{
 			free(tmp->value);
 			tmp->value = ft_strdup(value);
-			return ;
+			return (*env);
 		}
 		tmp = tmp->next;
 	}
@@ -49,14 +50,15 @@ void	set_env(t_core *core, char *key, char *value)
 	if (value)
 		new->value = ft_strdup(value);
 	new->next = NULL;
-	env_append(core, new);
+	env_append(env, new);
+	return (*env);
 }
 
-char	*get_env(t_core *core, char *key)
+char	*get_env(t_env *env, char *key)
 {
 	t_env	*tmp;
 
-	tmp = core->env;
+	tmp = env;
 	while (tmp)
 	{
 		if (ft_strcmp(key, tmp->key) == 0)

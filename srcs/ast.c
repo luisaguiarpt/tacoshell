@@ -211,7 +211,7 @@ void	add_redir_node(t_ast_cmd *cmd, t_token *start, t_core *core)
 	t_redir	*new_node;
 
 	filename = ft_substr(start->next->start, 0, start->next->length);
-	cwd = ft_strjoin(get_env(core, "PWD"), "/");
+	cwd = ft_strjoin(get_env(core->env, "PWD"), "/");
 
 	filepath = ft_strjoin2(cwd, filename, 2);
 	new_node = redir_new(start->type, filepath);
@@ -226,7 +226,7 @@ char	*get_path(char *av_cmd,  t_core *core)
 	char	*cmd_path;
 
 	cmd = ft_split(av_cmd, ' ');
-	paths = ft_split(get_env(core, "PATH"), ':');
+	paths = ft_split(get_env(core->env, "PATH"), ':');
 	i = -1;
 	while (paths[++i])
 	{

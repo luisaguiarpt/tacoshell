@@ -5,6 +5,7 @@ void	free_array(char **array);
 void	full_free(t_core *core);
 
 // free_core.c
+void	free_env_struct(t_env *env);
 void	free_core(t_core *core);
 
 #endif

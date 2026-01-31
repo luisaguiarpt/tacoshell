@@ -28,7 +28,7 @@ void	expand(t_core *core)
 			   is_posix_var(core->line[i + 1]))
 		{
 			tmp = isolate_word(&core->line[i]);
-			core->line = replace_str(core->line, tmp, get_env(core, &tmp[1]));
+			core->line = replace_str(core->line, tmp, get_env(core->env, &tmp[1]));
 			free(tmp);
 		}
 		i++;

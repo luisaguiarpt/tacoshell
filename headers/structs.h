@@ -46,11 +46,11 @@ typedef struct	s_core
 	char		*line;
 	char		*prompt;
 	t_env		*env;
+	char		**env_ptr;
 	t_ast		*ast_root;
 	t_scanner	*scanner;
 	t_token		**tok_head;
 	int			error_code;
-	char		**env_ptr;
 	bool		debug_mode;
 	int			exit_status;
 }				t_core;

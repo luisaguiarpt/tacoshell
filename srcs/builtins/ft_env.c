@@ -12,33 +12,40 @@
 
 #include "../../headers/tacoshell.h"
 
-void	update_shlvl(t_core *core)
+void	update_shlvl(t_core	*core)
 {
 	int		shlvl_int;
 	char	*shlvl_ascii;
 
-	shlvl_int = ft_atoi(get_env(core, "SHLVL"));
+	shlvl_int = ft_atoi(get_env(core->env, "SHLVL"));
 	shlvl_ascii = ft_itoa(shlvl_int + 1);
-	set_env(core, "SHLVL", shlvl_ascii);
+	set_env(&core->env, "SHLVL", shlvl_ascii);
 	free(shlvl_ascii);
 }
 
-void	env_init(t_core *core, char **envp)
+t_env	*populate_env(char **envp)
 {
 	int		i;
 	char	*key;
 	char	*value;
+	t_env	*env;
 
 	i = 0;
-	core->env = NULL;
+	env = NULL;
 	while (envp[i])
 	{
 		env_split(envp[i], &key, &value);
-		set_env(core, key, value);
+		env = set_env(&env, key, value);
 		free(key);
 		free(value);
 		i++;
 	}
+	return (env);
+}
+
+void	env_init(t_core *core, char **envp)
+{
+	core->env = populate_env(envp);
 	update_shlvl(core);
 	env_ptr_init(core);
 }

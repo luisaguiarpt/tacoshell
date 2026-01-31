@@ -21,9 +21,9 @@ void	get_prompt(t_core *core)
 	if (core->prompt)
 		free(core->prompt);
 	path_without_home = NULL;
-	cwd = get_env(core, "PWD");
-	home_len = ft_strlen(get_env(core, "HOME"));
-	if (ft_strncmp(cwd, get_env(core, "HOME"), home_len) == 0)
+	cwd = get_env(core->env, "PWD");
+	home_len = ft_strlen(get_env(core->env, "HOME"));
+	if (ft_strncmp(cwd, get_env(core->env, "HOME"), home_len) == 0)
 		path_without_home = ft_strjoin("~", &cwd[home_len]);
 	if (path_without_home)
 	{

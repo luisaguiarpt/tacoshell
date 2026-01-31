@@ -48,6 +48,24 @@ static int	check_export_args(char **argv)
 	return (0);
 }
 
+static int	print_export(t_core *core)
+{
+	t_env	*tmp_env;
+	t_env	*current;
+
+	tmp_env = populate_env(core->env_ptr);
+	tmp_env = sort_env(tmp_env);
+	current = tmp_env;
+	while (current)
+	{
+		if (current->value != NULL)
+			ft_printf("declare -x %s=\"%s\"\n", current->key, current->value);
+		current = current->next;
+	}
+	free_env_struct(tmp_env);
+	return (EXIT_SUCCESS);
+}
+
 int	ft_export(t_core *core, char **argv)
 {
 	char	*key;
@@ -55,13 +73,13 @@ int	ft_export(t_core *core, char **argv)
 
 	if (!argv[1])
 	{
-		ft_env(core); // i think this is correct but in bash specifically it does it a different way
+		print_export(core);
 		return (EXIT_SUCCESS);
 	}
 	if (check_export_args(argv) == 1)
 		return (EXIT_FAILURE);
 	env_split(argv[1], &key, &value);
-	set_env(core, key, value);
+	set_env(&core->env, key, value);
 	update_env_ptr(core);
 	free(key);
 	free(value);

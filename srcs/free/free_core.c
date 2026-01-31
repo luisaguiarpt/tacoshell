@@ -12,7 +12,7 @@
 
 #include "../../headers/tacoshell.h"
 
-static void	free_env_struct(t_env *env)
+void	free_env_struct(t_env *env)
 {
 	t_env	*next;
 
