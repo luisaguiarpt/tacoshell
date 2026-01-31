@@ -2,7 +2,7 @@ CC=cc
 FLAGS=-Wall -Wextra -Werror -g
 LIBREADLINE=-lreadline -lncurses
 
-SRCS=srcs/main.c srcs/signal_handler.c srcs/core.c srcs/scanner_v2.c \
+SRCS=srcs/main.c srcs/signal_handler.c srcs/core.c srcs/scanner.c \
 	srcs/tokenizer.c srcs/wrapper_alloc.c srcs/utils.c srcs/exit.c \
 	srcs/scanner_utils.c srcs/ast.c srcs/builtins/builtin_utils.c \
 	srcs/redir_utils.c srcs/ast_debug.c srcs/redir.c srcs/exec.c\
