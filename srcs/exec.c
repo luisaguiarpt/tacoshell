@@ -4,11 +4,12 @@ void	exec_control(t_ast *node, t_core *core)
 {
 	pid_t	pid;
 	int		wstatus;
-	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
-	{
-		core->exit_status = exec_builtin(core, node->cmd->argv);
-		return ;
-	}
+
+//	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
+//	{
+//		core->exit_status = exec_builtin(core, node->cmd->argv);
+//		return ;
+//	}
 	pid = fork();
 	if (pid == 0)
 		exec_pipeline(node, 0, core);
@@ -33,8 +34,8 @@ void	exec_pipeline(t_ast *node, int input_fd, t_core *core)
 		}
 		if (is_builtin(node->cmd->argv[0]))
 		{
-		//	if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
-		//		exit(1);
+			if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
+				exit(1);
 			core->exit_status = exec_builtin(core, node->cmd->argv);
 			exit(core->exit_status);
 		}

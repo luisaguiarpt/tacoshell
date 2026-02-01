@@ -14,6 +14,8 @@
 
 static int	check_echo_flag(char *arg)
 {
+	if (!arg)
+		return (0);
 	if (arg[0] == '-' && arg[1] == 'n' && !arg[2])
 		return (1);
 	else
