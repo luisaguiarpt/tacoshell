@@ -5,11 +5,6 @@ void	exec_control(t_ast *node, t_core *core)
 	pid_t	pid;
 	int		wstatus;
 
-//	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
-//	{
-//		core->exit_status = exec_builtin(core, node->cmd->argv);
-//		return ;
-//	}
 	pid = fork();
 	if (pid == 0)
 		exec_pipeline(node, 0, core);
@@ -17,6 +12,48 @@ void	exec_control(t_ast *node, t_core *core)
 		waitpid(pid, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		core->exit_status = WEXITSTATUS(wstatus);
+}
+
+int	execve_handler(t_ast *node, t_core *core)
+{
+	struct stat	path_stat;
+
+	if (stat(node->cmd->cmd_path, &path_stat) == -1)
+	{
+		perror("stat");
+		return (127);
+	}
+	if (S_ISDIR(path_stat.st_mode))
+	{
+		ft_printf_fd(2, "%s: Is a directory\n", node->cmd->cmd_path);
+		return (126);
+	}
+	//printf("%s\n", node->cmd->cmd_path);
+	//printf("%s\n", node->cmd->argv[0]);
+	//printf("%s\n", node->cmd->argv[1]);
+	execve(node->cmd->cmd_path, node->cmd->argv, core->env_ptr);
+//	printf("%i\n", ENOENT);
+//	printf("%i\n", EACCES);
+//	printf("%i\n", EISDIR);
+//	printf("%i\n", ENOEXEC);
+	// Handle specific errors based on errno.
+	if (errno == ENOENT) {
+	    ft_printf_fd(2, "%s: Command not found\n", node->cmd->argv[1]);
+	    return 127; // Exit code for command not found.
+	} else if (errno == EACCES) {
+	    ft_printf_fd(2, "%s: Permission denied\n", node->cmd->argv[1]);
+	    return 126; // Exit code for permission denied.
+	} else if (errno == EISDIR) {
+	    ft_printf_fd(2, "%s: Is a directory\n", node->cmd->argv[1]);
+	    return 126; // Exit code for trying to execute a directory.
+	} else if (errno == ENOEXEC) {
+	    ft_printf_fd(2, "%s: exec format error\n", node->cmd->argv[1]);
+	    return 126; // Exit code for invalid executable format.
+	} else {
+	    // Use perror to display the error message for any other error.
+	    perror("execve");
+	    return 1; // General error exit code.
+	}
 }
 
 // Need to implement checks for pipe() and fork() for correctness
@@ -43,9 +80,7 @@ void	exec_pipeline(t_ast *node, int input_fd, t_core *core)
 		{
 			if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
 				exit(1);
-			execve(node->cmd->cmd_path, node->cmd->argv, core->env_ptr);
-			perror("execve failed");
-			exit(127);
+			exit(execve_handler(node, core));
 		}
 	}
 	else if (node->type == PIPE_NODE)

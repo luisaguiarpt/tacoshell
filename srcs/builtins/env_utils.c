@@ -65,7 +65,7 @@ char	*get_env(t_env *env, char *key)
 			return (tmp->value);
 		tmp = tmp->next;
 	}
-	return (NULL);
+	return ("");
 }
 
 static void	remove_node(t_core *core, t_env *current, t_env *prev)

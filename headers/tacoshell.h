@@ -15,6 +15,7 @@
 # include <stdint.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 //libft
 # include <libft.h>
