@@ -14,16 +14,16 @@ t_token	scan_token(t_scanner *scanner)
 	if (c == '<')
 	{
 		if (match('<', scanner))
-			return (advance(scanner), create_token(HERE_DOC, scanner));
+			return (advance2(scanner), create_token(HERE_DOC, scanner));
 		else
-			return (advance2(scanner), create_token(REDIR_IN, scanner));
+			return (advance(scanner), create_token(REDIR_IN, scanner));
 	}
 	if (c == '>')
 	{
 		if (match('>', scanner))
-			return (advance(scanner), create_token(APPEND, scanner));
+			return (advance2(scanner), create_token(APPEND, scanner));
 		else
-			return (advance2(scanner), create_token(REDIR_OUT, scanner));
+			return (advance(scanner), create_token(REDIR_OUT, scanner));
 	}
 	if (c == '(' || c == ')')
 		return (error_token("Syntax error near ( or )."));
