@@ -53,6 +53,7 @@ typedef struct	s_core
 	int			error_code;
 	bool		debug_mode;
 	int			exit_status;
+	int			debug_counter;
 }				t_core;
 
 typedef struct	s_env
