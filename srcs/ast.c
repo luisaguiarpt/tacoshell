@@ -31,8 +31,6 @@ t_ast	*create_ast(t_core *core)
 	return (ast);
 }
 
-// Need a function to create a node out of an operator
-// and then a function to create a node out of a chain of tokens (commands)
 t_ast	*parse_tokens(t_token *start, t_token *end, t_core *core)
 {
 	t_token	*op;
@@ -62,9 +60,7 @@ t_ast	*create_node(t_ast_node_type type, t_token *start, t_token *end, t_core *c
 	node->left = NULL;
 	node->right = NULL;
 	if (type == CMD_NODE)
-	{
 		node->cmd = gen_cmd_node(start, end, core);
-    } 
 	return (node);
 }
 
@@ -180,7 +176,6 @@ void	gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core)
 	{
 		printf("Syntax error. Refine this later.\n");
 		return ;
-		//return ;
 	}
 	cmd->argv = wr_calloc(n_words + 1, sizeof(char *), core);
 	i = 0;
@@ -203,6 +198,21 @@ void	gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core)
 	cmd->argv[i] = NULL;
 }
 
+char	*prep_filename(t_token *start)
+{
+	char	*tmp;
+	char	*filename;
+
+	tmp = ft_substr(start->next->start, 0, start->next->length);
+	filename = ft_strtrim(tmp, "\"");
+	free(tmp);
+	tmp = ft_strtrim(filename, ".");
+	free(filename);
+	filename = ft_strtrim(tmp, "/");
+	free(tmp);
+	return (filename);
+}
+
 void	add_redir_node(t_ast_cmd *cmd, t_token *start, t_core *core)
 {
 	char	*filename;
@@ -210,9 +220,8 @@ void	add_redir_node(t_ast_cmd *cmd, t_token *start, t_core *core)
 	char	*filepath;
 	t_redir	*new_node;
 
-	filename = ft_substr(start->next->start, 0, start->next->length);
+	filename = prep_filename(start);
 	cwd = ft_strjoin(get_env(core->env, "PWD"), "/");
-
 	filepath = ft_strjoin2(cwd, filename, 2);
 	new_node = redir_new(start->type, filepath);
 	redir_append(cmd->redirs, new_node);
