@@ -56,5 +56,5 @@ void	ft_exit(t_core *core, char **argv)
 	if (exit_code < 0)
 		exit_code = ft_atoi(argv[1]);
 	core->exit_status = (unsigned char)exit_code; // casting to unsigned char deals with the 255 wrap and turns the number positive
-	exit(exit_code);
+	exit(core->exit_status);
 }

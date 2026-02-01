@@ -4,6 +4,7 @@ void	print_tok(t_token *head);
 void	link_tok(t_scanner *scanner, char *flag);
 void	start_scanner(t_core *core);
 void	clean_scanner(t_core *core);
+void	clean_ast(t_ast *node);
 
 int	main(int ac, char **av, char **envp)
 {
@@ -51,10 +52,50 @@ int	repl(char **envp, char	*flag)
 		debug_ast(core.ast_root, flag);
 		exec_control(core.ast_root, &core);
 		clean_scanner(&core);
+		clean_ast(core.ast_root);
 	}
 	full_free(&core);
 	rl_clear_history();
 	return (core.exit_status);
+}
+
+void	clean_redirs(t_redir *redir)
+{
+	t_redir	*tmp;
+
+	while (redir)
+	{
+		free(redir->file_path);
+		tmp = redir;
+		redir = redir->next;
+		free(tmp);
+	}
+}
+
+void	clean_ast_cmd(t_ast_cmd *cmd)
+{
+	free(cmd->cmd_path);
+	free_array(cmd->argv);
+	clean_redirs(*cmd->redirs);
+	free(cmd->redirs);
+	free(cmd);
+}
+
+void	clean_ast(t_ast *node)
+{
+	if (node->type == PIPE_NODE)
+	{
+		if (node->left)
+			clean_ast(node->left);
+		if (node->right)
+			clean_ast(node->right);
+		free(node);
+	}
+	else
+	{
+		clean_ast_cmd(node->cmd);
+		free(node);
+	}
 }
 
 void	start_scanner(t_core *core)
