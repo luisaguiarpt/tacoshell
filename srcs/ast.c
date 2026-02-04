@@ -179,7 +179,7 @@ void	gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core)
 	}
 	cmd->argv = wr_calloc(n_words + 1, sizeof(char *), core);
 	i = 0;
-	while (token != end->next && token->type != EOF_TOK)
+	while (end && token != end->next && token->type != EOF_TOK)
 	{
 		if (is_redir_operator(*token) && is_word(*token->next))
 		{
@@ -281,7 +281,7 @@ t_token	*find_lowest_prec(t_token *start, t_token *end)
 	lowest = NULL;
 	min_prec = INT_MAX;
 	token = start;
-	while (token != end->next)
+	while (end && token != end->next)
 	{
 		if (is_pipe(*token))
 		{
