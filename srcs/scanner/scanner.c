@@ -1,5 +1,17 @@
 #include "../headers/tacoshell.h"
 
+t_scanner	*init_scanner(t_core *core)
+{
+	t_scanner	*scanner;
+
+	scanner = wr_calloc(1, sizeof(t_scanner), core);
+	scanner->start = core->line;
+	scanner->current = core->line;
+	scanner->core = core;
+	scanner->state = NEUTRAL;
+	return (scanner);
+}
+
 t_token	scan_token(t_scanner *scanner)
 {
 	char		c;
@@ -9,8 +21,17 @@ t_token	scan_token(t_scanner *scanner)
 	if (is_at_end(scanner))
 		return (create_token(EOF_TOK, scanner));
 	c = peek(scanner);
-	if (c == '|')
-		return (advance(scanner), create_token(PIPE, scanner));
+	if (c == '|' || c == '<' || c == '>')
+		return (scan_op(c, scanner));
+	if (c == '(' || c == ')')
+		return (error_token("Syntax error near ( or )."));
+	if (c == ';' || c == '&')
+		return (create_token(EOF_TOK, scanner));
+	return (scan_word(scanner, c));
+}
+
+t_token	scan_op(char c, t_scanner *scanner)
+{
 	if (c == '<')
 	{
 		if (match('<', scanner))
@@ -25,11 +46,8 @@ t_token	scan_token(t_scanner *scanner)
 		else
 			return (advance(scanner), create_token(REDIR_OUT, scanner));
 	}
-	if (c == '(' || c == ')')
-		return (error_token("Syntax error near ( or )."));
-	if (c == ';' || c == '&')
-		return (create_token(EOF_TOK, scanner));
-	return (scan_word(scanner, c));
+	else
+		return (advance(scanner), create_token(PIPE, scanner));
 }
 // Peek returns the current character
 // Advance returns the current character and advances to the next character
@@ -54,4 +72,9 @@ t_token scan_word(t_scanner *scanner, char c)
 		c = advance(scanner);
 	}
 	return (create_token(WORD, scanner));
+}
+
+bool	is_at_end(t_scanner *scanner)
+{
+	return (*scanner->current == 0);
 }

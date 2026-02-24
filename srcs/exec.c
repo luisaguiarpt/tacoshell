@@ -13,6 +13,7 @@ void	exec_control(t_ast *node, t_core *core)
 		exit(core->exit_status);
 	}
 	pid = fork();
+	// fork GUARD!
 	if (pid == 0)
 		exec_pipeline(node, STDIN_FILENO, core);
 	else
@@ -59,53 +60,59 @@ int	execve_handler(t_ast *node, t_core *core)
 // Need to implement checks for pipe() and fork() for correctness
 void	exec_pipeline(t_ast *node, int input_fd, t_core *core)
 {
-	int		pipefd[2];
-	pid_t	pid;
-
 	if (node->type == CMD_NODE)
-	{
-		if (input_fd != 0)
-		{
-			dup2(input_fd, STDIN_FILENO);
-			close(input_fd);
-		}
-		if (is_builtin(node->cmd->argv[0]))
-		{
-			if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
-				exit(1);
-			core->exit_status = exec_builtin(core, node->cmd->argv);
-			exit(core->exit_status);
-		}
-		else
-		{
-			if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
-				exit(1);
-			exit(execve_handler(node, core));
-		}
-	}
+		exec_cmd(node, input_fd, core);
 	else if (node->type == PIPE_NODE)
+		exec_pipe(node, input_fd, core);
+}
+
+void	exec_cmd(t_ast *node, int input_fd, t_core *core)
+{
+	if (input_fd != 0)
 	{
-		pipe(pipefd);
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("Error");
-			exit(core->exit_status);
-		}
-		if (pid == 0)
-		{
-			close(pipefd[0]);
-			dup2(pipefd[1], STDOUT_FILENO);
-			close(pipefd[1]);
-			exec_pipeline(node->left, input_fd, core);
-		}
-		else
-		{
-			close(pipefd[1]);
-			exec_pipeline(node->right, pipefd[0], core);
-			if (input_fd != 0)
-				close(input_fd);
-			waitpid(pid, NULL, 0);
-		}
+		dup2(input_fd, STDIN_FILENO);
+		close(input_fd);
+	}
+	if (is_builtin(node->cmd->argv[0]))
+	{
+		if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
+			exit(1);
+		core->exit_status = exec_builtin(core, node->cmd->argv);
+		exit(core->exit_status);
+	}
+	else
+	{
+		if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
+			exit(1);
+		exit(execve_handler(node, core));
+	}
+}
+
+void	exec_pipe(t_ast *node, int input_fd, t_core *core)
+{
+	pid_t	pid;
+	int		pipefd[2];
+
+	pipe(pipefd);
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("Error");
+		exit(core->exit_status);
+	}
+	if (pid == 0)
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
+		exec_pipeline(node->left, input_fd, core);
+	}
+	else
+	{
+		close(pipefd[1]);
+		exec_pipeline(node->right, pipefd[0], core);
+		if (input_fd != 0)
+			close(input_fd);
+		waitpid(pid, NULL, 0);
 	}
 }

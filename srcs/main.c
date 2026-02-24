@@ -1,10 +1,6 @@
 #include "../headers/tacoshell.h"
 
-void	print_tok(t_token *head);
-void	link_tok(t_scanner *scanner, char *flag);
 void	start_scanner(t_core *core);
-void	clean_scanner(t_core *core);
-void	clean_ast(t_ast *node);
 
 int	main(int ac, char **av, char **envp)
 {
@@ -62,23 +58,6 @@ void	start_scanner(t_core *core)
 {
 	core->scanner = init_scanner(core);
 	core->tok_head = wr_calloc(1, sizeof(t_token *), core);
-}
-
-void	link_tok(t_scanner *scanner, char *flag)
-{
-	t_token	*token;
-
-	while (1)
-	{
-		token = wr_calloc(1, sizeof(t_token), scanner->core);
-		*token = scan_token(scanner);
-		append_token(scanner->core->tok_head, token);
-		if (token->type == EOF_TOK)
-			break;
-	}
-	if (!flag)
-		return ;
-	print_tok(*scanner->core->tok_head);
 }
 
 void	print_tok(t_token *head)

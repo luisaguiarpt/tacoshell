@@ -30,7 +30,7 @@ bool		is_word(t_token token);
 bool		is_redir_operator(t_token token);
 int			precedence(t_token token);
 
-// Debugging
+// Debugging - ast_debug.c
 void	debug_ast(t_ast	*node, char *flag);
 void	print_ast(t_ast *ast, int level, int line);
 void	print_ast_dfs(t_ast *node);

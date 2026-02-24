@@ -23,7 +23,7 @@ void	env_split(char *env, char **key, char **value);
 // Export
 t_env	*sort_env(t_env *unsorted);
 
-// Utils
+// Utils - builtin_utils.c
 int		count_args(char **argv);
 int		exec_builtin(t_core *core, char **argv);
 bool	is_builtin(char *cmd);

@@ -1,22 +1,5 @@
 #include "../headers/tacoshell.h"
 
-t_scanner	*init_scanner(t_core *core)
-{
-	t_scanner	*scanner;
-
-	scanner = wr_calloc(1, sizeof(t_scanner), core);
-	scanner->start = core->line;
-	scanner->current = core->line;
-	scanner->core = core;
-	scanner->state = NEUTRAL;
-	return (scanner);
-}
-
-bool	is_at_end(t_scanner *scanner)
-{
-	return (*scanner->current == 0);
-}
-
 char	peek(t_scanner *scanner)
 {
 	return (*scanner->current);

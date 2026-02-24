@@ -2,16 +2,12 @@ CC=cc
 FLAGS=-Wall -Wextra -Werror -g
 LIBREADLINE=-lreadline -lncurses
 
-SRCS = srcs/main.c srcs/core.c
-# SIGNAL
-SRCS += srcs/signal_handler.c
+SRCS = srcs/main.c
+# CORE
+SRCS += srcs/core/core.c
 # SCANNER
 SRCS += srcs/scanner/scanner.c srcs/scanner/scanner_utils.c \
 	srcs/scanner/tokenizer.c
-# UTILS
-SRCS += srcs/wrapper_alloc.c srcs/utils.c
-# EXIT
-SRCS += srcs/exit.c
 # AST
 SRCS += srcs/ast/ast.c srcs/ast/ast_utils.c srcs/ast/ast_cmd.c \
 	srcs/ast/ast_redir.c srcs/ast/ast_misc.c srcs/ast/ast_debug.c
@@ -29,11 +25,14 @@ SRCS += srcs/exec.c
 # EXPANSION
 SRCS += srcs/expansion.c
 # VISUAL
-SRCS += srcs/splash_screen.c srcs/get_prompt.c
+SRCS += srcs/splash_screen.c 
 # CLEAN
-SRCS += srcs/clean/clean.c
+SRCS += srcs/clean/clean.c srcs/clean/exit.c
 # FREE
 SRCS += srcs/free/free.c srcs/free/free_core.c
+# UTILS
+SRCS += srcs/utils/wrapper_alloc.c srcs/utils/utils.c \
+		srcs/utils/signal_handler.c srcs/utils/get_prompt.c
 
 OBJS=$(SRCS:%.c=%.o)
 

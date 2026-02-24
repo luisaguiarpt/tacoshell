@@ -63,8 +63,7 @@ static char	*replace_str(char *s, char *old, char *new)
 		else
 			new_str[i++] = s[j++];
 	}
-	free(s);
-	return (new_str);
+	return (free(s), new_str);
 }
 
 // Returns a malloc'd char * of a single word (delimited by an ending space)

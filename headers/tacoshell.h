@@ -23,13 +23,13 @@
 // minishell headers
 # include "structs.h"
 # include "builtins.h"
-# include "tokenizer.h"
 # include "scanner.h"
 # include "envptr.h"
 # include "ast.h"
 # include "free.h"
 # include "redir.h"
 # include "exec.h"
+# include "clean.h"
 
 // splash screen colors
 // \033[0m supostamente reseta o texto todo (https://ansi.tools/lookup) -- testar!!!
@@ -45,7 +45,8 @@
 # define BG_RESET "\033[49m"
 
 // main.c
-int	repl(char **envp, char *flag);
+int		repl(char **envp, char *flag);
+void	print_tok(t_token *head);
 
 // Core - core.c
 t_core	init_core(void);

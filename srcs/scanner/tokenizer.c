@@ -40,3 +40,20 @@ void	append_token(t_token **head, t_token *new)
 	tmp->next = new;
 	new->prev = tmp;
 }
+
+void	link_tok(t_scanner *scanner, char *flag)
+{
+	t_token	*token;
+
+	while (1)
+	{
+		token = wr_calloc(1, sizeof(t_token), scanner->core);
+		*token = scan_token(scanner);
+		append_token(scanner->core->tok_head, token);
+		if (token->type == EOF_TOK)
+			break;
+	}
+	if (!flag)
+		return ;
+	print_tok(*scanner->core->tok_head);
+}
