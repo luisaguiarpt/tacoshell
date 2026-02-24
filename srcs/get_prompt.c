@@ -12,32 +12,6 @@
 
 #include "../headers/tacoshell.h"
 
-/*
-void	get_prompt(t_core *core)
-{
-	int		home_len;
-	char	*cwd;
-	char	*path_without_home;
-
-	if (core->prompt)
-		free(core->prompt);
-	path_without_home = NULL;
-	cwd = get_env(core->env, "PWD");
-	home_len = ft_strlen(get_env(core->env, "HOME"));
-	if (ft_strncmp(cwd, get_env(core->env, "HOME"), home_len) == 0)
-		path_without_home = ft_strjoin("~", &cwd[home_len]);
-	if (path_without_home)
-	{
-		core->prompt = ft_strjoin(path_without_home, " › ");
-		free(path_without_home);
-	}
-	else
-		core->prompt = ft_strjoin(cwd, " › ");
-	//core->prompt = ft_strjoin2(TXT_BLUE, core->prompt, 1);
-	//core->prompt = ft_strjoin2(core->prompt, TXT_RESET, 0);
-}
-*/
-
 void	get_prompt(t_core *core)
 {
 	char	*cwd;

@@ -23,7 +23,7 @@ SRCS += srcs/builtins/builtin_utils.c srcs/builtins/ft_cd.c \
 	srcs/builtins/ft_exit.c srcs/builtins/env_utils.c \
 	srcs/builtins/env_ptr_init.c
 # REDIRS
-SRCS += srcs/redir_utils.c srcs/redir.c
+SRCS += srcs/redir/redir_utils.c srcs/redir/redir.c
 # EXEC
 SRCS += srcs/exec.c
 # EXPANSION
