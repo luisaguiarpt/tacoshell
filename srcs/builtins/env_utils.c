@@ -101,7 +101,7 @@ int	unset_env(t_core *core, char *key)
 		prev = tmp;
 		tmp = tmp->next;
 	}
-	ft_printf("%s variable not found", key); //
+	//ft_printf("%s variable not found", key); //
 	return (EXIT_FAILURE);
 }
 

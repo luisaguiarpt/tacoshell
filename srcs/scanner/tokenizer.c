@@ -40,15 +40,3 @@ void	append_token(t_token **head, t_token *new)
 	tmp->next = new;
 	new->prev = tmp;
 }
-
-void	free_tokens(t_token *head)
-{
-    t_token *next;
-
-    while (head)
-    {
-        next = head->next;
-        free(head);
-        head = next;
-    }
-}

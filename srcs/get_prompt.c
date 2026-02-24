@@ -53,10 +53,11 @@ void	get_prompt(t_core *core)
 	{
 		home_len = ft_strlen(home_path);
 		if (ft_strncmp(cwd, home_path, home_len) == 0)
+		{
 			path_without_home = ft_strjoin("~", &cwd[home_len]);
-		core->prompt = ft_strjoin2(path_without_home, " > ", 0);
+			core->prompt = ft_strjoin2(path_without_home, " > ", 0);
+		}
 	}
 	else
-		core->prompt = ft_strjoin(cwd, " > ");
-	free(cwd);
+		core->prompt = ft_strjoin2(cwd, " > ", 0);
 }

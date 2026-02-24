@@ -66,7 +66,6 @@ void	setup_signals(void);
 void	expand(t_core *core);
 
 // Utils - utils.c
-//size_t	ft_strlen(char	*str);
 bool	is_alpha(char c);
 bool	is_digit(char c);
 bool	is_identi(char c);

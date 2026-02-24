@@ -3,11 +3,18 @@
 void	exec_control(t_ast *node, t_core *core)
 {
 	pid_t	pid;
-	int		wstatus;
+	int		wstatus = 0;
 
+	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
+	{
+		if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
+			exit(1);
+		core->exit_status = exec_builtin(core, node->cmd->argv);
+		exit(core->exit_status);
+	}
 	pid = fork();
 	if (pid == 0)
-		exec_pipeline(node, 0, core);
+		exec_pipeline(node, STDIN_FILENO, core);
 	else
 		waitpid(pid, &wstatus, 0);
 	if (WIFEXITED(wstatus))
@@ -28,14 +35,7 @@ int	execve_handler(t_ast *node, t_core *core)
 		ft_printf_fd(2, "%s: Is a directory\n", node->cmd->cmd_path);
 		return (126);
 	}
-	//printf("%s\n", node->cmd->cmd_path);
-	//printf("%s\n", node->cmd->argv[0]);
-	//printf("%s\n", node->cmd->argv[1]);
 	execve(node->cmd->cmd_path, node->cmd->argv, core->env_ptr);
-//	printf("%i\n", ENOENT);
-//	printf("%i\n", EACCES);
-//	printf("%i\n", EISDIR);
-//	printf("%i\n", ENOEXEC);
 	// Handle specific errors based on errno.
 	if (errno == ENOENT) {
 	    ft_printf_fd(2, "%s: Command not found\n", node->cmd->argv[1]);
@@ -87,6 +87,11 @@ void	exec_pipeline(t_ast *node, int input_fd, t_core *core)
 	{
 		pipe(pipefd);
 		pid = fork();
+		if (pid == -1)
+		{
+			perror("Error");
+			exit(core->exit_status);
+		}
 		if (pid == 0)
 		{
 			close(pipefd[0]);
