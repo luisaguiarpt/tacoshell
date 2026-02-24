@@ -8,9 +8,9 @@ void	exec_control(t_ast *node, t_core *core)
 	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
 	{
 		if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
-			exit(1);
+			return ;
 		core->exit_status = exec_builtin(core, node->cmd->argv);
-		exit(core->exit_status);
+		return ;
 	}
 	pid = fork();
 	// fork GUARD!

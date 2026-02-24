@@ -12,5 +12,6 @@ t_core	init_core(void)
 	core.error_code = 0;
 	core.debug_counter = 0;
 	core.exit_status = 0;
+	core.syntax_error = false;
 	return (core);
 }

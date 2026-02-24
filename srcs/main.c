@@ -41,22 +41,32 @@ int	repl(char **envp, char	*flag)
 			continue ;
 		if (*core.line)
 			add_history(core.line);
-		expand(&core);
-		start_scanner(&core);
-		link_tok(core.scanner, flag);
-		core.ast_root = create_ast(&core);
-		debug_ast(core.ast_root, flag);
-		exec_control(core.ast_root, &core);
+		eval(&core, flag);
 		clean_scanner(&core);
-		clean_ast(core.ast_root);
+		clean_ast(&core);
 	}
 	full_free(&core);
 	rl_clear_history();
 	return (core.exit_status);
 }
+
+void	eval(t_core *core, char *flag)
+{
+	expand(core);
+	start_scanner(core);
+	link_tok(core->scanner, flag);
+	check_syntax(core);
+	if (core->syntax_error)
+		return ;
+	core->ast_root = create_ast(core);
+	debug_ast(core->ast_root, flag);
+	exec_control(core->ast_root, core);
+}
+
 void	start_scanner(t_core *core)
 {
 	core->scanner = init_scanner(core);
+	core->syntax_error = false;
 	core->tok_head = wr_calloc(1, sizeof(t_token *), core);
 }
 

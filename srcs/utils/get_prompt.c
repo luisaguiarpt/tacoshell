@@ -23,7 +23,7 @@ void	get_prompt(t_core *core)
 		free(core->prompt);
 	cwd	= getcwd(NULL, 0);
 	home_path = get_env(core->env, "HOME");
-	if (home_path)
+	if (home_path && *home_path)
 	{
 		home_len = ft_strlen(home_path);
 		if (ft_strncmp(cwd, home_path, home_len) == 0)

@@ -30,6 +30,7 @@
 # include "redir.h"
 # include "exec.h"
 # include "clean.h"
+# include "syntax.h"
 
 // splash screen colors
 // \033[0m supostamente reseta o texto todo (https://ansi.tools/lookup) -- testar!!!
@@ -46,6 +47,7 @@
 
 // main.c
 int		repl(char **envp, char *flag);
+void	eval(t_core *core, char *flag);
 void	print_tok(t_token *head);
 
 // Core - core.c
