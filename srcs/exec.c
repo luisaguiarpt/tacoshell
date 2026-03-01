@@ -1,15 +1,25 @@
 #include "../headers/tacoshell.h"
 
+void	save_fds(int fds[2]);
+void	restore_fds(int fds[2]);
+
 void	exec_control(t_ast *node, t_core *core)
 {
 	pid_t	pid;
 	int		wstatus = 0;
+	int		fds[2];
 
+	save_fds(fds);
 	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
 	{
 		if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
+		{
+			restore_fds(fds);
+			core->exit_status = EXIT_FAILURE;
 			return ;
+		}
 		core->exit_status = exec_builtin(core, node->cmd->argv);
+		restore_fds(fds);
 		return ;
 	}
 	pid = fork();
@@ -20,6 +30,18 @@ void	exec_control(t_ast *node, t_core *core)
 		waitpid(pid, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		core->exit_status = WEXITSTATUS(wstatus);
+}
+
+void	save_fds(int fds[2])
+{
+	fds[0] = dup(STDIN_FILENO);
+	fds[1] = dup(STDOUT_FILENO);
+}
+
+void	restore_fds(int fds[2])
+{
+	dup2(fds[0], STDIN_FILENO);
+	dup2(fds[1], STDOUT_FILENO);
 }
 
 int	execve_handler(t_ast *node, t_core *core)
@@ -37,24 +59,7 @@ int	execve_handler(t_ast *node, t_core *core)
 		return (126);
 	}
 	execve(node->cmd->cmd_path, node->cmd->argv, core->env_ptr);
-	// Handle specific errors based on errno.
-	if (errno == ENOENT) {
-	    ft_printf_fd(2, "%s: Command not found\n", node->cmd->argv[1]);
-	    return 127; // Exit code for command not found.
-	} else if (errno == EACCES) {
-	    ft_printf_fd(2, "%s: Permission denied\n", node->cmd->argv[1]);
-	    return 126; // Exit code for permission denied.
-	} else if (errno == EISDIR) {
-	    ft_printf_fd(2, "%s: Is a directory\n", node->cmd->argv[1]);
-	    return 126; // Exit code for trying to execute a directory.
-	} else if (errno == ENOEXEC) {
-	    ft_printf_fd(2, "%s: exec format error\n", node->cmd->argv[1]);
-	    return 126; // Exit code for invalid executable format.
-	} else {
-	    // Use perror to display the error message for any other error.
-	    perror("execve");
-	    return 1; // General error exit code.
-	}
+	return (1);
 }
 
 // Need to implement checks for pipe() and fork() for correctness
