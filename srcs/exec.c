@@ -2,6 +2,8 @@
 
 void	save_fds(int fds[2]);
 void	restore_fds(int fds[2]);
+int		check_cmd(t_ast *node);
+void	builtin_handler(t_ast *node, int	fds[2], t_core *core);
 
 void	exec_control(t_ast *node, t_core *core)
 {
@@ -11,17 +13,7 @@ void	exec_control(t_ast *node, t_core *core)
 
 	save_fds(fds);
 	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
-	{
-		if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
-		{
-			restore_fds(fds);
-			core->exit_status = EXIT_FAILURE;
-			return ;
-		}
-		core->exit_status = exec_builtin(core, node->cmd->argv);
-		restore_fds(fds);
-		return ;
-	}
+		return (builtin_handler(node, fds, core));
 	pid = fork();
 	// fork GUARD!
 	if (pid == 0)
@@ -30,6 +22,19 @@ void	exec_control(t_ast *node, t_core *core)
 		waitpid(pid, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		core->exit_status = WEXITSTATUS(wstatus);
+}
+
+void	builtin_handler(t_ast *node, int fds[2], t_core *core)
+{
+	if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
+	{
+		restore_fds(fds);
+		core->exit_status = EXIT_FAILURE;
+		return ;
+	}
+	core->exit_status = exec_builtin(core, node->cmd->argv);
+	restore_fds(fds);
+	return ;
 }
 
 void	save_fds(int fds[2])
@@ -46,20 +51,50 @@ void	restore_fds(int fds[2])
 
 int	execve_handler(t_ast *node, t_core *core)
 {
-	struct stat	path_stat;
+	int	cmd_check;
 
-	if (stat(node->cmd->cmd_path, &path_stat) == -1)
+	cmd_check = check_cmd(node);
+	if (cmd_check)
 	{
-		perror("stat");
-		return (127);
-	}
-	if (S_ISDIR(path_stat.st_mode))
-	{
-		ft_printf_fd(2, "%s: Is a directory\n", node->cmd->cmd_path);
-		return (126);
+		core->exit_status = cmd_check;
+		return (cmd_check);
 	}
 	execve(node->cmd->cmd_path, node->cmd->argv, core->env_ptr);
-	return (1);
+	core->exit_status = 127;
+	return (127);
+}
+
+bool	contains_slash(char *cmd)
+{
+	if (ft_strchr(cmd, '/'))
+		return (true);
+	return (false);
+}
+
+int	check_cmd(t_ast *node)
+{
+	char		*cmd;
+	struct stat	st;
+
+	cmd = node->cmd->argv[0];
+	if (!cmd || !cmd[0])
+		return (127);
+	if (contains_slash(cmd))
+	{
+		if (stat(cmd, &st) == -1)
+		{
+			if (errno == ENOENT || errno == ENOTDIR)
+				return (127);
+			if (errno == EACCES)
+				return (126);
+			return (127);
+		}
+		if (S_ISDIR(st.st_mode))
+			return (126);
+		return (0);
+	}
+	else
+		return (0);
 }
 
 // Need to implement checks for pipe() and fork() for correctness
