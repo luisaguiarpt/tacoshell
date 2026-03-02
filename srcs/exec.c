@@ -60,13 +60,11 @@ int	execve_handler(t_ast *node, t_core *core)
 		return (cmd_check);
 	}
 	execve(node->cmd->cmd_path, node->cmd->argv, core->env_ptr);
+	ft_printf_fd(2, "%s: command not found", node->cmd->cmd_path);
 	if (errno == EACCES)
-	{
 		core->exit_status = 126;
-		return (126);
-	}
 	core->exit_status = 127;
-	return (127);
+	return (core->exit_status);
 }
 
 bool	contains_slash(char *cmd)
@@ -88,6 +86,7 @@ int	check_cmd(t_ast *node)
 	{
 		if (stat(cmd, &st) == -1)
 		{
+			ft_printf_fd(2, "%s: No such file or directory", node->cmd->cmd_path);
 			if (errno == ENOENT || errno == ENOTDIR)
 				return (127);
 			if (errno == EACCES)
@@ -95,9 +94,15 @@ int	check_cmd(t_ast *node)
 			return (127);
 		}
 		if (S_ISDIR(st.st_mode))
+		{
+			ft_printf_fd(2, "%s: Is a directory", cmd);
 			return (126);
+		}
 		if (access(cmd, X_OK) == -1)
+		{
+			ft_printf_fd(2, "%s: Permission denied", cmd);
 			return (126);
+		}
 		return (0);
 	}
 	else

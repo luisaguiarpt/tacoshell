@@ -67,7 +67,7 @@ char	*get_path(char *av_cmd,  t_core *core)
 	}
 	ft_free_tab(cmd);
 	ft_free_tab(paths);
-	cmd_path = ft_strdup(av_cmd);
-	return (cmd_path);
+	//cmd_path = ft_strdup(av_cmd);
+	return (NULL);
 }
 
