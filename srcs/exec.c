@@ -60,6 +60,11 @@ int	execve_handler(t_ast *node, t_core *core)
 		return (cmd_check);
 	}
 	execve(node->cmd->cmd_path, node->cmd->argv, core->env_ptr);
+	if (errno == EACCES)
+	{
+		core->exit_status = 126;
+		return (126);
+	}
 	core->exit_status = 127;
 	return (127);
 }
@@ -91,10 +96,16 @@ int	check_cmd(t_ast *node)
 		}
 		if (S_ISDIR(st.st_mode))
 			return (126);
+		if (access(cmd, X_OK) == -1)
+			return (126);
 		return (0);
 	}
 	else
+	{
+		if (node->cmd->cmd_path && stat(node->cmd->cmd_path, &st) == 0 && S_ISDIR(st.st_mode))
+			return (127);
 		return (0);
+	}
 }
 
 // Need to implement checks for pipe() and fork() for correctness
