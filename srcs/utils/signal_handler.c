@@ -1,6 +1,11 @@
 #include "../headers/tacoshell.h"
 
-volatile sig_atomic_t	g_signal = 0;
+void	handle_ctrl_c(t_core *core)
+{
+	core->exit_status = 130;
+	g_signal = 0;
+	return ;
+}
 
 void	handle_sigint(int signo)
 {

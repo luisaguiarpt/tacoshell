@@ -1,6 +1,8 @@
 #ifndef TACOSHELL_H
 # define TACOSHELL_H
 
+extern int	g_signal;
+
 // C libraries
 # include <limits.h>
 # include <signal.h>
@@ -61,9 +63,10 @@ void	exit_ts(t_core *core);
 void	prt_n_bounce(char *msg, t_core *core);
 
 // Signal handler - signal_handler.c
-void	handle_sigint(int	signo);
+void	handle_sigint(int signo);
 void	handle_sigquit(int signo);
 void	setup_signals(void);
+void	handle_ctrl_c(t_core *core);
 
 // Expansion - expansion.c
 void	expand(t_core *core);
