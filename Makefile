@@ -31,7 +31,7 @@ SRCS += srcs/splash_screen.c
 # CLEAN
 SRCS += srcs/clean/clean.c srcs/clean/exit.c
 # FREE
-SRCS += srcs/free/free.c srcs/free/free_core.c
+SRCS += srcs/free/free.c srcs/free/free_core.c srcs/free/free_env.c
 # UTILS
 SRCS += srcs/utils/wrapper_alloc.c srcs/utils/utils.c \
 		srcs/utils/signal_handler.c srcs/utils/get_prompt.c

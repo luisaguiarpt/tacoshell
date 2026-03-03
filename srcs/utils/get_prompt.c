@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:07:35 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/19 16:07:36 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/03/03 14:03:48 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void	get_prompt(t_core *core)
 	if (core->prompt)
 		free(core->prompt);
 	cwd	= getcwd(NULL, 0);
+	if (!cwd)
+	{
+		perror("");
+		return ;
+	}
 	home_path = get_env(core->env, "HOME");
 	if (home_path && *home_path)
 	{
@@ -34,4 +39,5 @@ void	get_prompt(t_core *core)
 	}
 	else
 		core->prompt = ft_strjoin2(cwd, "> ", 0);
+	free(cwd);
 }

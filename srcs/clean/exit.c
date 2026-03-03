@@ -17,6 +17,5 @@ void	prt_n_bounce(char *msg, t_core *core)
 static void	free_all(t_core *core)
 {
 	free(core->scanner);
-  core->scanner = NULL;
-	//free(core);
+	core->scanner = NULL;
 }

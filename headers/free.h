@@ -7,7 +7,10 @@ void	*free_mem_arr(char **arr, int index);
 void	free_tokens(t_token *head);
 
 // free_core.c
-void	free_env_struct(t_env *env);
 void	free_core(t_core *core);
+
+// free_env.c
+void	free_env(t_core *core);
+void	free_env_struct(t_env *env);
 
 #endif

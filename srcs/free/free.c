@@ -16,11 +16,6 @@ void	free_array(char **array)
 	free(array);
 }
 
-void	full_free(t_core *core)
-{
-	free_core(core);
-}
-
 void	*free_mem_arr(char **arr, int index)
 {
 	int i;
@@ -47,4 +42,15 @@ void	free_tokens(t_token *head)
         free(head);
         head = next;
     }
+}
+
+void	full_free(t_core *core)
+{
+	free_env(core); // Frees both env struct and env_ptr
+	if (core->prompt)
+		free(core->prompt);
+
+	// ...
+
+	core->exit_status = 0;
 }

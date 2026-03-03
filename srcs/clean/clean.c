@@ -61,4 +61,3 @@ void	clean_ast(t_core *core)
 	free(core->ast_root);
 	core->ast_root = NULL;
 }
-
