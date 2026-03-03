@@ -59,8 +59,11 @@ int	execve_handler(t_ast *node, t_core *core)
 		core->exit_status = cmd_check;
 		return (cmd_check);
 	}
-	execve(node->cmd->cmd_path, node->cmd->argv, core->env_ptr);
-	ft_printf_fd(2, "%s: command not found", node->cmd->cmd_path);
+	if (node->cmd->cmd_path)
+		execve(node->cmd->cmd_path, node->cmd->argv, core->env_ptr);
+	else
+		execve(node->cmd->argv[0], node->cmd->argv, core->env_ptr);
+	ft_printf_fd(2, "%s: command not found\n", node->cmd->cmd_path);
 	if (errno == EACCES)
 		core->exit_status = 126;
 	core->exit_status = 127;
@@ -86,7 +89,7 @@ int	check_cmd(t_ast *node)
 	{
 		if (stat(cmd, &st) == -1)
 		{
-			ft_printf_fd(2, "%s: No such file or directory", node->cmd->cmd_path);
+			ft_printf_fd(2, "%s: No such file or directory\n", node->cmd->cmd_path);
 			if (errno == ENOENT || errno == ENOTDIR)
 				return (127);
 			if (errno == EACCES)
@@ -95,12 +98,12 @@ int	check_cmd(t_ast *node)
 		}
 		if (S_ISDIR(st.st_mode))
 		{
-			ft_printf_fd(2, "%s: Is a directory", cmd);
+			ft_printf_fd(2, "%s: Is a directory\n", cmd);
 			return (126);
 		}
 		if (access(cmd, X_OK) == -1)
 		{
-			ft_printf_fd(2, "%s: Permission denied", cmd);
+			ft_printf_fd(2, "%s: Permission denied\n", cmd);
 			return (126);
 		}
 		return (0);

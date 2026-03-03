@@ -33,5 +33,6 @@ void	get_prompt(t_core *core)
 		}
 	}
 	else
-		core->prompt = ft_strjoin2(cwd, "> ", 0);
+		core->prompt = ft_strjoin(cwd, "> ");
+	free(cwd);
 }
