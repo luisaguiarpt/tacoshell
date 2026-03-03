@@ -54,7 +54,10 @@ void	full_free(t_core *core)
 	if (core->ast_root)
 		clean_ast(core);
 	if (core->tok_head)
+	{
 		free_tokens(*core->tok_head);
+		free(core->tok_head);
+	}
 
 	// ...
 

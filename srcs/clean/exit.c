@@ -19,3 +19,9 @@ static void	free_all(t_core *core)
 	free(core->scanner);
 	core->scanner = NULL;
 }
+
+void free_exit(t_core *core)
+{
+	full_free(core);
+	exit(core->exit_status);
+}

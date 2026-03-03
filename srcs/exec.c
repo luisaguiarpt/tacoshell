@@ -15,7 +15,8 @@ void	exec_control(t_ast *node, t_core *core)
 	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
 		return (builtin_handler(node, fds, core));
 	pid = fork();
-	// fork GUARD!
+	if (pid == -1)
+		free_exit(core, EXIT_FAILURE);
 	if (pid == 0)
 		exec_pipeline(node, STDIN_FILENO, core);
 	else
@@ -153,7 +154,11 @@ void	exec_pipe(t_ast *node, int input_fd, t_core *core)
 	pid_t	pid;
 	int		pipefd[2];
 
-	pipe(pipefd);
+	if (pipe(pipefd) == -1)
+	{
+		perror("pipe");
+	}
+	
 	pid = fork();
 	if (pid == -1)
 	{

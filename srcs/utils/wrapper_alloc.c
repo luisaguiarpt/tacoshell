@@ -35,7 +35,7 @@ void	*wr_calloc(size_t nmemb, size_t size, t_core *core)
 	if (!ptr)
 	{
 		core->error_code = ENOMEM;
-		exit_ts(core);
+		free_exit(core, EXIT_FAILURE);
 	}
 	return (ptr);
 }

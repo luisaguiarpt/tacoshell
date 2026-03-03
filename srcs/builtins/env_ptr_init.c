@@ -35,8 +35,8 @@ static char	*env_join(char *key, char *value)
 	result = ft_strjoin2(ft_strjoin(key, "="), value, 0);
 	if (!result)
 	{
-		perror("");
-		return (NULL);
+		perror("malloc");
+		free_error(core, 1);
 	}
 	else
 		return (result);
@@ -54,8 +54,8 @@ int	env_ptr_init(t_core *core)
 	core->env_ptr = malloc((array_size + 1) * sizeof(char *));
 	if (!core->env_ptr)
 	{
-		perror("");
-		return (EXIT_FAILURE);
+		perror("malloc");
+		free_exit(core, EXIT_FAILURE);
 	}
 	while (current)
 	{

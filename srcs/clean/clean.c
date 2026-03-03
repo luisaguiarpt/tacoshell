@@ -3,10 +3,15 @@
 void	clean_scanner(t_core *core)
 {
 	free_tokens(*core->tok_head);
-	free(core->tok_head);
+	if (core->tok_head)
+		free(core->tok_head);
 	core->tok_head = NULL;
-	free(core->scanner);
-	free(core->line);
+	if (core->scanner)
+		free(core->scanner);
+	core->scanner = NULL;
+	if (core->line)
+		free(core->line);
+	core->line = NULL;
 }
 
 void	clean_redirs(t_redir *redir)
@@ -29,7 +34,8 @@ void	clean_ast_cmd(t_ast_cmd *cmd)
 	if (cmd->cmd_path)
 		free(cmd->cmd_path);
 	cmd->cmd_path = NULL;
-	free_array(cmd->argv);
+	if (cmd->argv)
+		free_array(cmd->argv);
 	cmd->argv = NULL;
 	clean_redirs(*cmd->redirs);
 	free(cmd->redirs);
