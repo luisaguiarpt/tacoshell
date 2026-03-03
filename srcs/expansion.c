@@ -35,6 +35,26 @@ void	expand(t_core *core)
 	}
 }
 
+// Returns the number of occurences of occur within s
+static int	count_occur(char *s, char *occur)
+{
+	int	i;
+	int	count;
+
+	count = 0;
+	i = 0;
+	while (s[i])
+	{
+		if (ft_strncmp(&s[i], occur, ft_strlen(occur)) == 0)
+		{
+			count++;
+			i += ft_strlen(occur);
+		}
+		i++;
+	}
+	return (count);
+}
+
 // Substitute an occurence of 'old' within 'str' with 'new'
 // Frees the original string, hence the replace
 static char	*replace_str(char *s, char *old, char *new)
@@ -42,11 +62,12 @@ static char	*replace_str(char *s, char *old, char *new)
 	size_t	new_s_len;
 	size_t	i;
 	size_t	j;
+	size_t	k;
 	char	*new_str;
 
 	if (!new)
 		return (NULL);
-	new_s_len = ft_strlen(s) - ft_strlen(old) + ft_strlen(new);
+	new_s_len = ft_strlen(s) - ft_strlen(old) + count_occur(s, new) * ft_strlen(new);
 	new_str = ft_calloc(new_s_len + 1, sizeof(char));
 	if (!new_str)
 		return (NULL);
@@ -56,9 +77,10 @@ static char	*replace_str(char *s, char *old, char *new)
 	{
 		if (ft_strncmp(&s[j], old, ft_strlen(old)) == 0)
 		{
+			k = 0;
 			j += ft_strlen(old);
-			while (*new)
-				new_str[i++] = *new++;
+			while (new[k])
+				new_str[i++] = new[k++];
 		}
 		else
 			new_str[i++] = s[j++];
