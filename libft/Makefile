@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -I printf -I get_next_line
+CFLAGS=-Wall -Wextra -Werror -I printf -I get_next_line -g
 
 NAME=libft.a
 

@@ -27,23 +27,29 @@ static int	check_var_char(char c)
 static int	check_export_args(char **argv)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	if (is_digit(argv[1][0]) || argv[1][0] == '=') // first char of a VAR can not be a digit or just an = char
+	j = 1;
+	while (argv[j])
 	{
-		ft_printf_fd(2, "export: '%s': not a valid identifier\n", argv[1]);
-		return (1);
-	}
-	while (argv[1][i] != '=')
-	{
-		if (argv[1][i] == 0)
-			return (0);
-		if (check_var_char(argv[1][i]))
+		if (is_digit(argv[j][0]) || argv[j][0] == '=') // first char of a VAR can not be a digit or just an = char
 		{
-			ft_printf_fd(2, "export: '%s': not a valid identifier\n", argv[1]);
+			ft_printf_fd(2, "export: '%s': not a valid identifier\n", argv[j]);
 			return (1);
 		}
-		i++;
+		while (argv[j][i] != '=')
+		{
+			if (argv[j][i] == 0)
+				return (0);
+			if (check_var_char(argv[j][i]))
+			{
+				ft_printf_fd(2, "export: '%s': not a valid identifier\n", argv[j]);
+				return (1);
+			}
+			i++;
+		}
+		j++;
 	}
 	return (0);
 }
@@ -58,8 +64,10 @@ static int	print_export(t_core *core)
 	current = tmp_env;
 	while (current)
 	{
-		if (current->value != NULL)
+		if (current->value != NULL && *current->value)
 			ft_printf("declare -x %s=\"%s\"\n", current->key, current->value);
+		else
+			ft_printf("declare -x %s\n", current->key);
 		current = current->next;
 	}
 	free_env_struct(tmp_env);
@@ -70,6 +78,7 @@ int	ft_export(t_core *core, char **argv)
 {
 	char	*key;
 	char	*value;
+	int		i;
 
 	if (!argv[1])
 	{
@@ -78,10 +87,15 @@ int	ft_export(t_core *core, char **argv)
 	}
 	if (check_export_args(argv) == 1)
 		return (EXIT_FAILURE);
-	env_split(argv[1], &key, &value);
-	set_env(&core->env, key, value);
-	update_env_ptr(core);
-	free(key);
-	free(value);
+	i = 1;
+	while (argv[i])
+	{
+		env_split(argv[i], &key, &value);
+		set_env(&core->env, key, value);
+		update_env_ptr(core);
+		free(key);
+		free(value);
+		i++;
+	}
 	return(EXIT_SUCCESS);
 }
