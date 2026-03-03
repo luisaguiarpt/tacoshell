@@ -6,7 +6,7 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 18:08:23 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 20:46:34 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:51:34 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*env_join(char *key, char *value)
 	result = ft_strjoin2(ft_strjoin(key, "="), value, 0);
 	if (!result)
 	{
-		// MALLOC ERROR HANDLING
+		perror("");
 		return (NULL);
 	}
 	else
@@ -52,8 +52,11 @@ int	env_ptr_init(t_core *core)
 	current = core->env;
 	array_size = env_count(core);
 	core->env_ptr = malloc((array_size + 1) * sizeof(char *));
-	//if (!core->env_ptr)
-		// MALLOC ERROR HANDLING
+	if (!core->env_ptr)
+	{
+		perror("");
+		return (EXIT_FAILURE);
+	}
 	while (current)
 	{
 		core->env_ptr[i] = env_join(current->key, current->value);
