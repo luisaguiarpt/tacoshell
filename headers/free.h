@@ -2,6 +2,7 @@
 # define FREE_H
 
 void	free_array(char **array);
+void	free_exit(t_core *core, int exit_status);
 void	full_free(t_core *core);
 void	*free_mem_arr(char **arr, int index);
 void	free_tokens(t_token *head);

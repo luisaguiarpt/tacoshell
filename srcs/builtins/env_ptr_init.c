@@ -36,7 +36,7 @@ static char	*env_join(char *key, char *value)
 	if (!result)
 	{
 		perror("malloc");
-		free_error(core, 1);
+		return (NULL);
 	}
 	else
 		return (result);
@@ -60,6 +60,8 @@ int	env_ptr_init(t_core *core)
 	while (current)
 	{
 		core->env_ptr[i] = env_join(current->key, current->value);
+		if (!core->env_ptr)
+			free_exit(core, EXIT_FAILURE);
 		current = current->next;
 		i++;
 	}
