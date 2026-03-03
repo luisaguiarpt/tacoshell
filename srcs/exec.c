@@ -67,6 +67,7 @@ int	execve_handler(t_ast *node, t_core *core)
 	if (errno == EACCES)
 		core->exit_status = 126;
 	core->exit_status = 127;
+	full_free(core);
 	return (core->exit_status);
 }
 

@@ -49,6 +49,12 @@ void	full_free(t_core *core)
 	free_env(core); // Frees both env struct and env_ptr
 	if (core->prompt)
 		free(core->prompt);
+	if (core->scanner)
+		free(core->scanner);
+	if (core->ast_root)
+		clean_ast(core);
+	if (core->tok_head)
+		free_tokens(*core->tok_head);
 
 	// ...
 
