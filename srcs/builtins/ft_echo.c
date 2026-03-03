@@ -6,20 +6,38 @@
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:06:49 by josepedr          #+#    #+#             */
-/*   Updated: 2026/01/15 21:49:12 by josepedr         ###   ########.fr       */
+/*   Updated: 2026/03/03 19:41:41 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/tacoshell.h"
 
-static int	check_echo_flag(char *arg)
+static int	check_echo_flag(char **argv)
 {
-	if (!arg)
+	int	i;
+	int	j;
+
+	i = 1; // i = 1 in order to skip the command (argv[0])
+	if (!argv[0])
 		return (0);
-	if (arg[0] == '-' && arg[1] == 'n' && !arg[2])
-		return (1);
-	else
-		return (0);
+	while (argv[i])
+	{
+		if (argv[i][0] == '-')
+		{
+			j = 1;
+			while(argv[i][j])
+			{
+				if (argv[i][j] == 'n')
+					j++;
+				else
+					return (i);
+			}
+		}
+		else
+			return (i);
+		i++;
+	}
+	return (i);
 }
 
 int ft_echo(char **argv)
@@ -29,8 +47,8 @@ int ft_echo(char **argv)
 	int flag;
 
 	i = 0;
-	flag = check_echo_flag(argv[1]);
-	j = (check_echo_flag(argv[1]) + 1); // + 1 to skip argv[0]
+	j = check_echo_flag(argv);
+	flag = j - 1; // check_echo_flag function always returns at least 1 because it will skip argv[0]
 
 	while (argv[j])
 	{
