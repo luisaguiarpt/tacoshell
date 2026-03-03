@@ -1,5 +1,7 @@
 #include "../headers/tacoshell.h"
 
+int	g_signal;
+
 void	start_scanner(t_core *core);
 
 int	main(int ac, char **av, char **envp)
@@ -37,13 +39,13 @@ int	repl(char **envp, char	*flag)
 			write(1, "exit\n", 5);
 			break;
 		}
+		if (g_signal)
+			handle_ctrl_c(&core);
 		if (!*core.line)
 			continue ;
 		if (*core.line)
 			add_history(core.line);
 		eval(&core, flag);
-		clean_scanner(&core);
-		clean_ast(&core);
 	}
 	full_free(&core);
 	rl_clear_history();
@@ -61,6 +63,8 @@ void	eval(t_core *core, char *flag)
 	core->ast_root = create_ast(core);
 	debug_ast(core->ast_root, flag);
 	exec_control(core->ast_root, core);
+	clean_scanner(core);
+	clean_ast(core);
 }
 
 void	start_scanner(t_core *core)
