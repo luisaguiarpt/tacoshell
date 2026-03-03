@@ -69,4 +69,7 @@ fclean: clean
 
 re: fclean all
 
+valgrind: re
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_read ./minishell
+
 .PHONY: all clean fclean re
