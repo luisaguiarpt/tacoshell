@@ -14,14 +14,16 @@
 
 void	get_prompt(t_core *core)
 {
-  char  cwd[PATH_MAX];
+  char  *cwd;
 	char	*path_without_home;
 	char	*home_path;
 	int		home_len;
    
 	if (core->prompt)
 		free(core->prompt);
-  getcwd(cwd, PATH_MAX);
+  cwd = getcwd(NULL , 0);
+  if (!cwd)
+    cwd = ft_strdup(get_env(core->env, "PWD"));
 	home_path = get_env(core->env, "HOME");
 	if (home_path && *home_path)
 	{
@@ -34,4 +36,5 @@ void	get_prompt(t_core *core)
 	}
 	else
 		core->prompt = ft_strjoin(cwd, "> ");
+  free(cwd);
 }
