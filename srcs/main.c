@@ -26,7 +26,7 @@ int	main(int ac, char **av, char **envp)
 int	repl(char **envp, char	*flag)
 {
 	t_core	core;
-  int   exit_status;
+    int   exit_status;
 
 	setup_signals();
 	core = init_core();
@@ -49,7 +49,7 @@ int	repl(char **envp, char	*flag)
 		eval(&core, flag);
 	}
 	rl_clear_history();
-  exit_status = core.exit_status;
+    exit_status = core.exit_status;
 	full_free(&core);
 	return (exit_status);
 }
