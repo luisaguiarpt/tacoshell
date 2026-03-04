@@ -7,9 +7,10 @@ static char	*replace_str(char *s, char *old, char *new);
 // inside_sq is a flag that records whether the pointer is currently within single quotes
 // 0 -> outside single quotes; 1 -> inside single quotes
 // We'll expand the $VAR in the same manner whether it's inside double quotes or not
+
 void	expand(t_core *core)
 {
-	int		i;
+	size_t	i;
 	bool	inside_sq;
 	char	*tmp;
 
@@ -22,6 +23,7 @@ void	expand(t_core *core)
 		{
 			tmp = ft_itoa(core->exit_status);
 			core->line = replace_str(core->line, "$?", tmp);
+			i += ft_strlen(tmp);
 			free(tmp);
 		}
 		else if (!inside_sq && core->line[i] == '$' &&
@@ -29,21 +31,23 @@ void	expand(t_core *core)
 		{
 			tmp = isolate_word(&core->line[i]);
 			core->line = replace_str(core->line, tmp, get_env(core->env, &tmp[1]));
+			i += ft_strlen(get_env(core->env, &tmp[1]));
 			free(tmp);
 		}
-		i++;
+		else
+			i++;
 	}
 }
 
 // Returns the number of occurences of occur within s
 static int	count_occur(char *s, char *occur)
 {
-	int	i;
-	int	count;
+	size_t	i;
+	int		count;
 
 	count = 0;
 	i = 0;
-	while (s[i])
+	while (i < ft_strlen(s) && s[i])
 	{
 		if (ft_strncmp(&s[i], occur, ft_strlen(occur)) == 0)
 		{
