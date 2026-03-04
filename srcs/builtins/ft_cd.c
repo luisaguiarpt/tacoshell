@@ -19,7 +19,10 @@ static int	handle_args(t_core *core, char **argv, char **dir_path)
 	if (!argv[1])
 		*dir_path = ft_strdup(get_env(core->env, "HOME"));
 	else if (ft_strcmp(argv[1], "-") == 0)
+  {
 		*dir_path = ft_strdup(get_env(core->env, "OLDPWD"));
+    printf("%s\n", *dir_path);
+  }
   else if (argv[1][0] == '~' && argv[1][1] == '/')
     *dir_path = ft_strjoin(get_env(core->env, "HOME"), &argv[1][1]);
 	else
