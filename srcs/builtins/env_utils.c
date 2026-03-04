@@ -115,17 +115,21 @@ void	env_split(char *env, char **key, char **value)
 {
 	int	i;
 	int	j;
+	int	has_plus;
 
 	i = 0;
 	j = 0;
-	while (env[i] != '=' && env[i])
+	has_plus = 0;
+	while (env[i] && env[i] != '=' && env[i] != '+')
 		i++;
+	if (env[i - 1] == '+')
+		has_plus = 1;
 	*key = ft_substr(env, 0, i);
 	if (env[i] == '=')
 	{
 		while (env[j])
 			j++;
-		i++; //i++ ignora o '='
+		i += 1 + has_plus; //i++ ignora o '='
 		*value = ft_substr(env, i, j - i); 
 	}
 	else
