@@ -49,6 +49,8 @@ t_env	*set_env(t_env **env, char *key, char *value)
 	new->key = ft_strdup(key);
 	if (value)
 		new->value = ft_strdup(value);
+	else
+		new->value = NULL;
 	new->next = NULL;
 	env_append(env, new);
 	return (*env);
