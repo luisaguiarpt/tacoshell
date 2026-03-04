@@ -53,6 +53,7 @@ void	restore_fds(int fds[2])
 int	execve_handler(t_ast *node, t_core *core)
 {
 	int	cmd_check;
+	int	exit_status;
 
 	cmd_check = check_cmd(node);
 	if (cmd_check)
@@ -66,10 +67,11 @@ int	execve_handler(t_ast *node, t_core *core)
 		execve(node->cmd->argv[0], node->cmd->argv, core->env_ptr);
 	ft_printf_fd(2, "%s: command not found\n", node->cmd->cmd_path);
 	if (errno == EACCES)
-		core->exit_status = 126;
-	core->exit_status = 127;
+		exit_status = 126;
+	else
+		exit_status = 127;
 	full_free(core);
-	return (core->exit_status);
+	return (exit_status);
 }
 
 bool	contains_slash(char *cmd)

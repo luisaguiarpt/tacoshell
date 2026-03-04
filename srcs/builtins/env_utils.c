@@ -39,6 +39,8 @@ t_env	*set_env(t_env **env, char *key, char *value)
 	{
 		if (ft_strcmp(key, tmp->key) == 0)
 		{
+			if (!value)
+				return (*env);
 			free(tmp->value);
 			tmp->value = ft_strdup(value);
 			return (*env);
