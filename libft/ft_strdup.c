@@ -20,6 +20,8 @@ char	*ft_strdup(const char *str)
 	int		i;
 	char	*cast;
 
+	if (!str)
+		return (NULL);
 	i = 0;
 	cast = (char *)str;
 	size = ft_strlen(str);
