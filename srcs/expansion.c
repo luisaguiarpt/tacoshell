@@ -67,7 +67,7 @@ static char	*replace_str(char *s, char *old, char *new)
 
 	if (!new)
 		return (NULL);
-	new_s_len = ft_strlen(s) - ft_strlen(old) + count_occur(s, new) * ft_strlen(new);
+	new_s_len = ft_strlen(s) - ft_strlen(old) + count_occur(s, old) * ft_strlen(new);
 	new_str = ft_calloc(new_s_len + 1, sizeof(char));
 	if (!new_str)
 		return (NULL);
