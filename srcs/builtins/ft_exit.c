@@ -39,15 +39,12 @@ void	ft_exit(t_core *core, char **argv)
 	write(1, "exit\n", 5); // i think it always writes, even when it fails to exit
 	if (!argv[1])
 		exit_code = core->exit_status;
-	else 
+	else if (!num_check(argv[1]))
 	{
-		if (!num_check(argv[1]))
-		{
-			ft_printf_fd(2, "exit: %s: numeric argument required\n", argv[1]);
-			exit_code = 2;
-		}
+		ft_printf_fd(2, "exit: %s: numeric argument required\n", argv[1]);
+		exit_code = 2;
     }
-	if (argv[2])
+	else if (argv[2])
 	{
 		write(2, "exit: too many arguments\n", 25);
 		core->exit_status = 1;

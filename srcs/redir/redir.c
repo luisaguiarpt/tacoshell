@@ -1,11 +1,18 @@
 #include "../headers/tacoshell.h"
 
+int	heredoc_read(t_redir *curr, int	heredoc_curr);
+int	count_heredocs(t_redir *head);
+
 int	handle_redirs(t_redir *head)
 {
 	int		fd;
+	int		heredoc_count;
+	int		heredoc_curr;
 	t_redir	*tmp;
 
 	tmp = head;
+	heredoc_count = count_heredocs(head);
+	heredoc_curr = heredoc_count;
 	while (tmp)
 	{
 		if (tmp->type == REDIR_IN)
@@ -21,7 +28,8 @@ int	handle_redirs(t_redir *head)
 			fd = open(tmp->file_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd == -1)
 				return (perror(tmp->file_path), EXIT_FAILURE);
-			dup2(fd, STDOUT_FILENO);
+			if (!tmp->next)
+				dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
 		else if (tmp->type == APPEND)
@@ -29,18 +37,60 @@ int	handle_redirs(t_redir *head)
 			fd = open(tmp->file_path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (fd == -1)
 				return (perror(tmp->file_path), EXIT_FAILURE);
-			dup2(fd, STDOUT_FILENO);
+			if (!tmp->next)
+				dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
 		else if (tmp->type == HERE_DOC)
 		{
-			fd = open(tmp->file_path, O_RDONLY);
-			if (fd == -1)
-				return (perror(tmp->file_path), EXIT_FAILURE);
-			dup2(fd, STDIN_FILENO);
-			close(fd);
+			heredoc_curr--;
+			heredoc_read(tmp, heredoc_curr);
 		}
 		tmp = tmp->next;
 	}
 	return (EXIT_SUCCESS);
+}
+
+int	count_heredocs(t_redir *head)
+{
+	int	count;
+
+	count = 0;
+	while (head)
+	{
+		if (head->type == HERE_DOC)
+			count++;
+		head = head->next;
+	}
+	return (count);
+}
+
+int	heredoc_read(t_redir *curr, int heredoc_curr)
+{
+	char	*line;
+	char	*tmp;
+	int		fd;
+
+	line = NULL;
+	fd = open(".heredoc_tmp", O_CREAT | O_RDWR | O_TRUNC, 00664);
+	if (fd == -1)
+		return (perror("heredoc"), EXIT_FAILURE);
+	while (g_signal == 0)
+	{
+		line = readline("> ");
+		if (ft_strcmp(curr->file_path, line) == 0)
+			break ;
+		tmp = ft_strjoin2(line, "\n", 0);
+		ft_putstr_fd(tmp, fd);
+		free(tmp);
+	}
+	if (line)
+		free(line);
+	close(fd);
+	fd = open(".heredoc_tmp", O_RDONLY);
+	unlink(".heredoc_tmp");
+	if (heredoc_curr == 0)
+		dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (0);
 }

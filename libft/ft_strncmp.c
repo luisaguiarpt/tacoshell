@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <stddef.h>
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -18,6 +19,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	unsigned char	*cast1;
 	unsigned char	*cast2;
 
+	if (!s1 || !s2)
+		return (INT_MAX);
 	cast1 = (unsigned char *)s1;
 	cast2 = (unsigned char *)s2;
 	i = 0;

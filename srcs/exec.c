@@ -12,7 +12,6 @@ void	exec_control(t_ast *node, t_core *core)
 	int		fds[2];
 
 	save_fds(fds);
-	heredoc_init(core);
 	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
 		return (builtin_handler(node, fds, core));
 	pid = fork();
@@ -60,13 +59,14 @@ int	execve_handler(t_ast *node, t_core *core)
 	if (cmd_check)
 	{
 		core->exit_status = cmd_check;
+		full_free(core);
 		return (cmd_check);
 	}
 	if (node->cmd->cmd_path)
 		execve(node->cmd->cmd_path, node->cmd->argv, core->env_ptr);
 	else
 		execve(node->cmd->argv[0], node->cmd->argv, core->env_ptr);
-	ft_printf_fd(2, "%s: command not found\n", node->cmd->cmd_path);
+	ft_printf_fd(2, "%s: command not found\n", node->cmd->argv[0]);
 	if (errno == EACCES)
 		exit_status = 126;
 	else
@@ -161,7 +161,6 @@ void	exec_pipe(t_ast *node, int input_fd, t_core *core)
 	{
 		perror("pipe");
 	}
-	
 	pid = fork();
 	if (pid == -1)
 	{

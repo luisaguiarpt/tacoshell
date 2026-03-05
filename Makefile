@@ -48,28 +48,36 @@ NAME=minishell
 all: $(LIBFT_A) $(NAME)
 
 $(LIBFT_A):
-	make -C $(LIBFT_DIR)
+	@echo -n "Compiling $@... "
+	@make -s -C $(LIBFT_DIR)
+	@echo "Done!"
 
 debug:
 	all
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) $(LIBREADLINE) $(LIBFT_A) -o $@
+	@echo -n "Compiling $@... "
+	@$(CC) $(FLAGS) $(OBJS) $(LIBREADLINE) $(LIBFT_A) -o $@
+	@echo "Done!"
 
 %.o: %.c
-	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -rf $(OBJS)
-	$(MAKE) -C $(LIBFT_DIR) clean
+	@echo -n "Cleaning object files... "
+	@rm -rf $(OBJS)
+	@$(MAKE) -s -C $(LIBFT_DIR) clean
+	@echo "Done!"
 
 fclean: clean
-	rm -rf $(NAME)
-	$(MAKE) -C $(LIBFT_DIR) fclean
+	@echo -n "Cleaning executables... "
+	@rm -rf $(NAME)
+	@$(MAKE) -s -C $(LIBFT_DIR) fclean
+	@echo "Done!"
 
 re: fclean all
 
-valgrind: re
+valgrind: all 
 	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_read ./minishell
 
 .PHONY: all clean fclean re
