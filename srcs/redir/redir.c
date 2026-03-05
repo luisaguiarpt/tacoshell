@@ -70,8 +70,10 @@ int	heredoc_read(t_redir *curr, int heredoc_curr)
 	char	*line;
 	char	*tmp;
 	int		fd;
+	int		line_no;
 
 	line = NULL;
+	line_no = 1;
 	fd = open(".heredoc_tmp", O_CREAT | O_RDWR | O_TRUNC, 00664);
 	if (fd == -1)
 		return (perror("heredoc"), EXIT_FAILURE);
@@ -80,6 +82,12 @@ int	heredoc_read(t_redir *curr, int heredoc_curr)
 		line = readline("> ");
 		if (ft_strcmp(curr->file_path, line) == 0)
 			break ;
+		else if (!line)
+		{
+			ft_printf_fd(STDERR_FILENO, "warning: here-document at line %d delimited by end-of-file (wanted `%s\')\n", line_no, curr->file_path);
+			break ;
+		}
+		line_no++;
 		tmp = ft_strjoin2(line, "\n", 0);
 		ft_putstr_fd(tmp, fd);
 		free(tmp);
