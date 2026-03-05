@@ -12,6 +12,7 @@ void	exec_control(t_ast *node, t_core *core)
 	int		fds[2];
 
 	save_fds(fds);
+	heredoc_init(core);
 	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
 		return (builtin_handler(node, fds, core));
 	pid = fork();

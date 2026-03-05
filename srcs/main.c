@@ -49,7 +49,7 @@ int	repl(char **envp, char	*flag)
 		eval(&core, flag);
 	}
 	rl_clear_history();
-    exit_status = core.exit_status;
+	exit_status = core.exit_status;
 	full_free(&core);
 	return (exit_status);
 }

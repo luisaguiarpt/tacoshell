@@ -55,6 +55,7 @@ typedef struct	s_core
 	int			exit_status;
 	int			debug_counter;
 	bool		syntax_error;
+	int			*heredoc_fd;
 }				t_core;
 
 typedef struct	s_env

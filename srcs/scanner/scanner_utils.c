@@ -23,7 +23,7 @@ bool	match(char expected, t_scanner *scanner)
 		return (false);
 	if (scanner->current[1] != expected)
 		return (false);
-	scanner->current += 2;
+	//scanner->current += 2;
 	return (true);
 }
 
