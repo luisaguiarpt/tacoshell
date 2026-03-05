@@ -27,7 +27,7 @@ void	exec_control(t_ast *node, t_core *core)
 
 void	builtin_handler(t_ast *node, int fds[2], t_core *core)
 {
-	if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
+	if (handle_redirs(*node->cmd->redirs, core) == EXIT_FAILURE)
 	{
 		restore_fds(fds);
 		core->exit_status = EXIT_FAILURE;
@@ -139,14 +139,14 @@ void	exec_cmd(t_ast *node, int input_fd, t_core *core)
 	}
 	if (is_builtin(node->cmd->argv[0]))
 	{
-		if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
+		if (handle_redirs(*node->cmd->redirs, core) == EXIT_FAILURE)
 			exit(1);
 		core->exit_status = exec_builtin(core, node->cmd->argv);
 		exit(core->exit_status);
 	}
 	else
 	{
-		if (handle_redirs(*node->cmd->redirs) == EXIT_FAILURE)
+		if (handle_redirs(*node->cmd->redirs, core) == EXIT_FAILURE)
 			exit(1);
 		exit(execve_handler(node, core));
 	}

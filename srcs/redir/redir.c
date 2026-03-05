@@ -1,9 +1,9 @@
 #include "../headers/tacoshell.h"
 
-int	heredoc_read(t_redir *curr, int	heredoc_curr);
+int	heredoc_read(t_redir *curr, int	heredoc_curr, t_core *core);
 int	count_heredocs(t_redir *head);
 
-int	handle_redirs(t_redir *head)
+int	handle_redirs(t_redir *head, t_core *core)
 {
 	int		fd;
 	int		heredoc_count;
@@ -44,7 +44,7 @@ int	handle_redirs(t_redir *head)
 		else if (tmp->type == HERE_DOC)
 		{
 			heredoc_curr--;
-			heredoc_read(tmp, heredoc_curr);
+			heredoc_read(tmp, heredoc_curr, core);
 		}
 		tmp = tmp->next;
 	}
@@ -65,7 +65,34 @@ int	count_heredocs(t_redir *head)
 	return (count);
 }
 
-int	heredoc_read(t_redir *curr, int heredoc_curr)
+void	write_expand(int fd, char *line, t_core *core)
+{
+	int		i;
+	char	*tmp_var;
+	char	*tmp_env;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != '$')
+			write(fd, &line[i++], 1);
+		else if (line[i + 1] && line[i + 1] == '?')
+		{
+			ft_putnbr_fd(core->exit_status, fd);
+			i += 2;
+		}
+		else if (line[i + 1] && is_posix_var(line[i + 1]))
+		{
+			tmp_var = isolate_word(&line[i]);
+			tmp_env = get_env(core->env, &tmp_var[1]);
+			ft_putstr_fd(tmp_env, fd);
+			i += ft_strlen(tmp_var);
+			free(tmp_var);
+		}
+	}
+}
+
+int	heredoc_read(t_redir *curr, int heredoc_curr, t_core *core)
 {
 	char	*line;
 	char	*tmp;
@@ -89,7 +116,8 @@ int	heredoc_read(t_redir *curr, int heredoc_curr)
 		}
 		line_no++;
 		tmp = ft_strjoin2(line, "\n", 0);
-		ft_putstr_fd(tmp, fd);
+		//ft_putstr_fd(tmp, fd);
+		write_expand(fd, tmp, core);
 		free(tmp);
 	}
 	if (line)

@@ -1,7 +1,6 @@
 #include "../headers/tacoshell.h"
 
 static bool	is_inside_squotes(char *line, bool prev_inside_sq);
-static char	*isolate_word(char *line);
 static char	*replace_str(char *s, char *old, char *new);
 
 // inside_sq is a flag that records whether the pointer is currently within single quotes
@@ -93,7 +92,7 @@ static char	*replace_str(char *s, char *old, char *new)
 }
 
 // Returns a malloc'd char * of a single word (delimited by an ending space)
-static char	*isolate_word(char *line)
+char	*isolate_word(char *line)
 {
 	char	*word;
 	size_t	i;

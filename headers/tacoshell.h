@@ -70,6 +70,7 @@ void	handle_ctrl_c(t_core *core);
 
 // Expansion - expansion.c
 void	expand(t_core *core);
+char	*isolate_word(char *line);
 
 // Utils - utils.c
 bool	is_alpha(char c);

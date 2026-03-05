@@ -3,7 +3,7 @@
 # define  REDIR_H
 
 // redir.c
-int	handle_redirs(t_redir *head);
+int	handle_redirs(t_redir *head, t_core *core);
 
 // redir_utils.c
 
