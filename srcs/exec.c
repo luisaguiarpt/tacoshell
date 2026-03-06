@@ -62,19 +62,23 @@ int	execve_handler(t_ast *node, t_core *core)
 	cmd_check = check_cmd(node);
 	if (cmd_check)
 	{
-		core->exit_status = cmd_check;
 		full_free(core);
 		return (cmd_check);
 	}
 	if (node->cmd->cmd_path)
 		execve(node->cmd->cmd_path, node->cmd->argv, core->env_ptr);
-	else
+	else if (ft_strchr(*node->cmd->argv, '/'))
 		execve(node->cmd->argv[0], node->cmd->argv, core->env_ptr);
-	ft_printf_fd(2, "%s: command not found\n", node->cmd->argv[0]);
-	if (errno == EACCES)
+	if (errno == EACCES || errno == ENOEXEC)
+	{
 		exit_status = 126;
+		ft_printf_fd(2, "%s: Permission denied\n", node->cmd->argv[0]);
+	}
 	else
+	{
+		ft_printf_fd(2, "%s: command not found\n", node->cmd->argv[0]);
 		exit_status = 127;
+	}
 	full_free(core);
 	return (exit_status);
 }
@@ -99,8 +103,6 @@ int	check_cmd(t_ast *node)
 		if (stat(cmd, &st) == -1)
 		{
 			ft_printf_fd(2, "%s: No such file or directory\n", node->cmd->cmd_path);
-			if (errno == ENOENT || errno == ENOTDIR)
-				return (127);
 			if (errno == EACCES)
 				return (126);
 			return (127);
@@ -110,19 +112,9 @@ int	check_cmd(t_ast *node)
 			ft_printf_fd(2, "%s: Is a directory\n", cmd);
 			return (126);
 		}
-		if (access(cmd, X_OK) == -1)
-		{
-			ft_printf_fd(2, "%s: Permission denied\n", cmd);
-			return (126);
-		}
 		return (0);
 	}
-	else
-	{
-		if (node->cmd->cmd_path && stat(node->cmd->cmd_path, &st) == 0 && S_ISDIR(st.st_mode))
-			return (127);
-		return (0);
-	}
+	return (0);
 }
 
 // Need to implement checks for pipe() and fork() for correctness
@@ -151,7 +143,7 @@ void	exec_cmd(t_ast *node, int input_fd, t_core *core)
 	else
 	{
 		if (handle_redirs(*node->cmd->redirs, core) != EXIT_SUCCESS)
-			free_exit(core, g_signal);
+			free_exit(core, EXIT_FAILURE);
 		exit(execve_handler(node, core));
 	}
 }
@@ -162,15 +154,10 @@ void	exec_pipe(t_ast *node, int input_fd, t_core *core)
 	int		pipefd[2];
 
 	if (pipe(pipefd) == -1)
-	{
-		perror("pipe");
-	}
+		free_exit(core, core->exit_status);
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("Error");
-		exit(core->exit_status);
-	}
+		free_exit(core, core->exit_status);
 	if (pid == 0)
 	{
 		close(pipefd[0]);
