@@ -9,7 +9,7 @@ void	check_syntax(t_core *core)
 	t_token	**head;
 
 	if (check_syntax_empty(core))
-		;
+		return ;
 	head = core->tok_head;
 	if (check_syntax_pipe_start(head) || check_syntax_pipe_end(head))
 	{

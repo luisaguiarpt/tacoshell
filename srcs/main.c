@@ -34,7 +34,7 @@ int	repl(char **envp, char	*flag)
 	while (true)
 	{
 		get_prompt(&core);
-		core.line = readline(core.prompt);
+		core.line = readline("$ ");
 		if (!core.line)
 		{
 			write(1, "exit\n", 5);

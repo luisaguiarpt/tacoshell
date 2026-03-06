@@ -96,15 +96,9 @@ void	handler_heredoc(int signo)
 {
 	(void)signo;
 	g_signal = 130;
-	rl_done = 1;
+	write(STDOUT_FILENO, "\n", 1);
+	close(STDIN_FILENO);
 	signal(SIGINT, handle_sigint);
-}
-
-int	heredoc_rl_signal_check(void)
-{
-	if (g_signal == 130)
-		rl_done = 1;
-	return (0);
 }
 
 int	heredoc_read(t_redir *curr, int heredoc_curr, t_core *core)
@@ -120,10 +114,10 @@ int	heredoc_read(t_redir *curr, int heredoc_curr, t_core *core)
 	if (fd == -1)
 		return (perror("heredoc"), EXIT_FAILURE);
 	signal(SIGINT, handler_heredoc);
-	rl_event_hook = heredoc_rl_signal_check;
 	while (g_signal == 0)
 	{
-		line = readline("> ");
+		ft_printf_fd(STDOUT_FILENO, "> ");
+		line = get_next_line(STDIN_FILENO);
 		if (ft_strcmp(curr->file_path, line) == 0 || g_signal != 0)
 			break ;
 		else if (!line)
