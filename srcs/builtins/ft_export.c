@@ -100,7 +100,7 @@ static int	check_export_arg(char *argv)
 	return (0);
 }
 
-static t_env	*append_env(t_env **env, char *key, char *value)
+static void	append_env(t_env **env, char *key, char *value)
 {
 	t_env	*tmp;
 	char	*new_value;
@@ -112,14 +112,15 @@ static t_env	*append_env(t_env **env, char *key, char *value)
 		if (ft_strcmp(key, tmp->key) == 0)
 		{
 			if (!value)
-				return (*env);
+				return ;
 			new_value = ft_strjoin2(tmp->value, value, 0);
 			tmp->value = new_value;
-			return (*env);
+			return ;
 		}
 		tmp = tmp->next;
 	}
-	return (*env);
+	set_env(env, key, value); // if it doesnt exist, create the env instead of appending
+	return ;
 }
 
 static bool	check_append(char *str)
