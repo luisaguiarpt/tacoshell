@@ -24,7 +24,7 @@ t_token	scan_token(t_scanner *scanner)
 	if (c == '|' || c == '<' || c == '>')
 		return (scan_op(c, scanner));
 	if (c == '(' || c == ')')
-		return (error_token("Syntax error near ( or )."));
+		return (error_token(ERROR_TOK_BR, scanner));
 	if (c == ';' || c == '&')
 		return (create_token(EOF_TOK, scanner));
 	return (scan_word(scanner, c));
@@ -67,8 +67,10 @@ t_token scan_word(t_scanner *scanner, char c)
 			scanner->state = IN_DOUBLE_QUOTES;
 		else if (c == '"' && scanner->state ==  IN_DOUBLE_QUOTES)
 			scanner->state = NEUTRAL;
-		if (scanner->current[1] == 0 && scanner->state != NEUTRAL)
-			return(error_token("Unterminated string."));
+		if (scanner->current[1] == 0 && scanner->state == IN_SINGLE_QUOTES)
+			return(error_token(ERROR_TOK_SQ, scanner));
+		else if (scanner->current[1] == 0 && scanner->state == IN_DOUBLE_QUOTES)
+			return(error_token(ERROR_TOK_DQ, scanner));
 		c = advance(scanner);
 	}
 	return (create_token(WORD, scanner));

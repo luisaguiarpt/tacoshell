@@ -19,7 +19,7 @@ void	skip_space(t_scanner *scanner);
 
 // tokenizer.c
 t_token	create_token(t_token_type type, t_scanner *scanner);
-t_token	error_token(char *msg);
+t_token	error_token(t_token_type type, t_scanner *scanner);
 void	append_token(t_token **head, t_token *new);
 void	link_tok(t_scanner *scanner, char *flag);
 

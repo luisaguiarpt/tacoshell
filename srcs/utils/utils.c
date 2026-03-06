@@ -28,6 +28,9 @@ bool	is_digit(char c)
 	return (false);
 }
 
+// characters that can't be part of a variable name
+// with the exception of " and ',
+// which for this purpose are considered and later stripped
 bool	is_metachar(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n' || c == '|' || c == '&'

@@ -29,7 +29,9 @@ typedef enum	e_token_type
 	// for end
 	EOF_TOK = 13,
 	// for error
-	ERROR_TOK = 14
+	ERROR_TOK_SQ = 14,
+	ERROR_TOK_DQ = 15,
+	ERROR_TOK_BR = 16
 }				t_token_type;
 
 typedef struct	s_token
