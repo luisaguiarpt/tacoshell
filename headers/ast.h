@@ -12,7 +12,7 @@ void		gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core)
 
 // Create AST utils - ast_utils.c
 bool		get_state(char c, t_state *state);
-char		*remove_quotes(char	*str, t_core *core);
+char		*rm_quotes(char	*str, t_core *core);
 t_token		*find_lowest_prec(t_token *start, t_token *end);
 
 // Utils for AST command nodes' redir - ast_redir.c

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldias-da <ldias-da@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 19:05:29 by ldias-da          #+#    #+#             */
+/*   Updated: 2026/03/06 19:05:38 by ldias-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/tacoshell.h"
 
 // Changes state and returns true if state changed and false if not
@@ -26,7 +38,7 @@ bool	get_state(char c, t_state *state)
 	return (false);
 }
 
-char	*remove_quotes(char	*str, t_core *core)
+char	*rm_quotes(char *str, t_core *core)
 {
 	int		i;
 	int		k;
@@ -56,8 +68,8 @@ char	*remove_quotes(char	*str, t_core *core)
 
 t_token	*find_lowest_prec(t_token *start, t_token *end)
 {
-	t_token *lowest;
-	t_token *token;
+	t_token	*lowest;
+	t_token	*token;
 	int		prec;
 	int		min_prec;
 

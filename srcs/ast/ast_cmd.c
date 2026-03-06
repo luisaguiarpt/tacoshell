@@ -1,13 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast_cmd.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldias-da <ldias-da@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 19:06:30 by ldias-da          #+#    #+#             */
+/*   Updated: 2026/03/06 19:06:32 by ldias-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/tacoshell.h"
 
-t_ast_cmd   *gen_cmd_node(t_token *start, t_token *end, t_core *core)
+t_ast_cmd	*gen_cmd_node(t_token *start, t_token *end, t_core *core)
 {
 	t_ast_cmd	*cmd;
 
 	cmd = wr_calloc(1, sizeof(t_ast_cmd), core);
 	cmd->redirs = wr_calloc(1, sizeof(t_redir), core);
 	cmd->argv = NULL;
-	//cmd->argv = wr_calloc(1, sizeof(char *), core);
 	gen_argv_redir(cmd, start, end, core);
 	if (cmd->argv != NULL && cmd->argv[0] != NULL && !is_builtin(cmd->argv[0]))
 		cmd->cmd_path = get_path(cmd->argv[0], core);
@@ -15,7 +26,7 @@ t_ast_cmd   *gen_cmd_node(t_token *start, t_token *end, t_core *core)
 }
 
 // Returns the amount of args in a cmd
-int		count_cmd_args(t_token *start, t_token *end)
+int	count_cmd_args(t_token *start, t_token *end)
 {
 	int		n;
 	t_token	*curr;
@@ -44,7 +55,7 @@ int		count_cmd_args(t_token *start, t_token *end)
 	return (n);
 }
 
-char	*get_path(char *av_cmd,  t_core *core)
+char	*get_path(char *av_cmd, t_core *core)
 {
 	int		i;
 	char	**cmd;
@@ -67,7 +78,5 @@ char	*get_path(char *av_cmd,  t_core *core)
 	}
 	ft_free_tab(cmd);
 	ft_free_tab(paths);
-	//cmd_path = ft_strdup(av_cmd);
 	return (NULL);
 }
-

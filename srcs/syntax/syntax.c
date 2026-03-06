@@ -10,7 +10,9 @@ void	check_syntax(t_core *core)
 {
 	t_token	**head;
 
-	if (check_syntax_words(core) || check_syntax_empty(core))
+	if (check_syntax_empty(core))
+		return ;
+	if (check_syntax_words(core))
 		return ;
 	if (check_syntax_redir(core))
 	{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldias-da <ldias-da@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 19:13:43 by ldias-da          #+#    #+#             */
+/*   Updated: 2026/03/06 19:13:44 by ldias-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/tacoshell.h"
 
 void	free_array(char **array)
@@ -18,7 +30,7 @@ void	free_array(char **array)
 
 void	*free_mem_arr(char **arr, int index)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!arr)
@@ -34,19 +46,19 @@ void	*free_mem_arr(char **arr, int index)
 
 void	free_tokens(t_token *head)
 {
-    t_token *next;
+	t_token	*next;
 
-    while (head)
-    {
-        next = head->next;
-        free(head);
-        head = next;
-    }
+	while (head)
+	{
+		next = head->next;
+		free(head);
+		head = next;
+	}
 }
 
 void	full_free(t_core *core)
 {
-	free_env(core); // Frees both env struct and env_ptr
+	free_env(core);
 	if (core->prompt)
 		free(core->prompt);
 	if (core->scanner)
@@ -58,8 +70,5 @@ void	full_free(t_core *core)
 		free_tokens(*core->tok_head);
 		free(core->tok_head);
 	}
-
-	// ...
-
 	core->exit_status = 0;
 }

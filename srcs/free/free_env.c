@@ -25,7 +25,7 @@ void	free_env_struct(t_env *env)
 			free(env->value);
 		free(env);
 		env = next;
-  	}
+	}
 	return ;
 }
 

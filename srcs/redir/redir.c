@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldias-da <ldias-da@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 19:15:54 by ldias-da          #+#    #+#             */
+/*   Updated: 2026/03/06 19:15:56 by ldias-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/tacoshell.h"
 
-int	heredoc_read(t_redir *curr, int	heredoc_curr, t_core *core);
+int	heredoc_read(t_redir *curr, int heredoc_curr, t_core *core);
 int	count_heredocs(t_redir *head);
 
 int	handle_redirs(t_redir *head, t_core *core)
@@ -127,7 +139,6 @@ int	heredoc_read(t_redir *curr, int heredoc_curr, t_core *core)
 		}
 		line_no++;
 		tmp = ft_strjoin2(line, "\n", 0);
-		//ft_putstr_fd(tmp, fd);
 		write_expand(fd, tmp, core);
 		free(tmp);
 	}
