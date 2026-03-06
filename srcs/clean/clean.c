@@ -50,20 +50,27 @@ void	clean_ast_node(t_ast *node)
 	if (node->type == PIPE_NODE)
 	{
 		if (node->left)
+		{
 			clean_ast_node(node->left);
+			node->left = NULL;
+		}
 		if (node->right)
+		{
 			clean_ast_node(node->right);
+			node->right = NULL;
+		}
+		free(node);
 	}
 	else
 	{
 		clean_ast_cmd(node->cmd);
 		node->cmd = NULL;
+		free(node);
 	}
 }
 
 void	clean_ast(t_core *core)
 {
 	clean_ast_node(core->ast_root);
-	free(core->ast_root);
 	core->ast_root = NULL;
 }

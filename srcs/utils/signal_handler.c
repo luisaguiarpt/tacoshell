@@ -25,3 +25,13 @@ void	setup_signals(void)
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 }
+
+void	disable_parent_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+}
+
+void	restore_parent_signals(void)
+{
+	signal(SIGINT, handle_sigint);
+}

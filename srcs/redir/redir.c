@@ -13,7 +13,7 @@ int	handle_redirs(t_redir *head, t_core *core)
 	tmp = head;
 	heredoc_count = count_heredocs(head);
 	heredoc_curr = heredoc_count;
-	while (tmp)
+	while (tmp && g_signal == 0)
 	{
 		if (tmp->type == REDIR_IN)
 		{
@@ -48,7 +48,7 @@ int	handle_redirs(t_redir *head, t_core *core)
 		}
 		tmp = tmp->next;
 	}
-	return (EXIT_SUCCESS);
+	return (g_signal);
 }
 
 int	count_heredocs(t_redir *head)
@@ -92,6 +92,21 @@ void	write_expand(int fd, char *line, t_core *core)
 	}
 }
 
+void	handler_heredoc(int signo)
+{
+	(void)signo;
+	g_signal = 130;
+	rl_done = 1;
+	signal(SIGINT, handle_sigint);
+}
+
+int	heredoc_rl_signal_check(void)
+{
+	if (g_signal == 130)
+		rl_done = 1;
+	return (0);
+}
+
 int	heredoc_read(t_redir *curr, int heredoc_curr, t_core *core)
 {
 	char	*line;
@@ -104,10 +119,12 @@ int	heredoc_read(t_redir *curr, int heredoc_curr, t_core *core)
 	fd = open(".heredoc_tmp", O_CREAT | O_RDWR | O_TRUNC, 00664);
 	if (fd == -1)
 		return (perror("heredoc"), EXIT_FAILURE);
+	signal(SIGINT, handler_heredoc);
+	rl_event_hook = heredoc_rl_signal_check;
 	while (g_signal == 0)
 	{
 		line = readline("> ");
-		if (ft_strcmp(curr->file_path, line) == 0)
+		if (ft_strcmp(curr->file_path, line) == 0 || g_signal != 0)
 			break ;
 		else if (!line)
 		{
@@ -128,5 +145,5 @@ int	heredoc_read(t_redir *curr, int heredoc_curr, t_core *core)
 	if (heredoc_curr == 0)
 		dup2(fd, STDIN_FILENO);
 	close(fd);
-	return (0);
+	return (g_signal);
 }

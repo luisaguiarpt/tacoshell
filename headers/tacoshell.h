@@ -66,6 +66,8 @@ void	prt_n_bounce(char *msg, t_core *core);
 void	handle_sigint(int signo);
 void	handle_sigquit(int signo);
 void	setup_signals(void);
+void	restore_parent_signals(void);
+void	disable_parent_signals(void);
 void	handle_ctrl_c(t_core *core);
 
 // Expansion - expansion.c

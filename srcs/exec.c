@@ -20,9 +20,13 @@ void	exec_control(t_ast *node, t_core *core)
 	if (pid == 0)
 		exec_pipeline(node, STDIN_FILENO, core);
 	else
+	{
+		disable_parent_signals();
 		waitpid(pid, &wstatus, 0);
+	}
 	if (WIFEXITED(wstatus))
 		core->exit_status = WEXITSTATUS(wstatus);
+	restore_parent_signals();
 }
 
 void	builtin_handler(t_ast *node, int fds[2], t_core *core)
@@ -141,13 +145,13 @@ void	exec_cmd(t_ast *node, int input_fd, t_core *core)
 	{
 		if (handle_redirs(*node->cmd->redirs, core) == EXIT_FAILURE)
 			exit(1);
-		core->exit_status = exec_builtin(core, node->cmd->argv);
-		exit(core->exit_status);
+		g_signal = exec_builtin(core, node->cmd->argv);
+		free_exit(core, g_signal);
 	}
 	else
 	{
-		if (handle_redirs(*node->cmd->redirs, core) == EXIT_FAILURE)
-			exit(1);
+		if (handle_redirs(*node->cmd->redirs, core) != EXIT_SUCCESS)
+			free_exit(core, g_signal);
 		exit(execve_handler(node, core));
 	}
 }
@@ -182,4 +186,5 @@ void	exec_pipe(t_ast *node, int input_fd, t_core *core)
 			close(input_fd);
 		waitpid(pid, NULL, 0);
 	}
+	free_exit(core, g_signal);
 }
