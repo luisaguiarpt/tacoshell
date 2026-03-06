@@ -71,7 +71,9 @@ void	gen_argv_redir(t_ast_cmd *cmd, t_token *start, t_token *end, t_core *core)
 	n_words = count_cmd_args(start, end);
 	if (n_words < 0)
 	{
-		printf("Syntax error. Refine this later.\n");
+		ft_printf_fd(2, "Syntax error.\n");
+		core->syntax_error = 2;
+		core->exit_status = true;
 		return ;
 	}
 	cmd->argv = wr_calloc(n_words + 1, sizeof(char *), core);
