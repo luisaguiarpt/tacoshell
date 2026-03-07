@@ -4,9 +4,13 @@ LIBREADLINE=-lreadline -lncurses
 
 SRCS = srcs/main.c
 # SHELL
-SRCS += srcs/shell/shell_init.c
+SRCS += srcs/taco/shell_init.c
 # VARIABLES
 SRCS += srcs/variables/variables_init.c srcs/variables/variables_list.c
+# READ
+SRCS += srcs/read/read_line.c
+# SIGNALS
+SRCS += srcs/signals/signals.c
 # DEBUG
 SRCS += srcs/debug/debug.c
 # CLEAN

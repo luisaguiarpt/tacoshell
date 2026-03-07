@@ -27,10 +27,15 @@ typedef struct	s_shell t_shell;
 typedef struct	s_variable t_variable;
 
 // Includes
-# include "debug.h"
-# include "shell.h"
+# include "taco.h"
 # include "variables.h"
+# include "read_line.h"
+# include "signals.h"
 # include "clean.h"
+# include "debug.h"
+
+// main.c - Main functions
+void	eval_loop(t_shell *shell);
 
 typedef struct s_shell
 {

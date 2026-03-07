@@ -8,6 +8,18 @@ int main(int ac, char **av, char **ep)
 
 	(void)ac;
 	shell = init_shell(av, ep);
+	eval_loop(&shell);
 	exit_clean(&shell, EXIT_SUCCESS);
 	return (0);
+}
+
+void	eval_loop(t_shell *shell)
+{
+	setup_signals();
+	while (true)
+	{
+		read_line(shell, "$ ");
+		lexer(shell);
+		clean(shell);
+	}
 }

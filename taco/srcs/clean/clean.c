@@ -1,5 +1,14 @@
 #include "../../incs/minishell.h"
 
+void	clean(t_shell *shell)
+{
+	if (shell->line)
+		free(shell->line);
+//	if (shell->lexer)
+//		clean_lexer(shell);
+//	if (shell->ast_root)
+//		clean_ast(shell);
+}
 void	exit_clean(t_shell *shell, int exit_code)
 {
 	if (shell->line)
