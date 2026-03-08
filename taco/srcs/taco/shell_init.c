@@ -15,8 +15,8 @@ void	set_shell_null(t_shell *shell)
 {
 	shell->line = NULL;
 	shell->vars = NULL;
-//	shell->lexer = NULL;
-//	shell->token_head = NULL;
+	shell->lexer = NULL;
+	shell->tokens = NULL;
 //	shell->ast_root = NULL;
 	shell->debug = false;
 	shell->exit_status = 0;

@@ -1,0 +1,40 @@
+#include "../incs/minishell.h"
+
+bool	is_posix_var(char c)
+{
+	if (is_digit(c) || is_alpha(c) || c == '_')
+		return (true);
+	return (false);
+}
+
+bool	is_alpha(char c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (true);
+	return (false);
+}
+
+bool	is_identi(char c)
+{
+	if (is_alpha(c) || c == '.' || c == '-' || is_digit(c) || c == '/')
+		return (true);
+	return (false);
+}
+
+bool	is_digit(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (true);
+	return (false);
+}
+
+// characters that can't be part of a variable name
+// with the exception of " and ',
+// which for this purpose are considered and later stripped
+bool	is_metachar(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\n' || c == '|' || c == '&'
+		|| c == ';' || c == '(' || c == ')' || c == '<' || c == '>')
+		return (true);
+	return (false);
+}

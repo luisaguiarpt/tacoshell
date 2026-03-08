@@ -9,8 +9,12 @@ SRCS += srcs/taco/shell_init.c
 SRCS += srcs/variables/variables_init.c srcs/variables/variables_list.c
 # READ
 SRCS += srcs/read/read_line.c
+# LEXER
+SRCS += srcs/lexer/lexer.c srcs/lexer/lexer_tokens.c srcs/lexer/lexer_utils.c
 # SIGNALS
 SRCS += srcs/signals/signals.c
+# UTILS
+SRCS += srcs/utils/utils.c srcs/utils/utils_extra.c
 # DEBUG
 SRCS += srcs/debug/debug.c
 # CLEAN
