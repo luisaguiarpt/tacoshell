@@ -20,6 +20,7 @@ void	eval_loop(t_shell *shell)
 	{
 		read_line(shell, "$ ");
 		lexer(shell);
+//		parser(shell);
 		clean(shell);
 	}
 }

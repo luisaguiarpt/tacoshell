@@ -2,37 +2,61 @@
 
 void	set_shell_debug(t_shell *shell, char **av)
 {
-	if (ft_strcmp(av[1], "debug") == 0)
-		shell->debug = true;
+	int	i;
+
+	if (!(av[1] && !ft_strcmp(av[1], "debug")))
+		return ;
+	i = 1;
+	while (av[i])
+	{
+		if (ft_strcmp(av[i], "var") == 0)
+			shell->debug |= PRT_VAR;
+		if (ft_strcmp(av[i], "tok") == 0)
+			shell->debug |= PRT_TOK;
+		if (ft_strcmp(av[i], "ast") == 0)
+			shell->debug |= PRT_AST;
+		i++;
+	}
+	if (shell->debug == 0)
+		shell->debug |= PRT_ALL;
 }
 
 void	print_env_var(t_shell *shell)
 {
 	t_variable	*var;
-
+ 
+	if (!(shell->debug & PRT_VAR))
+		return ;
 	var = *shell->vars;
+	printf("--- VARIABLES ---\n");
 	while (var)
 	{
-		printf("---\n");
 		printf("name: %s\n", var->name);
 		printf("value: %s\n", var->value);
 		printf("export: %s\n", var->exportstr);
+		printf("---\n");
 		var = var->next;
 	}
+	printf("\n");
 }
 
 void	print_tokens(t_shell *shell)
 {
 	t_token_list	*tk_list;
 
+	if (!(shell->debug & PRT_TOK))
+		return ;
 	tk_list = *shell->tokens;
+	printf("\n*** TOKENS ***\n");
 	while (tk_list)
 	{
-		printf("***\n");
 		printf("token: %s\n", tk_list->token->word);
 		print_token_type(tk_list->token);
+		printf("has $: %d\n", tk_list->token->has_dollar);
+		printf("\n");
 		tk_list = tk_list->next;
 	}
+	printf("\n");
 }
 
 void	print_token_type(t_token *token)
@@ -57,6 +81,8 @@ void	print_token_type(t_token *token)
 		printf("type: HEREDOC\n");
 	else if (token->type == TK_EOF)
 		printf("type: EOF\n");
+	else if (token->type == TK_SEMI || token->type == TK_SEMI_SEMI)
+		printf("type: SEMICOLONS\n");
 	else
 		printf("type: UNKNOWN\n");
 }

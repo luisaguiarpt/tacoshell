@@ -10,11 +10,13 @@ SRCS += srcs/variables/variables_init.c srcs/variables/variables_list.c
 # READ
 SRCS += srcs/read/read_line.c
 # LEXER
-SRCS += srcs/lexer/lexer.c srcs/lexer/lexer_tokens.c srcs/lexer/lexer_utils.c
+SRCS += srcs/lexer/lexer.c srcs/lexer/lexer_tokens.c srcs/lexer/lexer_utils.c \
+		srcs/lexer/lexer_expansion.c srcs/lexer/lexer_words.c \
+		srcs/lexer/lexer_exp_utils.c
 # SIGNALS
 SRCS += srcs/signals/signals.c
 # UTILS
-SRCS += srcs/utils/utils.c srcs/utils/utils_extra.c
+SRCS += srcs/utils/utils.c srcs/utils/utils_extra.c srcs/utils/utils_strings.c
 # DEBUG
 SRCS += srcs/debug/debug.c
 # CLEAN

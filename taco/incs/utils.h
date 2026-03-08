@@ -12,4 +12,7 @@ bool	is_metachar(char c);
 bool	is_space(char c);
 bool	is_op_metachar(char c);
 
+// utils_strings.c - String utils
+char	*str_replace_first(t_shell *shell, char *str, char *rep, char *with);
+
 #endif

@@ -18,6 +18,6 @@ void	set_shell_null(t_shell *shell)
 	shell->lexer = NULL;
 	shell->tokens = NULL;
 //	shell->ast_root = NULL;
-	shell->debug = false;
+	shell->debug = 0;
 	shell->exit_status = 0;
 }

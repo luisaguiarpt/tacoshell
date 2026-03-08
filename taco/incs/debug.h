@@ -1,6 +1,11 @@
 #ifndef DEBUG_H
 # define DEBUG_H
 
+# define PRT_VAR (1 << 0)
+# define PRT_TOK (1 << 1)
+# define PRT_AST (1 << 2)
+# define PRT_ALL (PRT_VAR | PRT_TOK | PRT_AST)
+
 // debug.c - Debug functions
 void	set_shell_debug(t_shell *shell, char **av);
 void	print_env_var(t_shell *shell);

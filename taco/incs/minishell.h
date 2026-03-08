@@ -52,7 +52,7 @@ typedef struct s_shell
 	t_lexer			*lexer;
 	t_token_list	**tokens;
 //	t_ast			*ast_root;
-	bool			debug;
+	int				debug;
 	int				exit_status;
 }				t_shell;
 
