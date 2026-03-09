@@ -15,12 +15,12 @@ void	upd_exp_mask(t_token *token, int i, char *key, char *value)
 	new_mask = ft_calloc(1, sizeof(char) * (new_len + 1));
 	if (!new_mask)
 		return ;
-	ft_memmove(new_mask, token->mask_exp, start);
+	ft_memmove(new_mask, token->mask, start);
 	while (start < new_end)
 		new_mask[start++] = '1';
-	ft_memmove(&new_mask[new_end], &token->mask_exp[old_end], new_len - new_end);
-	free(token->mask_exp);
-	token->mask_exp = new_mask;
+	ft_memmove(&new_mask[new_end], &token->mask[old_end], new_len - new_end);
+	free(token->mask);
+	token->mask = new_mask;
 }
 
 void	upd_tok_state(char c, t_token *token)
@@ -37,16 +37,16 @@ void	upd_tok_state(char c, t_token *token)
 
 char	*set_expansion_mask(t_shell *shell, t_token *token)
 {
-	char	*mask_exp;
+	char	*mask;
 	size_t	len;
 	size_t	i;
 	
 	len = ft_strlen(token->word);
-	mask_exp = ft_calloc(1, (len + 1) * sizeof(char));
-	if (!mask_exp)
+	mask = ft_calloc(1, (len + 1) * sizeof(char));
+	if (!mask)
 		exit_clean(shell, EXIT_FAILURE);
 	i = 0;
 	while (i < len)
-		mask_exp[i++] = '0';
-	return (mask_exp);
+		mask[i++] = '0';
+	return (mask);
 }

@@ -35,7 +35,7 @@ typedef struct	s_token
 {
 	t_token_type	type;
 	char			*word;
-	char			*mask_exp;
+	char			*mask;
 	bool			has_dollar;
 	t_state			state;
 }				t_token;

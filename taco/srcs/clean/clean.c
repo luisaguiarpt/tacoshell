@@ -72,10 +72,10 @@ void	free_token_list(t_token_list *node)
 		free(node->token->word);
 		node->token->word = NULL;
 	}
-	if (node->token && node->token->mask_exp)
+	if (node->token && node->token->mask)
 	{
-		free(node->token->mask_exp);
-		node->token->mask_exp = NULL;
+		free(node->token->mask);
+		node->token->mask = NULL;
 	}
 	if (node->token)
 	{
