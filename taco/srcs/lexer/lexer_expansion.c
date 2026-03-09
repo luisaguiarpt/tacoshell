@@ -4,7 +4,53 @@ void	expansion(t_shell *shell, t_token **token)
 {
 	var_expansion(shell, token);
 	word_split(shell, *token);
-	//quote_remove();
+	quote_remove(shell, *token);
+}
+
+void	quote_remove(t_shell *shell, t_token *token)
+{
+	size_t	read;
+	size_t	write;
+	t_state	state;
+
+	if (!token || !token->word || !token->mask_exp)
+		return ;
+	read = 0;
+	write = 0;
+	state = NEUTRAL;
+	while (token->word[read])
+	{
+		if (token->mask_exp[read] == '0' && token->word[read] == '"' && state == NEUTRAL)
+		{
+			state = IN_DQ;
+			read++;
+		}
+		else if (token->mask_exp[read] == '0' && token->word[read] == '"' && state == IN_DQ)
+		{
+			state = NEUTRAL;
+			read++;
+		}
+		else if (token->mask_exp[read] == '0' && token->word[read] == '\'' && state == NEUTRAL)
+		{
+			state = IN_SQ;
+			read++;
+		}
+		else if (token->mask_exp[read] == '0' && token->word[read] == '\'' && state == IN_SQ)
+		{
+			state = NEUTRAL;
+			read++;
+		}
+		else
+		{
+			token->word[write] = token->word[read];
+			token->mask_exp[write] = token->mask_exp[read];
+			write++;
+			read++;
+		}
+	}
+	token->word[write] = '\0';
+	token->mask_exp[write] = '\0';
+	(void)shell;
 }
 
 void	var_expansion(t_shell *shell, t_token **token)
@@ -17,7 +63,7 @@ void	var_expansion(t_shell *shell, t_token **token)
 	while ((*token)->word && (*token)->word[i])
 	{
 		upd_tok_state((*token)->word[i], (*token));
-		if ((*token)->state == IN_SINGLE_QUOTES)
+		if ((*token)->state == IN_SQ)
 			i++;
 		else if ((*token)->word[i] == '$')
 			i += replace_dollar(shell, *token, i);

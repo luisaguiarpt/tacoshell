@@ -26,12 +26,12 @@ void	upd_exp_mask(t_token *token, int i, char *key, char *value)
 void	upd_tok_state(char c, t_token *token)
 {
 	if (c == '\'' && token->state == NEUTRAL)
-		token->state = IN_SINGLE_QUOTES;
-	else if (c == '\'' && token->state == IN_SINGLE_QUOTES)
+		token->state = IN_SQ;
+	else if (c == '\'' && token->state == IN_SQ)
 		token->state = NEUTRAL;
 	else if (c == '"' && token->state == NEUTRAL)
-		token->state = IN_DOUBLE_QUOTES;
-	else if (c == '"' && token->state == IN_DOUBLE_QUOTES)
+		token->state = IN_DQ;
+	else if (c == '"' && token->state == IN_DQ)
 		token->state = NEUTRAL;
 }
 

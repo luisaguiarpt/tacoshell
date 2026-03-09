@@ -21,8 +21,8 @@ typedef enum	e_token_type
 typedef enum	e_state
 {
 	NEUTRAL = 0,
-	IN_SINGLE_QUOTES = 1,
-	IN_DOUBLE_QUOTES = 2
+	IN_SQ = 1,
+	IN_DQ = 2
 }				t_state;
 
 typedef struct	s_token_list
@@ -66,6 +66,7 @@ char	*get_word_from_lexer(t_shell *shell);
 void	expansion(t_shell *shell, t_token **token);
 void	var_expansion(t_shell *shell, t_token **token);
 void	word_split(t_shell *shell, t_token *token);
+void	quote_remove(t_shell *shell, t_token *token);
 t_token	*split_token(t_shell *shell, t_token *token, int i);
 
 // lexer_exp_utils.c - Expansion utils

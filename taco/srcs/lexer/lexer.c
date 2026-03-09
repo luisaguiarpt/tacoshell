@@ -41,14 +41,14 @@ t_token	*read_word_token(t_shell *shell)
 	while (!(is_metachar(peek(lexer)) && lexer->state == NEUTRAL) && !is_at_end(lexer))
 	{
 		if (c == '\'' && lexer->state == NEUTRAL)
-			lexer->state = IN_SINGLE_QUOTES;
-		else if (c == '\'' && lexer->state == IN_SINGLE_QUOTES)
+			lexer->state = IN_SQ;
+		else if (c == '\'' && lexer->state == IN_SQ)
 			lexer->state = NEUTRAL;
 		if (c == '"' && lexer->state == NEUTRAL)
-			lexer->state = IN_DOUBLE_QUOTES;
-		else if (c == '"' && lexer->state == IN_DOUBLE_QUOTES)
+			lexer->state = IN_DQ;
+		else if (c == '"' && lexer->state == IN_DQ)
 			lexer->state = NEUTRAL;
-		if (c == '$' && lexer->state != IN_SINGLE_QUOTES)
+		if (c == '$' && lexer->state != IN_SQ)
 			shell->lexer->has_dollar = true;
 		c = advance(1, lexer);
 	}
