@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_extra.c                                      :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/09 15:09:32 by josepedr          #+#    #+#             */
-/*   Updated: 2026/03/09 15:09:33 by josepedr         ###   ########.fr       */
+/*   Created: 2026/01/15 15:56:37 by josepedr          #+#    #+#             */
+/*   Updated: 2026/01/15 21:59:12 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/minishell.h"
+#include "../../incs/minishell.h"
 
-bool	is_space(char c)
+int	ft_unset(t_shell *shell, char **argv)
 {
-	if (c == ' ' || c == '\r' || c == '\t' || c == '\n')
-		return (true);
-	return (false);
-}
+	int	i;
 
-bool	is_op_metachar(char c)
-{
-	if (c == '|' || c == '<' || c == '>' || c == '&' || c == ';')
-		return (true);
-	return (false);
+	if (!argv[1])
+		return (EXIT_SUCCESS);
+	i = 1;
+	while (argv[i])
+	{
+		unset_env(shell, argv[i]);
+		i++;
+	}
+	update_env_ptr(shell);
+	return (EXIT_SUCCESS);
 }

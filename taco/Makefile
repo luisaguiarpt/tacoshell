@@ -3,24 +3,33 @@ FLAGS=-Wall -Wextra -Werror -g
 LIBREADLINE=-lreadline -lncurses
 
 SRCS = srcs/main.c
-# SHELL
-SRCS += srcs/taco/shell_init.c
-# VARIABLES
-SRCS += srcs/variables/variables_init.c srcs/variables/variables_list.c
-# READ
-SRCS += srcs/read/read_line.c
+# AST
+SRCS += srcs/ast/ast.c srcs/ast/ast_cmd.c srcs/ast/ast_debug.c \
+		srcs/ast/ast_misc.c srcs/ast/ast_redir.c srcs/ast/ast_utils.c
+# BUILT-INS
+SRCS += srcs/builtins/ft_cd.c srcs/builtins/ft_echo.c srcs/builtins/ft_env.c \
+		srcs/builtins/ft_exit.c srcs/builtins/ft_export_pwd.c srcs/builtins/unset.c \
+		srcs/builtins/env_ptr_init.c srcs/builtins/env_utils.c \
+		srcs/builtins/export_utils.c srcs/builtins/builtin_utils.c
+# CLEAN
+SRCS += srcs/clean/clean.c
+# DEBUG
+SRCS += srcs/debug/debug.c
 # LEXER
 SRCS += srcs/lexer/lexer.c srcs/lexer/lexer_tokens.c srcs/lexer/lexer_utils.c \
 		srcs/lexer/lexer_expansion.c srcs/lexer/lexer_words.c \
 		srcs/lexer/lexer_exp_utils.c srcs/lexer/lexer_quotes.c
+# READ
+SRCS += srcs/read/read_line.c
 # SIGNALS
 SRCS += srcs/signals/signals.c
+# SHELL
+SRCS += srcs/taco/shell_init.c
 # UTILS
-SRCS += srcs/utils/utils.c srcs/utils/utils_extra.c srcs/utils/utils_strings.c
-# DEBUG
-SRCS += srcs/debug/debug.c
-# CLEAN
-SRCS += srcs/clean/clean.c
+SRCS += srcs/utils/utils.c srcs/utils/utils_extra.c srcs/utils/utils_strings.c \
+		srcs/utils/get_prompt.c srcs/utils/heredoc.c srcs/utils/wrapper_alloc.c
+# VARIABLES
+SRCS += srcs/variables/variables_init.c srcs/variables/variables_list.c
 
 OBJS=$(SRCS:%.c=%.o)
 

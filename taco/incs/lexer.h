@@ -1,6 +1,8 @@
 #ifndef LEXER_H
 # define LEXER_H
 
+typedef struct	s_redir t_redir;
+
 typedef enum	e_token_type
 {
 	TK_PIPE = 0,
@@ -24,6 +26,14 @@ typedef enum	e_state
 	IN_SQ = 1,
 	IN_DQ = 2
 }				t_state;
+
+typedef struct	s_redir
+{
+	t_token_type	type;
+	char			*file_path;
+	t_redir			*next;
+}				t_redir;
+
 
 typedef struct	s_token_list
 {

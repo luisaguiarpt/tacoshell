@@ -33,6 +33,8 @@ typedef enum	e_token_type t_token_type;
 typedef enum	e_state t_state;
 
 // Includes
+# include "ast.h"
+# include "builtins.h"
 # include "taco.h"
 # include "signals.h"
 # include "variables.h"
