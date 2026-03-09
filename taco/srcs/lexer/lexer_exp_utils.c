@@ -1,12 +1,26 @@
 #include "../incs/minishell.h"
 
-void	upd_exp_mask(t_token *token, int i, char *str)
+void	upd_exp_mask(t_token *token, int i, char *key, char *value)
 {
-	size_t	len;
+	char	*new_mask;
+	size_t	start;
+	size_t	new_end;
+	size_t	old_end;
+	size_t	new_len;
 
-	len = ft_strlen(str);
-	while (len--)
-		token->mask_exp[i - len] = 1;
+	start = i;
+	new_end = i + ft_strlen(value);
+	old_end = i + ft_strlen(key);
+	new_len = i + ft_strlen(token->word);
+	new_mask = ft_calloc(1, sizeof(char) * (new_len + 1));
+	if (!new_mask)
+		return ;
+	ft_memmove(new_mask, token->mask_exp, start);
+	while (start < new_end)
+		new_mask[start++] = '1';
+	ft_memmove(&new_mask[new_end], &token->mask_exp[old_end], new_len - new_end);
+	free(token->mask_exp);
+	token->mask_exp = new_mask;
 }
 
 void	upd_tok_state(char c, t_token *token)
@@ -25,10 +39,14 @@ char	*set_expansion_mask(t_shell *shell, t_token *token)
 {
 	char	*mask_exp;
 	size_t	len;
+	size_t	i;
 	
 	len = ft_strlen(token->word);
 	mask_exp = ft_calloc(1, (len + 1) * sizeof(char));
 	if (!mask_exp)
 		exit_clean(shell, EXIT_FAILURE);
+	i = 0;
+	while (i < len)
+		mask_exp[i++] = '0';
 	return (mask_exp);
 }

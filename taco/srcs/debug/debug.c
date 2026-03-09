@@ -51,6 +51,7 @@ void	print_tokens(t_shell *shell)
 	while (tk_list)
 	{
 		printf("token: %s\n", tk_list->token->word);
+		printf(" mask: %s\n", tk_list->token->mask_exp);
 		print_token_type(tk_list->token);
 		printf("has $: %d\n", tk_list->token->has_dollar);
 		printf("\n");

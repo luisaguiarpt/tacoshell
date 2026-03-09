@@ -20,5 +20,7 @@ char		*init_shell_var_value(char *ep_var);
 
 // variables_list.c - Variable list functions
 void		append_shell_var(t_variable **head, t_variable *new);
+char		*get_var_value(t_shell *shell, char *key);
+char		*get_var_exportstr(t_shell *shell, char *key);
 
 #endif

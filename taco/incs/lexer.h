@@ -58,17 +58,18 @@ t_token	*read_op_token(t_shell *shell);
 
 // lexer_words.c - Functions related to words
 int		replace_dollar(t_shell *shell, t_token *token, int i);
+int		replace_dollar_var(t_shell *shell, t_token *token, int i);
 char	*parse_var_name(char *line);
 char	*get_word_from_lexer(t_shell *shell);
 
 // lexer_expansion.c - Expansion
-void	expansion(t_shell *shell, t_token *token);
-void	var_expansion(t_shell *shell, t_token *token);
+void	expansion(t_shell *shell, t_token **token);
+void	var_expansion(t_shell *shell, t_token **token);
 void	word_split(t_shell *shell, t_token *token);
 t_token	*split_token(t_shell *shell, t_token *token, int i);
 
 // lexer_exp_utils.c - Expansion utils
-void	upd_exp_mask(t_token *token, int i, char *str);
+void	upd_exp_mask(t_token *token, int i, char *key, char *value);
 void	upd_tok_state(char c, t_token *token);
 char	*set_expansion_mask(t_shell *shell, t_token *token);
 

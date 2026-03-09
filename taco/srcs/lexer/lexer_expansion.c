@@ -1,31 +1,34 @@
 #include "../incs/minishell.h"
 
-void	expansion(t_shell *shell, t_token *token)
+void	expansion(t_shell *shell, t_token **token)
 {
 	var_expansion(shell, token);
-	word_split(shell, token);
+	word_split(shell, *token);
 	//quote_remove();
 }
 
-void	var_expansion(t_shell *shell, t_token *token)
+void	var_expansion(t_shell *shell, t_token **token)
 {
 	int	i;
 
-	if (token->has_dollar == 0)
+	if ((*token)->has_dollar == 0)
 		return ;
 	i = 0;
-	while (token->word && token->word[i])
+	while ((*token)->word && (*token)->word[i])
 	{
-		upd_tok_state(token->word[i], token);
-		if (token->state == IN_SINGLE_QUOTES)
+		upd_tok_state((*token)->word[i], (*token));
+		if ((*token)->state == IN_SINGLE_QUOTES)
 			i++;
-		else if (token->word[i] == '$')
-			i += replace_dollar(shell, token, i);
+		else if ((*token)->word[i] == '$')
+			i += replace_dollar(shell, *token, i);
 		else
 			i++;
 	}
-	if (token->has_dollar && !ft_strlen(token->word))
-		remove_token(shell, token);
+	if ((*token)->has_dollar && !ft_strlen((*token)->word))
+	{
+		remove_token(shell, *token);
+		*token = NULL;
+	}
 }
 
 void	word_split(t_shell *shell, t_token *token)
@@ -34,6 +37,8 @@ void	word_split(t_shell *shell, t_token *token)
 	int				i;
 
 	i = 0;
+	if (!token)
+		return ;
 	while (token->word && token->word[i])
 	{
 		if (token->word[i] == ' ' && token->mask_exp[i] == 1)

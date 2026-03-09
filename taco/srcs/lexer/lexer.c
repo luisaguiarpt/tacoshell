@@ -11,8 +11,8 @@ void	lexer(t_shell *shell)
 		shell->lexer->has_dollar = false;
 		token = get_next_token(shell);
 		append_token(shell, token);
-		expansion(shell, token);
-		if (token->type == TK_EOF)
+		expansion(shell, &token);
+		if (token && token->type == TK_EOF)
 			break ;
 	}
 	if (shell->debug)
@@ -48,7 +48,7 @@ t_token	*read_word_token(t_shell *shell)
 			lexer->state = IN_DOUBLE_QUOTES;
 		else if (c == '"' && lexer->state == IN_DOUBLE_QUOTES)
 			lexer->state = NEUTRAL;
-		if (c == '$')
+		if (c == '$' && lexer->state != IN_SINGLE_QUOTES)
 			shell->lexer->has_dollar = true;
 		c = advance(1, lexer);
 	}

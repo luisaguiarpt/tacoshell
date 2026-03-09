@@ -2,27 +2,43 @@
 
 int	replace_dollar(t_shell *shell, t_token *token, int i)
 {
-	char	*tmp_key;
 	char	*tmp_value;
 
 	if (token->word[i] == '$' && token->word[i + 1] == '?')
 	{
 		tmp_value = ft_itoa(shell->exit_status);
 		token->word = str_replace_first(shell, token->word, "$?", tmp_value);
+		upd_exp_mask(token, i, "$?", tmp_value);
 		i += ft_strlen(tmp_value);
-		upd_exp_mask(token, i, tmp_value);
 		free(tmp_value);
 	}
 	else if (token->word[i] == '$')
 	{
-		tmp_key = parse_var_name(&token->word[i]);
-		tmp_value = parse_var_name(tmp_key);
-		token->word = str_replace_first(shell, token->word, tmp_key, tmp_value);
-		i += ft_strlen(tmp_value);
-		upd_exp_mask(token, i, tmp_value);
-		free(tmp_key);
-		free(tmp_value);
+		i += replace_dollar_var(shell, token, i);
 	}
+	return (i);
+}
+
+int	replace_dollar_var(t_shell *shell, t_token *token, int i)
+{
+	char	*tmp_key;
+	char	*tmp_value;
+
+	tmp_key = parse_var_name(&token->word[i]);
+	tmp_value = get_var_value(shell, &tmp_key[1]);
+	if (tmp_value)
+	{
+		token->word = str_replace_first(shell, token->word, tmp_key, tmp_value);
+		upd_exp_mask(token, i, tmp_key, tmp_value);
+		i += ft_strlen(tmp_value);
+	}
+	else
+	{
+		token->word = str_replace_first(shell, token->word, tmp_key, "");
+		upd_exp_mask(token, i, tmp_key, "");
+		i += ft_strlen("");
+	}
+	free(tmp_key);
 	return (i);
 }
 

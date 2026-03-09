@@ -14,3 +14,31 @@ void	append_shell_var(t_variable **head, t_variable *new)
 		tmp = tmp->next;
 	tmp->next = new;
 }
+
+char	*get_var_value(t_shell *shell, char *key)
+{
+	t_variable	*var;
+
+	var = *shell->vars;
+	while (var)
+	{
+		if (ft_strcmp(var->name, key) == 0)
+			return (var->value);
+		var = var->next;
+	}
+	return (NULL);
+}
+
+char	*get_var_exportstr(t_shell *shell, char *key)
+{
+	t_variable	*var;
+
+	var = *shell->vars;
+	while (var)
+	{
+		if (ft_strcmp(var->name, key) == 0)
+			return (var->exportstr);
+		var = var->next;
+	}
+	return (NULL);
+}
