@@ -12,7 +12,7 @@ SRCS += srcs/read/read_line.c
 # LEXER
 SRCS += srcs/lexer/lexer.c srcs/lexer/lexer_tokens.c srcs/lexer/lexer_utils.c \
 		srcs/lexer/lexer_expansion.c srcs/lexer/lexer_words.c \
-		srcs/lexer/lexer_exp_utils.c
+		srcs/lexer/lexer_exp_utils.c srcs/lexer/lexer_quotes.c
 # SIGNALS
 SRCS += srcs/signals/signals.c
 # UTILS

@@ -7,52 +7,6 @@ void	expansion(t_shell *shell, t_token **token)
 	quote_remove(shell, *token);
 }
 
-void	quote_remove(t_shell *shell, t_token *token)
-{
-	size_t	read;
-	size_t	write;
-	t_state	state;
-
-	if (!token || !token->word || !token->mask_exp)
-		return ;
-	read = 0;
-	write = 0;
-	state = NEUTRAL;
-	while (token->word[read])
-	{
-		if (token->mask_exp[read] == '0' && token->word[read] == '"' && state == NEUTRAL)
-		{
-			state = IN_DQ;
-			read++;
-		}
-		else if (token->mask_exp[read] == '0' && token->word[read] == '"' && state == IN_DQ)
-		{
-			state = NEUTRAL;
-			read++;
-		}
-		else if (token->mask_exp[read] == '0' && token->word[read] == '\'' && state == NEUTRAL)
-		{
-			state = IN_SQ;
-			read++;
-		}
-		else if (token->mask_exp[read] == '0' && token->word[read] == '\'' && state == IN_SQ)
-		{
-			state = NEUTRAL;
-			read++;
-		}
-		else
-		{
-			token->word[write] = token->word[read];
-			token->mask_exp[write] = token->mask_exp[read];
-			write++;
-			read++;
-		}
-	}
-	token->word[write] = '\0';
-	token->mask_exp[write] = '\0';
-	(void)shell;
-}
-
 void	var_expansion(t_shell *shell, t_token **token)
 {
 	int	i;
@@ -96,6 +50,34 @@ void	word_split(t_shell *shell, t_token *token)
 		else
 			i++;
 	}
+}
+
+void	quote_remove(t_shell *shell, t_token *t)
+{
+	size_t	rd;
+	size_t	wr;
+
+	if (!t || !t->word || !t->mask_exp)
+		return ;
+	rd = 0;
+	wr = 0;
+	t->state = NEUTRAL;
+	while (t->word[rd])
+	{
+		if (t->mask_exp[rd] == '0' && t->word[rd] == '"' && t->state == NEUTRAL)
+			upd_rd_state(t, IN_DQ, &rd);
+		else if (t->mask_exp[rd] == '0' && t->word[rd] == '"' && t->state == IN_DQ)
+			upd_rd_state(t, NEUTRAL, &rd);
+		else if (t->mask_exp[rd] == '0' && t->word[rd] == '\'' && t->state == NEUTRAL)
+			upd_rd_state(t, IN_SQ, &rd);
+		else if (t->mask_exp[rd] == '0' && t->word[rd] == '\'' && t->state == IN_SQ)
+			upd_rd_state(t, NEUTRAL, &rd);
+		else
+			read_write_token(t, &rd, &wr);
+	}
+	t->word[wr] = '\0';
+	t->mask_exp[wr] = '\0';
+	(void)shell;
 }
 
 t_token	*split_token(t_shell *shell, t_token *token, int i)
