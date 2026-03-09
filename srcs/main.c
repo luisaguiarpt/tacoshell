@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 18:48:00 by josepedr          #+#    #+#             */
+/*   Updated: 2026/03/06 18:48:05 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/tacoshell.h"
 
 int	g_signal;
@@ -10,16 +22,8 @@ int	main(int ac, char **av, char **envp)
 
 	(void)av;
 	//show_title();
-	//if (ac == 1)
 	(void)ac;
 	exit_code = repl(envp, av[1]);
-	/*
-	else if (ac > 1)
-	{
-		printf("Usage: ./minishell\n");
-		exit(EINVAL);
-	}
-	*/
 	return (exit_code);
 }
 

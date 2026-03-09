@@ -20,8 +20,12 @@ char	*get_env(t_env *env, char *key);
 int		unset_env(t_core *core, char *key);
 void	env_split(char *env, char **key, char **value);
 
-// Export
+// Export - ft_export.c
 t_env	*sort_env(t_env *unsorted);
+int	check_var_char(char c);
+
+// Export Utils - export_utils.c
+int	check_export_arg(char *argv);
 
 // Utils - builtin_utils.c
 int		count_args(char **argv);
