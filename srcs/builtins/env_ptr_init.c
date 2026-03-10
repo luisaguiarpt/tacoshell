@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/tacoshell.h"
+#include "../../incs/minishell.h"
 
-static int	env_count(t_core *core)
+static int	env_count(t_shell *shell)
 {
 	int		i;
 	t_env	*current;
 
 	i = 0;
-	current = core->env;
+	current = shell->env;
 	while (current)
 	{
 		current = current->next;
@@ -41,35 +41,35 @@ static char	*env_join(char *key, char *value)
 		return (result);
 }
 
-int	env_ptr_init(t_core *core)
+int	env_ptr_init(t_shell *shell)
 {
 	int		i;
 	int		array_size;
 	t_env	*current;
 
 	i = 0;
-	current = core->env;
-	array_size = env_count(core);
-	core->env_ptr = malloc((array_size + 1) * sizeof(char *));
-	if (!core->env_ptr)
+	current = shell->env;
+	array_size = env_count(shell);
+	shell->env_ptr = malloc((array_size + 1) * sizeof(char *));
+	if (!shell->env_ptr)
 	{
 		perror("malloc");
-		free_exit(core, EXIT_FAILURE);
+		free_exit(shell, EXIT_FAILURE);
 	}
 	while (current)
 	{
-		core->env_ptr[i] = env_join(current->key, current->value);
-		if (!core->env_ptr)
-			free_exit(core, EXIT_FAILURE);
+		shell->env_ptr[i] = env_join(current->key, current->value);
+		if (!shell->env_ptr)
+			free_exit(shell, EXIT_FAILURE);
 		current = current->next;
 		i++;
 	}
-	core->env_ptr[i] = NULL;
+	shell->env_ptr[i] = NULL;
 	return (EXIT_SUCCESS);
 }
 
-void	update_env_ptr(t_core *core)
+void	update_env_ptr(t_shell *shell)
 {
-	free_array(core->env_ptr);
-	env_ptr_init(core);
+	free_array(shell->env_ptr);
+	env_ptr_init(shell);
 }

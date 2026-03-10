@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/tacoshell.h"
+#include "../../incs/minishell.h"
 
 static int	check_echo_flag(char **argv)
 {

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/tacoshell.h"
+#include "../../incs/minishell.h"
 
-static void	remove_node(t_core *core, t_env *current, t_env *prev)
+static void	remove_node(t_shell *shell, t_variable *current, t_variable *prev)
 {
 	bool	first_node;
 
@@ -21,25 +21,25 @@ static void	remove_node(t_core *core, t_env *current, t_env *prev)
 		first_node = 1;
 	else
 		prev->next = current->next;
-	free(current->key);
+	free(current->name);
 	free(current->value);
 	if (first_node)
-		core->env = current->next;
+		shell->vars = &current->next;
 	free(current);
 }
 
-int	unset_env(t_core *core, char *key)
+int	unset_var(t_shell *shell, char *name)
 {
-	t_env	*tmp;
-	t_env	*prev;
+	t_variable	*tmp;
+	t_variable	*prev;
 
-	tmp = core->env;
+	tmp = *shell->vars;
 	prev = NULL;
 	while (tmp)
 	{
-		if (ft_strcmp(key, tmp->key) == 0)
+		if (ft_strcmp(name, tmp->name) == 0)
 		{
-			remove_node(core, tmp, prev);
+			remove_node(shell, tmp, prev);
 			return (EXIT_SUCCESS);
 		}
 		prev = tmp;
@@ -48,7 +48,7 @@ int	unset_env(t_core *core, char *key)
 	return (EXIT_FAILURE);
 }
 
-int	ft_unset(t_core *core, char **argv)
+int	ft_unset(t_shell *shell, char **argv)
 {
 	int	i;
 
@@ -57,9 +57,9 @@ int	ft_unset(t_core *core, char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		unset_env(core, argv[i]);
+		unset_var(shell, argv[i]);
 		i++;
 	}
-	update_env_ptr(core);
+	//update_env_ptr(shell);
 	return (EXIT_SUCCESS);
 }

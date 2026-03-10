@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/tacoshell.h"
+#include "../incs/minishell.h"
 
 t_redir	*redir_new(t_token_type	type, char *file_path)
 {

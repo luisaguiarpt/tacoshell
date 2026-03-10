@@ -1,94 +1,97 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   scanner.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ldias-da <ldias-da@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 19:16:13 by ldias-da          #+#    #+#             */
-/*   Updated: 2026/03/06 19:16:15 by ldias-da         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../incs/minishell.h"
 
-#include "../headers/tacoshell.h"
-
-t_scanner	*init_scanner(t_shell *shell)
+void	lexer(t_shell *shell)
 {
-	t_scanner	*scanner;
+	t_token	*token;
 
-	scanner = wr_calloc(1, sizeof(t_scanner), shell);
-	scanner->start = shell->line;
-	scanner->current = shell->line;
-	scanner->shell = shell;
-	scanner->state = NEUTRAL;
-	return (scanner);
+	init_lexer(shell);
+	init_tokens_ptr(shell);
+	while (true)
+	{
+		shell->lexer->has_dollar = false;
+		token = get_next_token(shell);
+		append_token(shell, token);
+		expansion(shell, &token);
+		if (token && token->type == TK_EOF)
+			break ;
+	}
+	if (shell->debug)
+		print_tokens(shell);
 }
 
-t_token	scan_token(t_scanner *scanner)
+t_token	*get_next_token(t_shell *shell)
 {
-	char		c;
-
-	skip_space(scanner);
-	scanner->start = scanner->current;
-	if (is_at_end(scanner))
-		return (create_token(EOF_TOK, scanner));
-	c = peek(scanner);
-	if (c == '|' || c == '<' || c == '>')
-		return (scan_op(c, scanner));
-	if (c == '(' || c == ')')
-		return (error_token(ERROR_TOK_BR, scanner));
-	if (c == ';' || c == '&')
-		return (create_token(EOF_TOK, scanner));
-	return (scan_word(scanner, c));
-}
-
-t_token	scan_op(char c, t_scanner *scanner)
-{
-	if (c == '<')
-	{
-		if (match('<', scanner))
-			return (advance2(scanner), create_token(HERE_DOC, scanner));
-		else
-			return (advance(scanner), create_token(REDIR_IN, scanner));
-	}
-	if (c == '>')
-	{
-		if (match('>', scanner))
-			return (advance2(scanner), create_token(APPEND, scanner));
-		else
-			return (advance(scanner), create_token(REDIR_OUT, scanner));
-	}
+	skip_space(shell->lexer);
+	shell->lexer->start = shell->lexer->current;
+	if (is_at_end(shell->lexer))
+		return (create_token_lexer(shell, TK_EOF));
+	if (is_op_metachar(peek(shell->lexer)))
+		return (read_op_token(shell));
 	else
-		return (advance(scanner), create_token(PIPE, scanner));
+		return (read_word_token(shell));
 }
-// Peek returns the current character
-// Advance returns the current character and advances to the next character
-// Match checks to see if the argument matches the current character, if so, advances to the next character
-// is_at_end returns true if current character is \0
 
-t_token scan_word(t_scanner *scanner, char c)
+t_token	*read_word_token(t_shell *shell)
 {
-	while (!(is_metachar(peek(scanner)) && scanner->state == NEUTRAL) && !is_at_end(scanner))
+	t_lexer	*lexer;
+	char	c;
+
+	lexer = shell->lexer;
+	c = peek(lexer);
+	while (!(is_metachar(peek(lexer)) && lexer->state == NEUTRAL) && !is_at_end(lexer))
 	{
-//		c = peek(scanner);
-		if (c == '\'' && scanner->state == NEUTRAL)
-			scanner->state = IN_SINGLE_QUOTES;
-		else if (c == '\'' && scanner->state == IN_SINGLE_QUOTES)
-			scanner->state = NEUTRAL;
-		if (c == '"' && scanner->state == NEUTRAL)
-			scanner->state = IN_DOUBLE_QUOTES;
-		else if (c == '"' && scanner->state ==  IN_DOUBLE_QUOTES)
-			scanner->state = NEUTRAL;
-		if (scanner->current[1] == 0 && scanner->state == IN_SINGLE_QUOTES)
-			return(error_token(ERROR_TOK_SQ, scanner));
-		else if (scanner->current[1] == 0 && scanner->state == IN_DOUBLE_QUOTES)
-			return(error_token(ERROR_TOK_DQ, scanner));
-		c = advance(scanner);
+		if (c == '\'' && lexer->state == NEUTRAL)
+			lexer->state = IN_SQ;
+		else if (c == '\'' && lexer->state == IN_SQ)
+			lexer->state = NEUTRAL;
+		if (c == '"' && lexer->state == NEUTRAL)
+			lexer->state = IN_DQ;
+		else if (c == '"' && lexer->state == IN_DQ)
+			lexer->state = NEUTRAL;
+		if (c == '$' && lexer->state != IN_SQ)
+			shell->lexer->has_dollar = true;
+		c = advance(1, lexer);
 	}
-	return (create_token(WORD, scanner));
+	return (create_token_lexer(shell, TK_WORD));
 }
 
-bool	is_at_end(t_scanner *scanner)
+t_token	*read_op_token(t_shell *shell)
 {
-	return (*scanner->current == 0);
+	char	c;
+
+	c = peek(shell->lexer);
+	if (c == '<' && match('<', shell->lexer))
+		return (advance(2, shell->lexer), create_token_lexer(shell, TK_HERE_DOC));
+	else if (c == '<')
+		return (advance(1, shell->lexer), create_token_lexer(shell, TK_REDIR_IN));
+	if (c == '>' && match('>', shell->lexer))
+		return (advance(2, shell->lexer), create_token_lexer(shell, TK_APPEND));
+	else if (c == '>')
+		return (advance(1, shell->lexer), create_token_lexer(shell, TK_REDIR_OUT));
+	if (c == '|' && match('|', shell->lexer))
+		return (advance(2, shell->lexer), create_token_lexer(shell, TK_OR));
+	else if (c == '|')
+		return (advance(1, shell->lexer), create_token_lexer(shell, TK_PIPE));
+	if (c == '&' && match('&', shell->lexer))
+		return (advance(2, shell->lexer), create_token_lexer(shell, TK_AND));
+	else if (c == '&')
+		return (advance(1, shell->lexer), create_token_lexer(shell, TK_AMPERSAND));
+	if (c == ';' && match(';', shell->lexer))
+		return (advance(2, shell->lexer), create_token_lexer(shell, TK_SEMI_SEMI));
+	else if (c == ';')
+		return (advance(1, shell->lexer), create_token_lexer(shell, TK_SEMI));
+	else
+		return (advance(1, shell->lexer), create_token_lexer(shell, TK_EOF));
+}
+
+void	init_lexer(t_shell *shell)
+{
+	shell->lexer = ft_calloc(1, sizeof(t_lexer));
+	if (!shell->lexer)
+		exit_clean(shell, EXIT_FAILURE);
+	shell->lexer->start = shell->line;
+	shell->lexer->current = shell->line;
+	shell->lexer->shell = shell;
+	shell->lexer->state = NEUTRAL;
+	shell->lexer->has_dollar = false;
 }

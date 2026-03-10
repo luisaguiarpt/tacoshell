@@ -10,27 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/tacoshell.h"
+#include "../../incs/minishell.h"
 
-char	*prep_filename(t_token *start)
-{
-	char	*tmp;
-	char	*filename;
-
-	tmp = ft_substr(start->next->start, 0, start->next->length);
-	filename = ft_strtrim(tmp, "\"");
-	free(tmp);
-	return (filename);
-}
-
-void	add_redir_node(t_ast_cmd *cmd, t_token *start, t_core *core)
+void	add_redir_node(t_ast_cmd *cmd, t_token *token, t_shell *shell)
 {
 	char	*filename;
 	t_redir	*new_node;
 
-	(void)core;
-	filename = prep_filename(start);
-	filename = rm_quotes(filename, core);
-	new_node = redir_new(start->type, filename);
+	(void)shell;
+	filename = token->word;
+	new_node = redir_new(token->type, filename);
 	redir_append(cmd->redirs, new_node);
 }

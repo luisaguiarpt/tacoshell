@@ -1,96 +1,32 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 18:48:00 by josepedr          #+#    #+#             */
-/*   Updated: 2026/03/06 18:48:05 by josepedr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../incs/minishell.h"
 
-#include "../headers/tacoshell.h"
+int g_signal;
 
-int	g_signal;
-
-void	start_scanner(t_core *core);
-
-int	main(int ac, char **av, char **envp)
+int main(int ac, char **av, char **ep)
 {
-	int	exit_code;
+	t_shell	shell;
 
-	(void)av;
-	//show_title();
 	(void)ac;
-	exit_code = repl(envp, av[1]);
-	return (exit_code);
+	shell = init_shell(av, ep);
+	eval_loop(&shell);
+	exit_clean(&shell, EXIT_SUCCESS);
+	return (0);
 }
 
-int	repl(char **envp, char	*flag)
+void	eval_loop(t_shell *shell)
 {
-	t_core	core;
-    int   exit_status;
-
 	setup_signals();
-	core = init_core();
-	env_init(&core, envp);
 	while (true)
 	{
-		get_prompt(&core);
-		core.line = readline(core.prompt);
-		if (!core.line)
-		{
-			write(1, "exit\n", 5);
-			break;
-		}
-		if (g_signal)
-			handle_ctrl_c(&core);
-		if (!*core.line)
-			continue ;
-		if (*core.line)
-			add_history(core.line);
-		eval(&core, flag);
+		read_line(shell, "$ ");
+		lexer(shell);
+		parser(shell);
+		clean(shell);
 	}
-	rl_clear_history();
-	exit_status = core.exit_status;
-	full_free(&core);
-	return (exit_status);
 }
 
-void	eval(t_core *core, char *flag)
+void	parser(t_shell *shell)
 {
-	expand(core);
-	start_scanner(core);
-	link_tok(core->scanner, flag);
-	check_syntax(core);
-	if (core->syntax_error)
-		return ;
-	core->ast_root = create_ast(core);
-	debug_ast(core->ast_root, flag);
-	exec_control(core->ast_root, core);
-	clean_scanner(core);
-	clean_ast(core);
-}
-
-void	start_scanner(t_core *core)
-{
-	core->scanner = init_scanner(core);
-	core->syntax_error = false;
-	core->tok_head = wr_calloc(1, sizeof(t_token *), core);
-}
-
-void	print_tok(t_token *head)
-{
-	t_token *tmp;
-
-	tmp = head;
-	while (head)
-	{
-		printf("\n----\n %2d '%.*s'\n", tmp->type, (int)tmp->length, tmp->start);
-		printf("Prev: %p | Curr: %p | Next: %p\n", tmp->prev, tmp, tmp->next);
-		if (tmp->type == EOF_TOK)
-			break;
-		tmp = tmp->next;
-	}
+	shell->ast_root = create_ast(shell);
+	exec_control(shell->ast_root, shell);
 }

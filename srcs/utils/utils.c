@@ -1,4 +1,4 @@
-#include "../headers/tacoshell.h"
+#include "../incs/minishell.h"
 
 bool	is_posix_var(char c)
 {

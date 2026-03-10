@@ -10,11 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/tacoshell.h"
+#include "../../incs/minishell.h"
 
-int	ft_pwd(t_core *core)
+int	ft_pwd(t_shell *shell)
 {
-	ft_printf(get_env(core->env, "PWD"));
-	ft_printf("\n");
+	char	*cwd;
+
+	cwd = get_var_value(shell, "PWD");
+	ft_printf("%s\n", cwd);
 	return (EXIT_SUCCESS);
 }

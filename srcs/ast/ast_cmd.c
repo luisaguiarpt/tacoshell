@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/tacoshell.h"
+#include "../../incs/minishell.h"
 
-t_ast_cmd	*gen_cmd_node(t_token *start, t_token *end, t_core *core)
+t_ast_cmd	*gen_cmd_node(t_token *start, t_token *end, t_shell *shell)
 {
 	t_ast_cmd	*cmd;
 
-	cmd = wr_calloc(1, sizeof(t_ast_cmd), core);
-	cmd->redirs = wr_calloc(1, sizeof(t_redir), core);
+	cmd = wr_calloc(1, sizeof(t_ast_cmd), shell);
+	cmd->redirs = wr_calloc(1, sizeof(t_redir), shell);
 	cmd->argv = NULL;
-	gen_argv_redir(cmd, start, end, core);
+	gen_argv_redir(cmd, start, end, shell);
 	if (cmd->argv != NULL && cmd->argv[0] != NULL && !is_builtin(cmd->argv[0]))
-		cmd->cmd_path = get_path(cmd->argv[0], core);
+		cmd->cmd_path = get_path(cmd->argv[0], shell);
 	return (cmd);
 }
 
@@ -55,7 +55,7 @@ int	count_cmd_args(t_token *start, t_token *end)
 	return (n);
 }
 
-char	*get_path(char *av_cmd, t_core *core)
+char	*get_path(char *av_cmd, t_shell *shell)
 {
 	int		i;
 	char	**cmd;
@@ -63,7 +63,7 @@ char	*get_path(char *av_cmd, t_core *core)
 	char	*cmd_path;
 
 	cmd = ft_split(av_cmd, ' ');
-	paths = ft_split(get_env(core->env, "PATH"), ':');
+	paths = ft_split(get_var_value(shell, "PATH"), ':');
 	i = -1;
 	while (paths[++i])
 	{

@@ -10,27 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/tacoshell.h"
+#include "../../incs/minishell.h"
 
 // Changes state and returns true if state changed and false if not
 bool	get_state(char c, t_state *state)
 {
 	if (c == '\'' && *state == NEUTRAL)
 	{
-		*state = IN_SINGLE_QUOTES;
+		*state = IN_SQ;
 		return (true);
 	}
-	else if (c == '\'' && *state == IN_SINGLE_QUOTES)
+	else if (c == '\'' && *state == IN_SQ)
 	{
 		*state = NEUTRAL;
 		return (true);
 	}
 	else if (c == '"' && *state == NEUTRAL)
 	{
-		*state = IN_DOUBLE_QUOTES;
+		*state = IN_DQ;
 		return (true);
 	}
-	else if (c == '"' && *state == IN_DOUBLE_QUOTES)
+	else if (c == '"' && *state == IN_DQ)
 	{
 		*state = NEUTRAL;
 		return (true);
@@ -38,7 +38,7 @@ bool	get_state(char c, t_state *state)
 	return (false);
 }
 
-char	*rm_quotes(char *str, t_core *core)
+char	*rm_quotes(char *str, t_shell *shell)
 {
 	int		i;
 	int		k;
@@ -48,7 +48,7 @@ char	*rm_quotes(char *str, t_core *core)
 	i = 0;
 	k = 0;
 	state = NEUTRAL;
-	tmp = wr_calloc(1, ft_strlen(str) + 1, core);
+	tmp = wr_calloc(1, ft_strlen(str) + 1, shell);
 	while (str[i])
 	{
 		if (get_state(str[i], &state))

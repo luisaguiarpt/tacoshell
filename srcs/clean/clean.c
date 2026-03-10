@@ -1,29 +1,30 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ldias-da <ldias-da@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 19:10:36 by ldias-da          #+#    #+#             */
-/*   Updated: 2026/03/06 19:10:39 by ldias-da         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../../incs/minishell.h"
 
-#include "../headers/tacoshell.h"
-
-void	clean_scanner(t_core *core)
+void	clean(t_shell *shell)
 {
-	free_tokens(*core->tok_head);
-	if (core->tok_head)
-		free(core->tok_head);
-	core->tok_head = NULL;
-	if (core->scanner)
-		free(core->scanner);
-	core->scanner = NULL;
-	if (core->line)
-		free(core->line);
-	core->line = NULL;
+	if (shell->line)
+	{
+		free(shell->line);
+		shell->line = NULL;
+	}
+	if (shell->lexer)
+		clean_lexer(shell);
+	if (shell->ast_root)
+		clean_ast(shell);
+}
+void	exit_clean(t_shell *shell, int exit_code)
+{
+	if (shell->prompt)
+		free(shell->prompt);
+	if (shell->line)
+		free(shell->line);
+	if (shell->vars)
+		clean_shell_vars(shell);
+	if (shell->lexer)
+		clean_lexer(shell);
+	if (shell->ast_root)
+		clean_ast(shell);
+	exit(exit_code);
 }
 
 void	clean_redirs(t_redir *redir)
@@ -81,8 +82,108 @@ void	clean_ast_node(t_ast *node)
 	}
 }
 
-void	clean_ast(t_core *core)
+void	clean_ast(t_shell *shell)
 {
-	clean_ast_node(core->ast_root);
-	core->ast_root = NULL;
+	clean_ast_node(shell->ast_root);
+	shell->ast_root = NULL;
+}
+
+void	free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	if (!array)
+		return ;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array[i]);
+	free(array);
+}
+
+void	clean_lexer(t_shell *shell)
+{
+	t_token	*node;
+
+	if (!shell->tokens)
+		return ;
+	node = *shell->tokens;
+	free_tokens(shell->tokens);
+	free(shell->tokens);
+	shell->tokens = NULL;
+	free(shell->lexer);
+	shell->lexer = NULL;
+}
+
+void	clean_shell_vars(t_shell *shell)
+{
+	t_variable	*var;
+	t_variable	*tmp;
+
+	var = *shell->vars;
+	while (var)
+	{
+		tmp = var->next;
+		if (var->name)
+			free(var->name);
+		if (var->value)
+			free(var->value);
+		if (var->exportstr)
+			free(var->exportstr);
+		free(var);
+		var = tmp;
+	}
+	free(shell->vars);
+}
+
+void	free_tokens(t_token **node_ptr)
+{
+	t_token	*tmp;
+	t_token	*node;
+
+	if (!node_ptr)
+		return ;
+	node = *node_ptr;
+	while (node)
+	{
+		tmp = node->next;
+		free_token(node);
+		node = tmp;
+	}
+}
+
+void	free_token(t_token *token)
+{
+	if (!token)
+		return ;
+	if (token->word)
+	{
+		free(token->word);
+		token->word = NULL;
+	}
+	if (token->mask)
+	{
+		free(token->mask);
+		token->mask = NULL;
+	}
+	free(token);
+}
+
+void	*free_mem_arr(char **arr, int index)
+{
+	int	i;
+
+	i = 0;
+	if (!arr)
+		return (NULL);
+	while (i < index)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+	return (NULL);
 }

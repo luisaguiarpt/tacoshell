@@ -10,63 +10,63 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/tacoshell.h"
+#include "../../incs/minishell.h"
 
-static int	print_export(t_core *core)
+static int	print_export(t_shell *shell)
 {
-	t_env	*tmp_env;
-	t_env	*current;
+	//t_variable	*tmp_env;
+	t_variable	*current;
 
-	tmp_env = populate_env(core->env_ptr);
-	tmp_env = sort_env(tmp_env);
-	current = tmp_env;
+	//tmp_env = init_shell_vars(shell, shell->vars);
+	//tmp_env = sort_env(tmp_env);
+	current = *shell->vars;
 	while (current)
 	{
 		if (current->value != NULL && *current->value)
-			ft_printf("declare -x %s=\"%s\"\n", current->key, current->value);
+			ft_printf("declare -x %s=\"%s\"\n", current->name, current->value);
 		else
-			ft_printf("declare -x %s\n", current->key);
+			ft_printf("declare -x %s\n", current->name);
 		current = current->next;
 	}
-	free_env_struct(tmp_env);
+	//free_env_struct(tmp_env);
 	return (EXIT_SUCCESS);
 }
 
-static void	append_env(t_env **env, char *key, char *value)
-{
-	t_env	*tmp;
-	char	*new_value;
+//static void	append_env(t_env **env, char *key, char *value)
+//{
+//	t_env	*tmp;
+//	char	*new_value;
+//
+//	tmp = *env;
+//	while (tmp)
+//	{
+//		if (ft_strcmp(key, tmp->key) == 0)
+//		{
+//			if (!value)
+//				return ;
+//			new_value = ft_strjoin2(tmp->value, value, 0);
+//			tmp->value = new_value;
+//			return ;
+//		}
+//		tmp = tmp->next;
+//	}
+//	set_var(env, key, value);
+//	return ;
+//}
 
-	tmp = *env;
-	while (tmp)
-	{
-		if (ft_strcmp(key, tmp->key) == 0)
-		{
-			if (!value)
-				return ;
-			new_value = ft_strjoin2(tmp->value, value, 0);
-			tmp->value = new_value;
-			return ;
-		}
-		tmp = tmp->next;
-	}
-	set_env(env, key, value);
-	return ;
-}
-
-static bool	check_append(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i + 1])
-	{
-		if (str[i] == '+' && str[i + 1] == '=')
-			return (true);
-		i++;
-	}
-	return (false);
-}
+//static bool	check_append(char *str)
+//{
+//	int	i;
+//
+//	i = 0;
+//	while (str[i] && str[i + 1])
+//	{
+//		if (str[i] == '+' && str[i + 1] == '=')
+//			return (true);
+//		i++;
+//	}
+//	return (false);
+//}
 
 int	check_var_char(char c)
 {
@@ -80,25 +80,25 @@ int	check_var_char(char c)
 		return (1);
 }
 
-int	ft_export(t_core *core, char **argv)
+int	ft_export(t_shell *shell, char **argv)
 {
 	char	*key;
 	char	*value;
 	int		i;
 
 	if (!argv[1])
-		return (print_export(core), EXIT_SUCCESS);
+		return (print_export(shell), EXIT_SUCCESS);
 	i = 1;
 	while (argv[i])
 	{
 		if (check_export_arg(argv[i]) == 1)
 			return (EXIT_FAILURE);
 		env_split(argv[i], &key, &value);
-		if (check_append(argv[i]))
-			append_env(&core->env, key, value);
-		else
-			set_env(&core->env, key, value);
-		update_env_ptr(core);
+		//if (check_append(argv[i]))
+			//append_shell_var(shell->vars, );
+		//else
+		set_var(shell->vars, key, value);
+		//update_env_ptr(shell);
 		free(key);
 		free(value);
 		i++;
