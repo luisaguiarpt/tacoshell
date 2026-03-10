@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/minishell.h"
+#include "../../headers/tacoshell.h"
 
 static void	swap_head(t_env **sorted_head, t_env **node)
 {
@@ -28,6 +28,32 @@ static void	swap_body(t_env **sorted, t_env **node)
 	tmp = (*sorted)->next;
 	(*sorted)->next = *node;
 	(*node)->next = tmp;
+}
+
+int	check_export_arg(char *argv)
+{
+	int	i;
+
+	i = 0;
+	if (is_digit(argv[0]) || argv[0] == '=')
+	{
+		ft_printf_fd(2, "export: '%s': not a valid identifier\n", argv);
+		return (1);
+	}
+	while (argv[i] != '=')
+	{
+		if (argv[i] == 0)
+			return (0);
+		if (argv[i] == '+' && argv[i + 1] == '=')
+			return (0);
+		if (check_var_char(argv[i]))
+		{
+			ft_printf_fd(2, "export: '%s': not a valid identifier\n", argv);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
 t_env	*sort_env(t_env *unsorted)
@@ -49,7 +75,7 @@ t_env	*sort_env(t_env *unsorted)
 		}
 		else if (ft_strcmp(node->key, sorted_head->key) < 0)
 			swap_head(&sorted_head, &node);
-		else 
+		else
 		{
 			while (sorted->next && ft_strcmp(node->key, sorted->next->key) >= 0)
 				sorted = sorted->next;

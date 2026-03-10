@@ -10,55 +10,55 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/minishell.h"
+#include "../../headers/tacoshell.h"
 
-void	update_shlvl(t_shell	*shell)
+void	update_shlvl(t_core	*core)
 {
 	int		shlvl_int;
 	char	*shlvl_ascii;
 
-	shlvl_int = ft_atoi(get_variable(shell->env, "SHLVL"));
+	shlvl_int = ft_atoi(get_env(core->env, "SHLVL"));
 	shlvl_ascii = ft_itoa(shlvl_int + 1);
-	set_variable(&shell->env, "SHLVL", shlvl_ascii);
+	set_env(&core->env, "SHLVL", shlvl_ascii);
 	free(shlvl_ascii);
 }
 
-t_variable	*populate_env(char **envp)
+t_env	*populate_env(char **envp)
 {
 	int		i;
-	char	*name;
+	char	*key;
 	char	*value;
-	t_variable	*env;
+	t_env	*env;
 
 	i = 0;
 	env = NULL;
 	while (envp[i])
 	{
-		env_split(envp[i], &name, &value);
-		env = set_variable(&env, name, value);
-		free(name);
+		env_split(envp[i], &key, &value);
+		env = set_env(&env, key, value);
+		free(key);
 		free(value);
 		i++;
 	}
 	return (env);
 }
 
-void	env_init(t_shell *shell, char **envp)
+void	env_init(t_core *core, char **envp)
 {
-	shell->env = populate_env(envp);
-	update_shlvl(shell);
-	env_ptr_init(shell);
+	core->env = populate_env(envp);
+	update_shlvl(core);
+	env_ptr_init(core);
 }
 
-int	ft_env(t_shell *shell)
+int	ft_env(t_core *core)
 {
-	t_variable	*current;
+	t_env	*current;
 
-	current = shell->env;
+	current = core->env;
 	while (current)
 	{
 		if (current->value != NULL)
-			ft_printf("%s=%s\n", current->name, current->value);
+			ft_printf("%s=%s\n", current->key, current->value);
 		current = current->next;
 	}
 	return (EXIT_SUCCESS);

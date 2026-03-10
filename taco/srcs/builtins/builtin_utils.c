@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/minishell.h"
+#include "../../headers/tacoshell.h"
 
-int		count_args(char **argv)
+int	count_args(char **argv)
 {
 	int	i;
 
 	i = 0;
 	while (argv[i])
-	  i++;
+		i++;
 	return (i);
 }
 
@@ -36,7 +36,17 @@ bool	is_builtin(char *cmd)
 		return (false);
 }
 
-int	exec_builtin(t_shell *shell, char **argv)
+/*
+ * echo = ft_echo
+ * cd = ft_cd
+ * pwd = ft_pwd
+ * export = set_env
+ * unset = unset_env
+ * env = ft_env
+ * exit = print_n_bounce
+ */
+
+int	exec_builtin(t_core *core, char **argv)
 {
 	char	*cmd;
 
@@ -44,16 +54,16 @@ int	exec_builtin(t_shell *shell, char **argv)
 	if (ft_strcmp("echo", cmd) == 0)
 		return (ft_echo(argv));
 	else if (ft_strcmp("cd", cmd) == 0)
-		return (ft_cd(shell, argv));
+		return (ft_cd(core, argv));
 	else if (ft_strcmp("pwd", cmd) == 0)
-		return (ft_pwd(shell));
+		return (ft_pwd(core));
 	else if (ft_strcmp("export", cmd) == 0)
-		return (ft_export(shell, argv));
+		return (ft_export(core, argv));
 	else if (ft_strcmp("unset", cmd) == 0)
-		return (ft_unset(shell, argv));
+		return (ft_unset(core, argv));
 	else if (ft_strcmp("env", cmd) == 0)
-		return (ft_env(shell));
-	else if(ft_strcmp("exit", cmd) == 0)
-		(ft_exit(shell, argv));
-	return (1); // just to deal with the error, int function has to return something (check in the future)
+		return (ft_env(core));
+	else if (ft_strcmp("exit", cmd) == 0)
+		(ft_exit(core, argv));
+	return (1);
 }
