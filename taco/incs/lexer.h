@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 15:23:17 by josepedr          #+#    #+#             */
+/*   Updated: 2026/03/10 15:23:18 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LEXER_H
 # define LEXER_H
 
@@ -87,7 +99,7 @@ void	read_write_token(t_token *token, size_t *rd, size_t *wr);
 void	skip_space(t_lexer *lexer);
 char	advance(int i, t_lexer *lexer);
 char	peek(t_lexer *lexer);
-bool	match(char	expected, t_lexer *lexer);
+bool	match(char expected, t_lexer *lexer);
 bool	is_at_end(t_lexer *lexer);
 
 // lexer_tokens.c - Lexer token list utils

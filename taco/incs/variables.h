@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   variables.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 15:23:37 by josepedr          #+#    #+#             */
+/*   Updated: 2026/03/10 15:23:39 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VARIABLES_H
 # define VARIABLES_H
 
-typedef struct	s_variable t_variable;
+typedef struct s_variable	t_variable;
 
-typedef struct	s_variable
+typedef struct s_variable
 {
 	char		*name;
 	char		*value;

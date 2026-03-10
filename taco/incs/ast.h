@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/10 15:23:01 by josepedr          #+#    #+#             */
+/*   Updated: 2026/03/10 15:23:02 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef AST_H
 # define AST_H
 
@@ -29,7 +41,6 @@ typedef struct	s_ast
 }				t_ast;
 
 // Create the AST - ast.c
-
 t_ast		*create_ast(t_shell *shell);
 t_ast		*parse_tokens(t_token *start, t_token *end, t_shell *shell);
 t_ast		*create_ast_node(t_ast_node_type type, t_token *start, t_token *end, t_shell *shell);

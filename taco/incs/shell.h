@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read.h                                             :+:      :+:    :+:   */
+/*   taco.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/10 15:23:22 by josepedr          #+#    #+#             */
-/*   Updated: 2026/03/10 15:23:23 by josepedr         ###   ########.fr       */
+/*   Created: 2026/03/10 15:23:28 by josepedr          #+#    #+#             */
+/*   Updated: 2026/03/10 15:23:29 by josepedr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READ_H
-# define READ_H
+#ifndef SHELL_H
+# define SHELL_H
 
-// read_line.c - Wrapper for readline
-bool	read_line(t_shell *shell, char *str);
-
-// get_prompt.c
-void	get_prompt(t_shell *shell)
+// shell_init.c - shell struct initialization
+t_shell	init_shell(char **av, char **ep);
+void	set_shell_null(t_shell *shell);
 
 #endif
