@@ -44,7 +44,66 @@ char	*str_replace_first(t_shell *shell, char *str, char *rep, char *with)
 	return (free(str), res);
 }
 
-//char	*str_replace(t_shell *shell, char)
+static char	*str_app_str(t_shell *shell, char *s1, char *s2);
+static char	*str_app_char(t_shell *shell, char *s1, char c);
+
+char	*str_replace(t_shell *shell, char *str, char *rep, char *with)
+{
+	char	*new;
+	size_t	i;
+	int		replaced;
+
+	i = 0;
+	replaced = 0;
+	new = NULL;
+	while (str[i])
+	{
+		if (ft_strncmp(&str[i], rep, ft_strlen(rep)) == 0 && !replaced)
+		{
+			new = str_app_str(shell, new, with);
+			i += ft_strlen(rep);
+			replaced = 1;
+		}
+		else
+			new = str_app_char(shell, new, str[i++]);
+	}
+	return (new);
+}
+
+static char	*str_app_char(t_shell *shell, char *s1, char c)
+{
+	char	*new;
+	size_t	i;
+
+	new = ft_calloc(1, (ft_strlen(s1) + 2) * sizeof(char));
+	if (!new)
+		exit_clean(shell, EXIT_FAILURE);
+	i = 0;
+	while (s1 && s1[i])
+	{
+		new[i] = s1[i];
+		i++;
+	}
+	new[i++] = c;
+	new[i] = 0;
+	free(s1);
+	return (new);
+}
+
+static char	*str_app_str(t_shell *shell, char *s1, char *s2)
+{
+	char	*new;
+
+	if (!s1)
+		return (ft_strdup(s2));
+	else if (!s2)
+		return (ft_strdup(s1));
+	new = ft_strjoin(s1, s2);
+	if (!new)
+		exit_clean(shell, EXIT_FAILURE);
+	free(s1);
+	return (new);
+}
 
 static size_t	write_to_mem(char *dest, char *ins)
 {

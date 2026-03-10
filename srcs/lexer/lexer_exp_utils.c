@@ -18,7 +18,7 @@ void	upd_exp_mask(t_token *token, int i, char *key, char *value)
 	ft_memmove(new_mask, token->mask, start);
 	while (start < new_end)
 		new_mask[start++] = '1';
-	ft_memmove(&new_mask[new_end], &token->mask[old_end], new_len - new_end);
+	ft_memmove(&new_mask[new_end], &token->mask[old_end], new_len - new_end - 1);
 	free(token->mask);
 	token->mask = new_mask;
 }

@@ -26,6 +26,7 @@ bool	is_op_metachar(char c);
 
 // utils_strings.c - String utils
 char	*str_replace_first(t_shell *shell, char *str, char *rep, char *with);
+char	*str_replace(t_shell *shell, char *str, char *rep, char *with);
 
 //wrapper_callo.c
 void	*wr_calloc(size_t nmemb, size_t size, t_shell *shell);

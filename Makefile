@@ -79,4 +79,7 @@ re: fclean all
 valgrind: all 
 	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_read ./minishell
 
+gdval: all 
+	valgrind --vgdb=yes --vgdb-error=0 --leak-check=full --show-leak-kinds=all --suppressions=sup_read ./minishell
+
 .PHONY: all clean fclean re

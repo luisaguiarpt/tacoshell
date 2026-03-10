@@ -75,7 +75,7 @@ void	remove_token(t_shell *shell, t_token *token)
 		return ;
 	prev = token->prev;
 	next = token->next;
-	free_token(&token);
+	free_token(token);
 	prev->next = next;
 	next->prev = prev;
 	(void)shell ;
