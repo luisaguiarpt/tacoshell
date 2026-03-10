@@ -38,7 +38,7 @@ void	ft_exit(t_core *core, char **argv)
 	exit_code = -1;
 	write(1, "exit\n", 5);
 	if (!argv[1])
-		exit_code = core->exit_status;
+		exit_clean(core, core->exit_status);
 	else if (!num_check(argv[1]))
 	{
 		ft_printf_fd(2, "exit: %s: numeric argument required\n", argv[1]);
@@ -53,5 +53,5 @@ void	ft_exit(t_core *core, char **argv)
 	if (exit_code < 0)
 		exit_code = ft_atoi(argv[1]);
 	core->exit_status = (unsigned char)exit_code;
-	free_exit(core, core->exit_status);
+	exit_clean(core, core->exit_status);
 }

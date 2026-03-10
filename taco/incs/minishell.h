@@ -38,7 +38,7 @@ typedef enum	e_state t_state;
 # include "taco.h"
 # include "signals.h"
 # include "variables.h"
-# include "read_line.h"
+# include "read.h"
 # include "lexer.h"
 # include "utils.h"
 # include "clean.h"
@@ -50,12 +50,14 @@ void	eval_loop(t_shell *shell);
 typedef struct s_shell
 {
 	char		*line;
+	char		*prompt;
+	bool		syntax_error;
+	int			debug;
+	int			exit_status;
 	t_variable	**vars;
 	t_lexer		*lexer;
 	t_token		**tokens;
 //	t_ast		*ast_root;
-	int			debug;
-	int			exit_status;
 }				t_shell;
 
 #endif
