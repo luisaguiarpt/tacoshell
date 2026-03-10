@@ -3,9 +3,9 @@
 void	save_fds(int fds[2]);
 void	restore_fds(int fds[2]);
 int		check_cmd(t_ast *node);
-void	builtin_handler(t_ast *node, int	fds[2], t_core *core);
+void	builtin_handler(t_ast *node, int	fds[2], t_shell *shell);
 
-void	exec_control(t_ast *node, t_core *core)
+void	exec_control(t_ast *node, t_shell *shell)
 {
 	pid_t	pid;
 	int		wstatus = 0;
@@ -13,31 +13,31 @@ void	exec_control(t_ast *node, t_core *core)
 
 	save_fds(fds);
 	if (node->type == CMD_NODE && is_builtin(node->cmd->argv[0]))
-		return (builtin_handler(node, fds, core));
+		return (builtin_handler(node, fds, shell));
 	pid = fork();
 	if (pid == -1)
-		free_exit(core, EXIT_FAILURE);
+		free_exit(shell, EXIT_FAILURE);
 	if (pid == 0)
-		exec_pipeline(node, STDIN_FILENO, core);
+		exec_pipeline(node, STDIN_FILENO, shell);
 	else
 	{
 		disable_parent_signals();
 		waitpid(pid, &wstatus, 0);
 	}
 	if (WIFEXITED(wstatus))
-		core->exit_status = WEXITSTATUS(wstatus);
+		shell->exit_status = WEXITSTATUS(wstatus);
 	restore_parent_signals();
 }
 
-void	builtin_handler(t_ast *node, int fds[2], t_core *core)
+void	builtin_handler(t_ast *node, int fds[2], t_shell *shell)
 {
-	if (handle_redirs(*node->cmd->redirs, core) == EXIT_FAILURE)
+	if (handle_redirs(*node->cmd->redirs, shell) == EXIT_FAILURE)
 	{
 		restore_fds(fds);
-		core->exit_status = EXIT_FAILURE;
+		shell->exit_status = EXIT_FAILURE;
 		return ;
 	}
-	core->exit_status = exec_builtin(core, node->cmd->argv);
+	shell->exit_status = exec_builtin(shell, node->cmd->argv);
 	restore_fds(fds);
 	return ;
 }
@@ -54,7 +54,7 @@ void	restore_fds(int fds[2])
 	dup2(fds[1], STDOUT_FILENO);
 }
 
-int	execve_handler(t_ast *node, t_core *core)
+int	execve_handler(t_ast *node, t_shell *shell)
 {
 	int	cmd_check;
 	int	exit_status;
@@ -62,13 +62,13 @@ int	execve_handler(t_ast *node, t_core *core)
 	cmd_check = check_cmd(node);
 	if (cmd_check)
 	{
-		full_free(core);
+		full_free(shell);
 		return (cmd_check);
 	}
 	if (node->cmd->cmd_path)
-		execve(node->cmd->cmd_path, node->cmd->argv, core->env_ptr);
+		execve(node->cmd->cmd_path, node->cmd->argv, shell->env_ptr);
 	else if (ft_strchr(*node->cmd->argv, '/'))
-		execve(node->cmd->argv[0], node->cmd->argv, core->env_ptr);
+		execve(node->cmd->argv[0], node->cmd->argv, shell->env_ptr);
 	if (errno == EACCES || errno == ENOEXEC)
 	{
 		exit_status = 126;
@@ -79,7 +79,7 @@ int	execve_handler(t_ast *node, t_core *core)
 		ft_printf_fd(2, "%s: command not found\n", node->cmd->argv[0]);
 		exit_status = 127;
 	}
-	full_free(core);
+	full_free(shell);
 	return (exit_status);
 }
 
@@ -118,15 +118,15 @@ int	check_cmd(t_ast *node)
 }
 
 // Need to implement checks for pipe() and fork() for correctness
-void	exec_pipeline(t_ast *node, int input_fd, t_core *core)
+void	exec_pipeline(t_ast *node, int input_fd, t_shell *shell)
 {
 	if (node->type == CMD_NODE)
-		exec_cmd(node, input_fd, core);
+		exec_cmd(node, input_fd, shell);
 	else if (node->type == PIPE_NODE)
-		exec_pipe(node, input_fd, core);
+		exec_pipe(node, input_fd, shell);
 }
 
-void	exec_cmd(t_ast *node, int input_fd, t_core *core)
+void	exec_cmd(t_ast *node, int input_fd, t_shell *shell)
 {
 	if (input_fd != 0)
 	{
@@ -135,43 +135,43 @@ void	exec_cmd(t_ast *node, int input_fd, t_core *core)
 	}
 	if (is_builtin(node->cmd->argv[0]))
 	{
-		if (handle_redirs(*node->cmd->redirs, core) == EXIT_FAILURE)
+		if (handle_redirs(*node->cmd->redirs, shell) == EXIT_FAILURE)
 			exit(1);
-		g_signal = exec_builtin(core, node->cmd->argv);
-		free_exit(core, g_signal);
+		g_signal = exec_builtin(shell, node->cmd->argv);
+		free_exit(shell, g_signal);
 	}
 	else
 	{
-		if (handle_redirs(*node->cmd->redirs, core) != EXIT_SUCCESS)
-			free_exit(core, EXIT_FAILURE);
-		exit(execve_handler(node, core));
+		if (handle_redirs(*node->cmd->redirs, shell) != EXIT_SUCCESS)
+			free_exit(shell, EXIT_FAILURE);
+		exit(execve_handler(node, shell));
 	}
 }
 
-void	exec_pipe(t_ast *node, int input_fd, t_core *core)
+void	exec_pipe(t_ast *node, int input_fd, t_shell *shell)
 {
 	pid_t	pid;
 	int		pipefd[2];
 
 	if (pipe(pipefd) == -1)
-		free_exit(core, core->exit_status);
+		free_exit(shell, shell->exit_status);
 	pid = fork();
 	if (pid == -1)
-		free_exit(core, core->exit_status);
+		free_exit(shell, shell->exit_status);
 	if (pid == 0)
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
-		exec_pipeline(node->left, input_fd, core);
+		exec_pipeline(node->left, input_fd, shell);
 	}
 	else
 	{
 		close(pipefd[1]);
-		exec_pipeline(node->right, pipefd[0], core);
+		exec_pipeline(node->right, pipefd[0], shell);
 		if (input_fd != 0)
 			close(input_fd);
 		waitpid(pid, NULL, 0);
 	}
-	free_exit(core, g_signal);
+	free_exit(shell, g_signal);
 }

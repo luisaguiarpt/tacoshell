@@ -12,12 +12,47 @@
 
 #include "../headers/tacoshell.h"
 
-int	heredoc_read(t_redir *curr, int heredoc_curr, t_core *core);
+int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell);
 int	count_heredocs(t_redir *head);
 
-int	handle_redirs(t_redir *head, t_core *core)
+static int	handle_in(char *path)
 {
-	int		fd;
+	int	fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+		return (perror(path), EXIT_FAILURE);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (0);
+}
+
+static int	handle_out(char *path, char *next)
+{
+	int	fd;
+
+	fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		return (perror(path), EXIT_FAILURE);
+	if (!next)
+		dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (0);
+}
+
+static int	handle_append(char *path, char *next)
+{
+	fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd == -1)
+		return (perror(path), EXIT_FAILURE);
+	if (!next)
+		dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (0);
+}
+
+int	handle_redirs(t_redir *head, t_shell *shell)
+{
 	int		heredoc_count;
 	int		heredoc_curr;
 	t_redir	*tmp;
@@ -27,36 +62,16 @@ int	handle_redirs(t_redir *head, t_core *core)
 	heredoc_curr = heredoc_count;
 	while (tmp && g_signal == 0)
 	{
-		if (tmp->type == REDIR_IN)
-		{
-			fd = open(tmp->file_path, O_RDONLY);
-			if (fd == -1)
-				return (perror(tmp->file_path), EXIT_FAILURE);
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
-		else if (tmp->type == REDIR_OUT)
-		{
-			fd = open(tmp->file_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd == -1)
-				return (perror(tmp->file_path), EXIT_FAILURE);
-			if (!tmp->next)
-				dup2(fd, STDOUT_FILENO);
-			close(fd);
-		}
-		else if (tmp->type == APPEND)
-		{
-			fd = open(tmp->file_path, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (fd == -1)
-				return (perror(tmp->file_path), EXIT_FAILURE);
-			if (!tmp->next)
-				dup2(fd, STDOUT_FILENO);
-			close(fd);
-		}
+		if (tmp->type == REDIR_IN && handle_in(tmp->file_path))
+			return (EXIT_FAILURE);
+		else if (tmp->type == REDIR_OUT && handle_out(tmp->file_path, tmp->next))
+			return (EXIT_FAILURE);
+		else if (tmp->type == APPEND && handle_append(tmp->file_path, tmp->next))
+			return (EXIT_FAILURE);
 		else if (tmp->type == HERE_DOC)
 		{
 			heredoc_curr--;
-			heredoc_read(tmp, heredoc_curr, core);
+			heredoc_read(tmp, heredoc_curr, shell);
 		}
 		tmp = tmp->next;
 	}
@@ -77,7 +92,7 @@ int	count_heredocs(t_redir *head)
 	return (count);
 }
 
-void	write_expand(int fd, char *line, t_core *core)
+void	write_expand(int fd, char *line, t_shell *shell)
 {
 	int		i;
 	char	*tmp_var;
@@ -90,13 +105,13 @@ void	write_expand(int fd, char *line, t_core *core)
 			write(fd, &line[i++], 1);
 		else if (line[i + 1] && line[i + 1] == '?')
 		{
-			ft_putnbr_fd(core->exit_status, fd);
+			ft_putnbr_fd(shell->exit_status, fd);
 			i += 2;
 		}
 		else if (line[i + 1] && is_posix_var(line[i + 1]))
 		{
 			tmp_var = isolate_word(&line[i]);
-			tmp_env = get_env(core->env, &tmp_var[1]);
+			tmp_env = get_env(shell->env, &tmp_var[1]);
 			ft_putstr_fd(tmp_env, fd);
 			i += ft_strlen(tmp_var);
 			free(tmp_var);
@@ -113,7 +128,7 @@ void	handler_heredoc(int signo)
 	signal(SIGINT, handle_sigint);
 }
 
-int	heredoc_read(t_redir *curr, int heredoc_curr, t_core *core)
+int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell)
 {
 	char	*line;
 	char	*tmp;
@@ -139,7 +154,7 @@ int	heredoc_read(t_redir *curr, int heredoc_curr, t_core *core)
 		}
 		line_no++;
 		tmp = ft_strjoin2(line, "\n", 0);
-		write_expand(fd, tmp, core);
+		write_expand(fd, tmp, shell);
 		free(tmp);
 	}
 	if (line)

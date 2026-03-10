@@ -14,18 +14,17 @@
 
 static int	env_count(t_shell *shell)
 {
-	int		i;
+	int		count;
 	t_env	*current;
 
 	i = 0;
-	// if (!*shell->env->key) // possibly not necessary because if there is no env vars, this function would never be called, an error would've already happened
 	current = shell->env;
 	while (current)
 	{
 		current = current->next;
-		i++;
+		count++;
 	}
-	return (i);
+	return (count);
 }
 
 static char	*env_join(char *key, char *value)
@@ -34,10 +33,7 @@ static char	*env_join(char *key, char *value)
 
 	result = ft_strjoin2(ft_strjoin(key, "="), value, 0);
 	if (!result)
-	{
-		perror("malloc");
 		return (NULL);
-	}
 	else
 		return (result);
 }
@@ -53,15 +49,12 @@ int	env_ptr_init(t_shell *shell)
 	array_size = env_count(shell);
 	shell->env_ptr = malloc((array_size + 1) * sizeof(char *));
 	if (!shell->env_ptr)
-	{
-		perror("malloc");
-		free_exit(shell, EXIT_FAILURE);
-	}
+		exit_clean(shell, EXIT_FAILURE);
 	while (current)
 	{
 		shell->env_ptr[i] = env_join(current->key, current->value);
 		if (!shell->env_ptr)
-			free_exit(shell, EXIT_FAILURE);
+			exit_clean(shell, EXIT_FAILURE);
 		current = current->next;
 		i++;
 	}
