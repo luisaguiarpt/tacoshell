@@ -32,12 +32,7 @@ void	clean_lexer(t_shell *shell)
 	if (!shell->tokens)
 		return ;
 	node = *shell->tokens;
-	while (node)
-	{
-		tmp_node = node->next;
-		free_token_list(node);
-		node = tmp_node;
-	}
+	free_tokens(shell->tokens);
 	free(shell->tokens);
 	shell->tokens = NULL;
 	free(shell->lexer);
@@ -65,24 +60,39 @@ void	clean_shell_vars(t_shell *shell)
 	free(shell->vars);
 }
 
-void	free_token_list(t_token_list *node)
+void	free_tokens(t_token **node_ptr)
 {
+	t_token	*tmp;
+
+	if (!node_ptr)
+		return ;
+	while (*node_ptr)
+	{
+		tmp = (*node_ptr)->next;
+		free_token(node_ptr);
+		node_ptr = &tmp;
+	}
+}
+
+void	free_token(t_token **node_ptr)
+{
+	t_token	*node;
+
+	if (!node_ptr)
+		return ;
+	node = *node_ptr;
 	if (!node)
 		return ;
-	if (node->token && node->token->word)
+	if (token->word)
 	{
-		free(node->token->word);
-		node->token->word = NULL;
+		free(token->word);
+		token->word = NULL;
 	}
-	if (node->token && node->token->mask)
+	if (token->mask)
 	{
-		free(node->token->mask);
-		node->token->mask = NULL;
-	}
-	if (node->token)
-	{
-		free(node->token);
-		node->token = NULL;
+		free(token->mask);
+		token->mask = NULL;
 	}
 	free(node);
+	node = NULL;
 }

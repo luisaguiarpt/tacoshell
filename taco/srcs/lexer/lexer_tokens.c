@@ -66,29 +66,16 @@ void	append_token(t_shell *shell, t_token *new)
 
 void	remove_token(t_shell *shell, t_token *token)
 {
-	t_token	**node;
 	t_token	*prev;
+	t_token	*next;
 
-	node = shell->tokens;
-	if (node->token == token)
-	{
-		*shell->tokens = NULL;
-		free_token_list(node);
-		node = NULL;
+	if (!token)
 		return ;
-	}
-	prev = node;
-	node = node->next;
-	while (node)
-	{
-		if (node->token == token)
-		{
-			prev->next = node->next;
-			free_token_list(node);
-			node = NULL;
-		}
-		node = node->next;
-	}
+	prev = token->prev;
+	next = token->next;
+	free_token(&token);
+	prev->next = next;
+	next->prev = prev;
 }
 //
 //t_token_list	*get_token_node(t_shell *shell, t_token *token)

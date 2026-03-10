@@ -63,7 +63,7 @@ char	*get_path(char *av_cmd, t_shell *shell)
 	char	*cmd_path;
 
 	cmd = ft_split(av_cmd, ' ');
-	paths = ft_split(get_env(shell->env, "PATH"), ':');
+	paths = ft_split(get_var_value(shell, "PATH"), ':');
 	i = -1;
 	while (paths[++i])
 	{

@@ -16,14 +16,12 @@ void	*free_mem_arr(char **arr, int index);
 
 t_ast	*create_ast(t_shell *shell)
 {
-	t_token_list	*start;
-	t_token		*end;
-	t_ast		*ast;
+	t_token	*start;
+	t_token	*end;
+	t_ast	*ast;
 
 	start = *shell->tokens;
-	end = start;
-	while (end->next)
-		end = end->next;
+	end = last_token(shell);
 	ast = parse_tokens(start, end, shell);
 	return (ast);
 }
@@ -89,7 +87,7 @@ void	gen_argv_redir(t_ast_cmd *cmd,
 		}
 		else
 		{
-			cmd->argv[i] = rm_quotes(ft_substr(s->start, 0, s->length), shell);
+			//cmd->argv[i] = rm_quotes(ft_substr(s->start, 0, s->length), shell);
 			if (!cmd->argv[i])
 				return ((void)free_mem_arr(cmd->argv, i));
 			i++;
