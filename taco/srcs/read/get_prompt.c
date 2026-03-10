@@ -35,7 +35,7 @@ void char	*shorten_home_path(t_shell *shell, char *cwd)
 void	get_prompt(t_shell *shell)
 {
 	char	*cwd;
-   
+ 
 	if (shell->prompt)
 		free(shell->prompt);
 	cwd = ft_strdup(get_env(shell->env, "PWD"));

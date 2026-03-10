@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/minishell.h"
+#include "../../incs/minishell.h"
 
 t_ast_cmd	*gen_cmd_node(t_token *start, t_token *end, t_shell *shell)
 {
