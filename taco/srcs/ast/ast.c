@@ -87,6 +87,7 @@ void	gen_argv_redir(t_ast_cmd *cmd,
 		}
 		else
 		{
+			cmd->argv[i] = ft_strdup(s->word);
 			//cmd->argv[i] = rm_quotes(ft_substr(s->start, 0, s->length), shell);
 			if (!cmd->argv[i])
 				return ((void)free_mem_arr(cmd->argv, i));

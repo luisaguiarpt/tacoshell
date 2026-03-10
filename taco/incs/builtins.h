@@ -26,13 +26,15 @@ void	ft_exit(t_shell *shell, char **argv);
 
 // Env
 t_variable	*populate_env(char **envp);
-void	env_init(t_shell *shell, char **envp);
+void		env_init(t_shell *shell, char **envp);
 t_variable	*set_var(t_variable **env, char *key, char *value);
-int		unset_var(t_shell *shell, char *name);
-void	env_split(char *env, char **name, char **value);
+int			unset_var(t_shell *shell, char *name);
+void		env_split(char *env, char **name, char **value);
 
 // Export
 t_variable	*sort_env(t_variable *unsorted);
+int	check_export_arg(char *argv);
+int	check_var_char(char c);
 
 // Utils - builtin_utils.c
 int		count_args(char **argv);

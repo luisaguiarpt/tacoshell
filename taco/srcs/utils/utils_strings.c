@@ -44,7 +44,7 @@ char	*str_replace_first(t_shell *shell, char *str, char *rep, char *with)
 	return (free(str), res);
 }
 
-char	*str_replace(t_shell *shell, char)
+//char	*str_replace(t_shell *shell, char)
 
 static size_t	write_to_mem(char *dest, char *ins)
 {

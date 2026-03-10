@@ -36,6 +36,7 @@
 # include "shell.h"
 # include "signals.h"
 # include "variables.h"
+# include "exec.h"
 # include "read.h"
 # include "lexer.h"
 # include "utils.h"
@@ -50,6 +51,7 @@ extern int	g_signal;
 
 // main.c - Main functions
 void	eval_loop(t_shell *shell);
+void	parser(t_shell *shell);
 
 typedef struct s_shell
 {
@@ -61,7 +63,8 @@ typedef struct s_shell
 	t_variable				**vars;
 	t_lexer					*lexer;
 	t_token					**tokens;
-//	t_ast					*ast_root;
+	t_ast					*ast_root;
+	char					**env_ptr;
 }		t_shell;
 
 #endif

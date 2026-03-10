@@ -25,8 +25,8 @@ typedef struct s_variable
 
 // variables_init.c - Variable initialization
 void		init_shell_vars_ptr(t_shell *shell);
-void		init_shell_vars(t_shell *shell, char **ep);
-t_variable	*init_shell_var(t_shell *shell, char *ep_var);
+t_variable	**init_shell_vars(t_shell *shell, char **ep);
+t_variable	*init_var(t_shell *shell, char *ep_var);
 char		*init_shell_var_name(char *ep_var);
 char		*init_shell_var_value(char *ep_var);
 

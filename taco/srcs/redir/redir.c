@@ -27,7 +27,7 @@ static int	handle_in(char *path)
 	return (0);
 }
 
-static int	handle_out(char *path, char *next)
+static int	handle_out(char *path, t_redir *next)
 {
 	int	fd;
 
@@ -40,8 +40,10 @@ static int	handle_out(char *path, char *next)
 	return (0);
 }
 
-static int	handle_append(char *path, char *next)
+static int	handle_append(char *path, t_redir *next)
 {
+	int	fd;
+
 	fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		return (perror(path), EXIT_FAILURE);
@@ -62,13 +64,13 @@ int	handle_redirs(t_redir *head, t_shell *shell)
 	heredoc_curr = heredoc_count;
 	while (tmp && g_signal == 0)
 	{
-		if (tmp->type == REDIR_IN && handle_in(tmp->file_path))
+		if (tmp->type == TK_REDIR_IN && handle_in(tmp->file_path))
 			return (EXIT_FAILURE);
-		else if (tmp->type == REDIR_OUT && handle_out(tmp->file_path, tmp->next))
+		else if (tmp->type == TK_REDIR_OUT && handle_out(tmp->file_path, tmp->next))
 			return (EXIT_FAILURE);
-		else if (tmp->type == APPEND && handle_append(tmp->file_path, tmp->next))
+		else if (tmp->type == TK_APPEND && handle_append(tmp->file_path, tmp->next))
 			return (EXIT_FAILURE);
-		else if (tmp->type == HERE_DOC)
+		else if (tmp->type == TK_HERE_DOC)
 		{
 			heredoc_curr--;
 			heredoc_read(tmp, heredoc_curr, shell);
@@ -85,7 +87,7 @@ int	count_heredocs(t_redir *head)
 	count = 0;
 	while (head)
 	{
-		if (head->type == HERE_DOC)
+		if (head->type == TK_HERE_DOC)
 			count++;
 		head = head->next;
 	}
@@ -126,6 +128,30 @@ void	handler_heredoc(int signo)
 	write(STDOUT_FILENO, "\n", 1);
 	close(STDIN_FILENO);
 	signal(SIGINT, handle_sigint);
+}
+// Returns a malloc'd char * of a single word (delimited by an ending space)
+char	*isolate_word(char *line)
+{
+	char	*word;
+	size_t	i;
+	size_t	k;
+
+	i = 0;
+	if (!line)
+		return (NULL);
+	while ((line[i] && is_posix_var(line[i])) || (i == 0 && line[i] == '$'))
+		i++;
+	word = ft_calloc(i + 1, sizeof(char));
+	if (!word)
+		return (NULL);
+	k = 0;
+	while (k < i)
+	{
+		word[k] = line[k];
+		k++;
+	}
+	word[i] = 0;
+	return (word);
 }
 
 int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell)

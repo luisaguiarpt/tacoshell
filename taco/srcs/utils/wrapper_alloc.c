@@ -46,8 +46,8 @@ void	*wr_calloc(size_t nmemb, size_t size, t_shell *shell)
 	ptr = ft_calloc(nmemb, size);
 	if (!ptr)
 	{
-		core->error_code = ENOMEM;
-		free_exit(core, EXIT_FAILURE);
+		shell->exit_status = ENOMEM;
+		exit_clean(shell, EXIT_FAILURE);
 	}
 	return (ptr);
 }

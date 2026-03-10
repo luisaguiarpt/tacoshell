@@ -6,8 +6,8 @@ t_shell	init_shell(char **av, char **ep)
 
 	set_shell_null(&shell);
 	set_shell_debug(&shell, av);
-	init_shell_vars_ptr(&shell);
-	init_shell_vars(&shell, ep);
+	//init_shell_vars_ptr(&shell);
+	shell.vars = init_shell_vars(&shell, ep);
 	return (shell);
 }
 
@@ -17,7 +17,9 @@ void	set_shell_null(t_shell *shell)
 	shell->vars = NULL;
 	shell->lexer = NULL;
 	shell->tokens = NULL;
-//	shell->ast_root = NULL;
+	shell->ast_root = NULL;
+	shell->env_ptr = NULL;
 	shell->debug = 0;
+	shell->syntax_error = 0;
 	shell->exit_status = 0;
 }

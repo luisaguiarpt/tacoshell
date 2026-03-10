@@ -21,13 +21,11 @@ void	set_shell_debug(t_shell *shell, char **av)
 		shell->debug |= PRT_ALL;
 }
 
-void	print_env_var(t_shell *shell)
+void	print_env_var(t_variable **vars_ptr)
 {
 	t_variable	*var;
  
-	if (!(shell->debug & PRT_VAR))
-		return ;
-	var = *shell->vars;
+	var = *vars_ptr;
 	printf("--- VARIABLES ---\n");
 	while (var)
 	{
@@ -42,20 +40,20 @@ void	print_env_var(t_shell *shell)
 
 void	print_tokens(t_shell *shell)
 {
-	t_token_list	*tk_list;
+	t_token	*token;
 
 	if (!(shell->debug & PRT_TOK))
 		return ;
-	tk_list = *shell->tokens;
+	token = *shell->tokens;
 	printf("\n*** TOKENS ***\n");
-	while (tk_list)
+	while (token)
 	{
-		printf("token: %s\n", tk_list->token->word);
-		printf(" mask: %s\n", tk_list->token->mask);
-		print_token_type(tk_list->token);
-		printf("has $: %d\n", tk_list->token->has_dollar);
+		printf("token: %s\n", token->word);
+		printf(" mask: %s\n", token->mask);
+		print_token_type(token);
+		printf("has $: %d\n", token->has_dollar);
 		printf("\n");
-		tk_list = tk_list->next;
+		token = token->next;
 	}
 	printf("\n");
 }

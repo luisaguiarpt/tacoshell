@@ -1,4 +1,4 @@
-#include "../headers/tacoshell.h"
+#include "../incs/minishell.h"
 
 void	save_fds(int fds[2]);
 void	restore_fds(int fds[2]);
@@ -16,7 +16,7 @@ void	exec_control(t_ast *node, t_shell *shell)
 		return (builtin_handler(node, fds, shell));
 	pid = fork();
 	if (pid == -1)
-		free_exit(shell, EXIT_FAILURE);
+		exit_clean(shell, EXIT_FAILURE);
 	if (pid == 0)
 		exec_pipeline(node, STDIN_FILENO, shell);
 	else
@@ -62,7 +62,7 @@ int	execve_handler(t_ast *node, t_shell *shell)
 	cmd_check = check_cmd(node);
 	if (cmd_check)
 	{
-		full_free(shell);
+		exit_clean(shell, EXIT_FAILURE);
 		return (cmd_check);
 	}
 	if (node->cmd->cmd_path)
@@ -79,7 +79,7 @@ int	execve_handler(t_ast *node, t_shell *shell)
 		ft_printf_fd(2, "%s: command not found\n", node->cmd->argv[0]);
 		exit_status = 127;
 	}
-	full_free(shell);
+	exit_clean(shell, exit_status);
 	return (exit_status);
 }
 
@@ -138,12 +138,12 @@ void	exec_cmd(t_ast *node, int input_fd, t_shell *shell)
 		if (handle_redirs(*node->cmd->redirs, shell) == EXIT_FAILURE)
 			exit(1);
 		g_signal = exec_builtin(shell, node->cmd->argv);
-		free_exit(shell, g_signal);
+		exit_clean(shell, g_signal);
 	}
 	else
 	{
 		if (handle_redirs(*node->cmd->redirs, shell) != EXIT_SUCCESS)
-			free_exit(shell, EXIT_FAILURE);
+			exit_clean(shell, EXIT_FAILURE);
 		exit(execve_handler(node, shell));
 	}
 }
@@ -154,10 +154,10 @@ void	exec_pipe(t_ast *node, int input_fd, t_shell *shell)
 	int		pipefd[2];
 
 	if (pipe(pipefd) == -1)
-		free_exit(shell, shell->exit_status);
+		exit_clean(shell, shell->exit_status);
 	pid = fork();
 	if (pid == -1)
-		free_exit(shell, shell->exit_status);
+		exit_clean(shell, shell->exit_status);
 	if (pid == 0)
 	{
 		close(pipefd[0]);
@@ -173,5 +173,5 @@ void	exec_pipe(t_ast *node, int input_fd, t_shell *shell)
 			close(input_fd);
 		waitpid(pid, NULL, 0);
 	}
-	free_exit(shell, g_signal);
+	exit_clean(shell, g_signal);
 }

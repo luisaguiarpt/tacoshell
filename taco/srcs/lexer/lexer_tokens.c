@@ -45,7 +45,9 @@ t_token	*last_token(t_shell *shell)
 	t_token	*last;
 
 	last = *shell->tokens;
-	while (last)
+	if (!last)
+		return (NULL);
+	while (last->next)
 		last = last->next;
 	return (last);
 }
@@ -76,6 +78,7 @@ void	remove_token(t_shell *shell, t_token *token)
 	free_token(&token);
 	prev->next = next;
 	next->prev = prev;
+	(void)shell ;
 }
 //
 //t_token_list	*get_token_node(t_shell *shell, t_token *token)

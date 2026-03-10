@@ -12,7 +12,7 @@
 
 #include "../../incs/minishell.h"
 
-void char	*shorten_home_path(t_shell *shell, char *cwd)
+static char	*shorten_home_path(t_shell *shell, char *cwd)
 {
 	char	*path_without_home;
 	char	*home_path;
@@ -28,8 +28,7 @@ void char	*shorten_home_path(t_shell *shell, char *cwd)
 			return (ft_strjoin2(path_without_home, "> ", 0));
 		}
 	}
-	else
-		return (ft_strjoin(cwd, "> "));
+	return (ft_strjoin(cwd, "> "));
 }
 
 void	get_prompt(t_shell *shell)

@@ -3,6 +3,7 @@
 
 // redir.c
 int	handle_redirs(t_redir *head, t_shell *shell);
+char	*isolate_word(char *line);
 
 // redir_utils.c
 

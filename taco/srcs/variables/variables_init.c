@@ -19,23 +19,28 @@ void	init_shell_vars_ptr(t_shell *shell)
 		exit_clean(shell, EXIT_FAILURE);
 }
 
-void	init_shell_vars(t_shell *shell, char **ep)
+t_variable	**init_shell_vars(t_shell *shell, char **ep)
 {
 	t_variable	*var;
+	t_variable	**vars_ptr;
 	int			i;
 
+	vars_ptr = ft_calloc(1, sizeof(t_variable *));
+	if (!vars_ptr)
+		exit_clean(shell, EXIT_FAILURE);
 	i = 0;
 	while (ep[i])
 	{
-		var = init_shell_var(shell, ep[i]);
-		append_shell_var(shell->vars, var);
+		var = init_var(shell, ep[i]);
+		append_shell_var(vars_ptr, var);
 		i++;
 	}
 	if (shell->debug)
-		print_env_var(shell);
+		print_env_var(vars_ptr);
+	return (vars_ptr);
 }
 
-t_variable	*init_shell_var(t_shell *shell, char *ep_var)
+t_variable	*init_var(t_shell *shell, char *ep_var)
 {
 	t_variable	*var;
 

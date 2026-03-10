@@ -9,25 +9,29 @@ SRCS += srcs/ast/ast.c srcs/ast/ast_cmd.c srcs/ast/ast_debug.c \
 # BUILT-INS
 SRCS += srcs/builtins/ft_cd.c srcs/builtins/ft_echo.c srcs/builtins/ft_env.c \
 		srcs/builtins/ft_exit.c srcs/builtins/ft_export.c srcs/builtins/ft_pwd.c \
-		srcs/builtins/unset.c srcs/builtins/env_ptr_init.c srcs/builtins/env_utils.c \
+		srcs/builtins/ft_unset.c srcs/builtins/env_utils.c \
 		srcs/builtins/export_utils.c srcs/builtins/builtin_utils.c
 # CLEAN
 SRCS += srcs/clean/clean.c
 # DEBUG
 SRCS += srcs/debug/debug.c
+# EXECS
+SRCS += srcs/exec.c
 # LEXER
 SRCS += srcs/lexer/lexer.c srcs/lexer/lexer_tokens.c srcs/lexer/lexer_utils.c \
 		srcs/lexer/lexer_expansion.c srcs/lexer/lexer_words.c \
 		srcs/lexer/lexer_exp_utils.c srcs/lexer/lexer_quotes.c
 # READ
-SRCS += srcs/read/read_line.c
+SRCS += srcs/read/read_line.c srcs/read/get_prompt.c
+# REDIR
+SRCS += srcs/redir/redir.c srcs/redir/redir_utils.c
 # SIGNALS
 SRCS += srcs/signals/signals.c
 # SHELL
 SRCS += srcs/taco/shell_init.c
 # UTILS
 SRCS += srcs/utils/utils.c srcs/utils/utils_extra.c srcs/utils/utils_strings.c \
-		srcs/utils/get_prompt.c srcs/utils/heredoc.c srcs/utils/wrapper_alloc.c
+		srcs/utils/wrapper_alloc.c
 # VARIABLES
 SRCS += srcs/variables/variables_init.c srcs/variables/variables_list.c
 

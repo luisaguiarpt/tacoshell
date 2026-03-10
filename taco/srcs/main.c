@@ -20,7 +20,13 @@ void	eval_loop(t_shell *shell)
 	{
 		read_line(shell, "$ ");
 		lexer(shell);
-//		parser(shell);
+		parser(shell);
 		clean(shell);
 	}
+}
+
+void	parser(t_shell *shell)
+{
+	shell->ast_root = create_ast(shell);
+	exec_control(shell->ast_root, shell);
 }

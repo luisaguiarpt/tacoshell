@@ -69,6 +69,7 @@ void	full_free(t_core *core)
 	{
 		free_tokens(*core->tok_head);
 		free(core->tok_head);
+		core->tok_head = NULL;
 	}
 	core->exit_status = 0;
 }

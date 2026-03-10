@@ -26,8 +26,7 @@ void	exit_clean(t_shell *shell, int exit_code)
 
 void	clean_lexer(t_shell *shell)
 {
-	t_token_list	*tmp_node;
-	t_token_list	*node;
+	t_token	*node;
 
 	if (!shell->tokens)
 		return ;
@@ -74,14 +73,14 @@ void	free_tokens(t_token **node_ptr)
 	}
 }
 
-void	free_token(t_token **node_ptr)
+void	free_token(t_token **token_ptr)
 {
-	t_token	*node;
+	t_token	*token;
 
-	if (!node_ptr)
+	if (!token_ptr)
 		return ;
-	node = *node_ptr;
-	if (!node)
+	token = *token_ptr;
+	if (!token)
 		return ;
 	if (token->word)
 	{
@@ -93,6 +92,23 @@ void	free_token(t_token **node_ptr)
 		free(token->mask);
 		token->mask = NULL;
 	}
-	free(node);
-	node = NULL;
+	free(token);
+	token = NULL;
 }
+
+void	*free_mem_arr(char **arr, int index)
+{
+	int	i;
+
+	i = 0;
+	if (!arr)
+		return (NULL);
+	while (i < index)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+	return (NULL);
+}
+
