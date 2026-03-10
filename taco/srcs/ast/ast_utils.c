@@ -17,20 +17,20 @@ bool	get_state(char c, t_state *state)
 {
 	if (c == '\'' && *state == NEUTRAL)
 	{
-		*state = IN_SINGLE_QUOTES;
+		*state = IN_SQ;
 		return (true);
 	}
-	else if (c == '\'' && *state == IN_SINGLE_QUOTES)
+	else if (c == '\'' && *state == IN_SQ)
 	{
 		*state = NEUTRAL;
 		return (true);
 	}
 	else if (c == '"' && *state == NEUTRAL)
 	{
-		*state = IN_DOUBLE_QUOTES;
+		*state = IN_DQ;
 		return (true);
 	}
-	else if (c == '"' && *state == IN_DOUBLE_QUOTES)
+	else if (c == '"' && *state == IN_DQ)
 	{
 		*state = NEUTRAL;
 		return (true);

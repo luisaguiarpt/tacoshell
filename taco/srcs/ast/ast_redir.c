@@ -12,25 +12,13 @@
 
 #include "../../incs/minishell.h"
 
-char	*prep_filename(t_token *start)
-{
-	char	*tmp;
-	char	*filename;
-
-	tmp = ft_substr(start->next->start, 0, start->next->length);
-	filename = ft_strtrim(tmp, "\"");
-	free(tmp);
-	return (filename);
-}
-
-void	add_redir_node(t_ast_cmd *cmd, t_token *start, t_shell *shell)
+void	add_redir_node(t_ast_cmd *cmd, t_token *token, t_shell *shell)
 {
 	char	*filename;
 	t_redir	*new_node;
 
 	(void)shell;
-	filename = prep_filename(start);
-	filename = rm_quotes(filename, shell);
-	new_node = redir_new(start->type, filename);
+	filename = token->word;
+	new_node = redir_new(token->type, filename);
 	redir_append(cmd->redirs, new_node);
 }

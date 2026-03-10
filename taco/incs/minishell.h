@@ -41,6 +41,7 @@ typedef enum	e_state t_state;
 # include "read.h"
 # include "lexer.h"
 # include "utils.h"
+# include "redir.h"
 # include "clean.h"
 # include "debug.h"
 

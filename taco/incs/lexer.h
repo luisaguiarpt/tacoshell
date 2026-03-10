@@ -96,5 +96,6 @@ t_token	*create_token_lexer(t_shell *shell, t_token_type type);
 t_token	*new_token(t_shell *shell, char *word, t_token_type type);
 void	append_token(t_shell *shell, t_token *new);
 void	remove_token(t_shell *shell, t_token *token);
+t_token	*last_token(t_shell *shell);
 
 #endif
