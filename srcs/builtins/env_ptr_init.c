@@ -18,7 +18,6 @@ static int	env_count(t_core *core)
 	t_env	*current;
 
 	i = 0;
-	// if (!*core->env->key) // possibly not necessary because if there is no env vars, this function would never be called, an error would've already happened
 	current = core->env;
 	while (current)
 	{

@@ -12,13 +12,13 @@
 
 #include "../../headers/tacoshell.h"
 
-int		count_args(char **argv)
+int	count_args(char **argv)
 {
 	int	i;
 
 	i = 0;
 	while (argv[i])
-	  i++;
+		i++;
 	return (i);
 }
 
@@ -63,7 +63,7 @@ int	exec_builtin(t_core *core, char **argv)
 		return (ft_unset(core, argv));
 	else if (ft_strcmp("env", cmd) == 0)
 		return (ft_env(core));
-	else if(ft_strcmp("exit", cmd) == 0)
+	else if (ft_strcmp("exit", cmd) == 0)
 		(ft_exit(core, argv));
-	return (1); // just to deal with the error, int function has to return something (check in the future)
+	return (1);
 }
