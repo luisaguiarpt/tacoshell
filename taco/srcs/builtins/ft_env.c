@@ -12,14 +12,14 @@
 
 #include "../../incs/minishell.h"
 
-void	update_shlvl(t_core	*core)
+void	update_shlvl(t_shell	*shell)
 {
 	int		shlvl_int;
 	char	*shlvl_ascii;
 
-	shlvl_int = ft_atoi(get_env(core->env, "SHLVL"));
+	shlvl_int = ft_atoi(get_env(shell->env, "SHLVL"));
 	shlvl_ascii = ft_itoa(shlvl_int + 1);
-	set_env(&core->env, "SHLVL", shlvl_ascii);
+	set_env(&shell->env, "SHLVL", shlvl_ascii);
 	free(shlvl_ascii);
 }
 
@@ -43,18 +43,18 @@ t_env	*populate_env(char **envp)
 	return (env);
 }
 
-void	env_init(t_core *core, char **envp)
+void	env_init(t_shell *shell, char **envp)
 {
-	core->env = populate_env(envp);
-	update_shlvl(core);
-	env_ptr_init(core);
+	shell->env = populate_env(envp);
+	update_shlvl(shell);
+	env_ptr_init(shell);
 }
 
-int	ft_env(t_core *core)
+int	ft_env(t_shell *shell)
 {
 	t_env	*current;
 
-	current = core->env;
+	current = shell->env;
 	while (current)
 	{
 		if (current->value != NULL)

@@ -12,12 +12,12 @@
 
 #include "../../incs/minishell.h"
 
-static int	print_export(t_core *core)
+static int	print_export(t_shell *shell)
 {
 	t_env	*tmp_env;
 	t_env	*current;
 
-	tmp_env = populate_env(core->env_ptr);
+	tmp_env = populate_env(shell->env_ptr);
 	tmp_env = sort_env(tmp_env);
 	current = tmp_env;
 	while (current)
@@ -80,14 +80,14 @@ int	check_var_char(char c)
 		return (1);
 }
 
-int	ft_export(t_core *core, char **argv)
+int	ft_export(t_shell *shell, char **argv)
 {
 	char	*key;
 	char	*value;
 	int		i;
 
 	if (!argv[1])
-		return (print_export(core), EXIT_SUCCESS);
+		return (print_export(shell), EXIT_SUCCESS);
 	i = 1;
 	while (argv[i])
 	{
@@ -95,10 +95,10 @@ int	ft_export(t_core *core, char **argv)
 			return (EXIT_FAILURE);
 		env_split(argv[i], &key, &value);
 		if (check_append(argv[i]))
-			append_env(&core->env, key, value);
+			append_env(&shell->env, key, value);
 		else
-			set_env(&core->env, key, value);
-		update_env_ptr(core);
+			set_env(&shell->env, key, value);
+		update_env_ptr(shell);
 		free(key);
 		free(value);
 		i++;

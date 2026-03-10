@@ -46,7 +46,7 @@ bool	is_builtin(char *cmd)
  * exit = print_n_bounce
  */
 
-int	exec_builtin(t_core *core, char **argv)
+int	exec_builtin(t_shell *shell, char **argv)
 {
 	char	*cmd;
 
@@ -54,16 +54,16 @@ int	exec_builtin(t_core *core, char **argv)
 	if (ft_strcmp("echo", cmd) == 0)
 		return (ft_echo(argv));
 	else if (ft_strcmp("cd", cmd) == 0)
-		return (ft_cd(core, argv));
+		return (ft_cd(shell, argv));
 	else if (ft_strcmp("pwd", cmd) == 0)
-		return (ft_pwd(core));
+		return (ft_pwd(shell));
 	else if (ft_strcmp("export", cmd) == 0)
-		return (ft_export(core, argv));
+		return (ft_export(shell, argv));
 	else if (ft_strcmp("unset", cmd) == 0)
-		return (ft_unset(core, argv));
+		return (ft_unset(shell, argv));
 	else if (ft_strcmp("env", cmd) == 0)
-		return (ft_env(core));
+		return (ft_env(shell));
 	else if (ft_strcmp("exit", cmd) == 0)
-		(ft_exit(core, argv));
+		(ft_exit(shell, argv));
 	return (1);
 }

@@ -12,19 +12,19 @@
 
 #include "../../incs/minishell.h"
 
-static int	handle_args(t_core *core, char **argv, char **dir_path)
+static int	handle_args(t_shell *shell, char **argv, char **dir_path)
 {
 	if (count_args(argv) > 2)
 		return (0);
 	if (!argv[1])
-		*dir_path = ft_strdup(get_env(core->env, "HOME"));
+		*dir_path = ft_strdup(get_env(shell->env, "HOME"));
 	else if (ft_strcmp(argv[1], "-") == 0)
 	{
-		*dir_path = ft_strdup(get_env(core->env, "OLDPWD"));
+		*dir_path = ft_strdup(get_env(shell->env, "OLDPWD"));
 		printf("%s\n", *dir_path);
 	}
 	else if (argv[1][0] == '~' && argv[1][1] == '/')
-		*dir_path = ft_strjoin(get_env(core->env, "HOME"), &argv[1][1]);
+		*dir_path = ft_strjoin(get_env(shell->env, "HOME"), &argv[1][1]);
 	else
 		*dir_path = ft_strdup(argv[1]);
 	return (1);
@@ -46,7 +46,7 @@ static int	cd_checks(char *dir_path, char **tmp)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_cd(t_core *core, char **argv)
+int	ft_cd(t_shell *shell, char **argv)
 {
 	char	*dir_path;
 	char	*current_path;
@@ -54,7 +54,7 @@ int	ft_cd(t_core *core, char **argv)
 
 	tmp = NULL;
 	dir_path = NULL;
-	if (!handle_args(core, argv, &dir_path))
+	if (!handle_args(shell, argv, &dir_path))
 	{
 		ft_printf_fd(2, "Error: too many arguments\n");
 		return (EXIT_FAILURE);
@@ -64,11 +64,11 @@ int	ft_cd(t_core *core, char **argv)
 		free(dir_path);
 		return (EXIT_FAILURE);
 	}
-	current_path = ft_strdup(get_env(core->env, "PWD"));
+	current_path = ft_strdup(get_env(shell->env, "PWD"));
 	if (!current_path)
-		free_exit(core, EXIT_FAILURE);
-	set_env(&core->env, "PWD", tmp);
-	set_env(&core->env, "OLDPWD", current_path);
+		free_exit(shell, EXIT_FAILURE);
+	set_env(&shell->env, "PWD", tmp);
+	set_env(&shell->env, "OLDPWD", current_path);
 	free(current_path);
 	free(dir_path);
 	free(tmp);

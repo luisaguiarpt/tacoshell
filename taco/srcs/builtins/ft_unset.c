@@ -12,7 +12,7 @@
 
 #include "../../incs/minishell.h"
 
-static void	remove_node(t_core *core, t_env *current, t_env *prev)
+static void	remove_node(t_shell *shell, t_env *current, t_env *prev)
 {
 	bool	first_node;
 
@@ -24,22 +24,22 @@ static void	remove_node(t_core *core, t_env *current, t_env *prev)
 	free(current->key);
 	free(current->value);
 	if (first_node)
-		core->env = current->next;
+		shell->env = current->next;
 	free(current);
 }
 
-int	unset_env(t_core *core, char *key)
+int	unset_env(t_shell *shell, char *key)
 {
 	t_env	*tmp;
 	t_env	*prev;
 
-	tmp = core->env;
+	tmp = shell->env;
 	prev = NULL;
 	while (tmp)
 	{
 		if (ft_strcmp(key, tmp->key) == 0)
 		{
-			remove_node(core, tmp, prev);
+			remove_node(shell, tmp, prev);
 			return (EXIT_SUCCESS);
 		}
 		prev = tmp;
@@ -48,7 +48,7 @@ int	unset_env(t_core *core, char *key)
 	return (EXIT_FAILURE);
 }
 
-int	ft_unset(t_core *core, char **argv)
+int	ft_unset(t_shell *shell, char **argv)
 {
 	int	i;
 
@@ -57,9 +57,9 @@ int	ft_unset(t_core *core, char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		unset_env(core, argv[i]);
+		unset_env(shell, argv[i]);
 		i++;
 	}
-	update_env_ptr(core);
+	update_env_ptr(shell);
 	return (EXIT_SUCCESS);
 }
