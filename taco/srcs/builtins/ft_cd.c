@@ -20,11 +20,11 @@ static int	handle_args(t_shell *shell, char **argv, char **dir_path)
 		*dir_path = get_var_value(shell, "HOME");
 	else if (ft_strcmp(argv[1], "-") == 0)
 	{
-		*dir_path = ft_strdup(get_env(shell->env, "OLDPWD"));
+		*dir_path = ft_strdup(get_var_value(shell, "OLDPWD"));
 		printf("%s\n", *dir_path);
 	}
 	else if (argv[1][0] == '~' && argv[1][1] == '/')
-		*dir_path = ft_strjoin(get_env(shell->env, "HOME"), &argv[1][1]);
+		*dir_path = ft_strjoin(get_var_value(shell, "HOME"), &argv[1][1]);
 	else
 		*dir_path = ft_strdup(argv[1]);
 	return (1);
@@ -64,11 +64,11 @@ int	ft_cd(t_shell *shell, char **argv)
 		free(dir_path);
 		return (EXIT_FAILURE);
 	}
-	current_path = ft_strdup(get_env(shell->env, "PWD"));
+	current_path = ft_strdup(get_var_value(shell, "PWD"));
 	if (!current_path)
-		free_exit(shell, EXIT_FAILURE);
-	set_env(&shell->env, "PWD", tmp);
-	set_env(&shell->env, "OLDPWD", current_path);
+		exit_clean(shell, EXIT_FAILURE);
+	set_var(shell->vars, "PWD", tmp);
+	set_var(shell->vars, "OLDPWD", current_path);
 	free(current_path);
 	free(dir_path);
 	free(tmp);

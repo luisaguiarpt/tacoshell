@@ -111,7 +111,7 @@ void	write_expand(int fd, char *line, t_shell *shell)
 		else if (line[i + 1] && is_posix_var(line[i + 1]))
 		{
 			tmp_var = isolate_word(&line[i]);
-			tmp_env = get_env(shell->env, &tmp_var[1]);
+			tmp_env = get_var_value(shell, &tmp_var[1]);
 			ft_putstr_fd(tmp_env, fd);
 			i += ft_strlen(tmp_var);
 			free(tmp_var);

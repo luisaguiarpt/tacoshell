@@ -28,12 +28,12 @@ static void	remove_node(t_shell *shell, t_env *current, t_env *prev)
 	free(current);
 }
 
-int	unset_env(t_shell *shell, char *key)
+int	unset_var(t_shell *shell, char *key)
 {
 	t_env	*tmp;
 	t_env	*prev;
 
-	tmp = shell->env;
+	tmp = shell->vars;
 	prev = NULL;
 	while (tmp)
 	{
@@ -57,7 +57,7 @@ int	ft_unset(t_shell *shell, char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		unset_env(shell, argv[i]);
+		unset_var(shell, argv[i]);
 		i++;
 	}
 	update_env_ptr(shell);

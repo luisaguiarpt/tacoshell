@@ -8,8 +8,8 @@ SRCS += srcs/ast/ast.c srcs/ast/ast_cmd.c srcs/ast/ast_debug.c \
 		srcs/ast/ast_misc.c srcs/ast/ast_redir.c srcs/ast/ast_utils.c
 # BUILT-INS
 SRCS += srcs/builtins/ft_cd.c srcs/builtins/ft_echo.c srcs/builtins/ft_env.c \
-		srcs/builtins/ft_exit.c srcs/builtins/ft_export_pwd.c srcs/builtins/unset.c \
-		srcs/builtins/env_ptr_init.c srcs/builtins/env_utils.c \
+		srcs/builtins/ft_exit.c srcs/builtins/ft_export.c srcs/builtins/ft_pwd.c \
+		srcs/builtins/unset.c srcs/builtins/env_ptr_init.c srcs/builtins/env_utils.c \
 		srcs/builtins/export_utils.c srcs/builtins/builtin_utils.c
 # CLEAN
 SRCS += srcs/clean/clean.c

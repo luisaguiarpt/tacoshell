@@ -17,25 +17,26 @@ void	update_shlvl(t_shell	*shell)
 	int		shlvl_int;
 	char	*shlvl_ascii;
 
-	shlvl_int = ft_atoi(get_env(shell->env, "SHLVL"));
+	shlvl_int = ft_atoi(get_var_value(shell, "SHLVL"));
 	shlvl_ascii = ft_itoa(shlvl_int + 1);
-	set_env(&shell->env, "SHLVL", shlvl_ascii);
+	set_var(shell->vars, "SHLVL", shlvl_ascii);
 	free(shlvl_ascii);
 }
 
-t_env	*populate_env(char **envp)
+/*
+t_variable	*populate_env(char **envp)
 {
-	int		i;
-	char	*key;
-	char	*value;
-	t_env	*env;
+	int			i;
+	char		*key;
+	char		*value;
+	t_variable	*env;
 
 	i = 0;
 	env = NULL;
 	while (envp[i])
 	{
 		env_split(envp[i], &key, &value);
-		env = set_env(&env, key, value);
+		env = set_var(&env, key, value);
 		free(key);
 		free(value);
 		i++;
@@ -45,20 +46,24 @@ t_env	*populate_env(char **envp)
 
 void	env_init(t_shell *shell, char **envp)
 {
-	shell->env = populate_env(envp);
+	shell->vars = populate_env(envp);
 	update_shlvl(shell);
 	env_ptr_init(shell);
 }
 
+OBSOLETE FUNCTIONS - DELETE LATER
+
+*/
+
 int	ft_env(t_shell *shell)
 {
-	t_env	*current;
+	t_variable	*current;
 
-	current = shell->env;
+	current = *shell->vars;
 	while (current)
 	{
 		if (current->value != NULL)
-			ft_printf("%s=%s\n", current->key, current->value);
+			ft_printf("%s=%s\n", current->name, current->value);
 		current = current->next;
 	}
 	return (EXIT_SUCCESS);

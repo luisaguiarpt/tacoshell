@@ -14,18 +14,18 @@
 
 static int	print_export(t_shell *shell)
 {
-	t_env	*tmp_env;
-	t_env	*current;
+	t_variable	*tmp_env;
+	t_variable	*current;
 
-	tmp_env = populate_env(shell->env_ptr);
+	tmp_env = init_shell_var(shell->vars->exportstr);
 	tmp_env = sort_env(tmp_env);
 	current = tmp_env;
 	while (current)
 	{
 		if (current->value != NULL && *current->value)
-			ft_printf("declare -x %s=\"%s\"\n", current->key, current->value);
+			ft_printf("declare -x %s=\"%s\"\n", current->name, current->value);
 		else
-			ft_printf("declare -x %s\n", current->key);
+			ft_printf("declare -x %s\n", current->name);
 		current = current->next;
 	}
 	free_env_struct(tmp_env);
@@ -50,7 +50,7 @@ static void	append_env(t_env **env, char *key, char *value)
 		}
 		tmp = tmp->next;
 	}
-	set_env(env, key, value);
+	set_var(env, key, value);
 	return ;
 }
 
@@ -97,7 +97,7 @@ int	ft_export(t_shell *shell, char **argv)
 		if (check_append(argv[i]))
 			append_env(&shell->env, key, value);
 		else
-			set_env(&shell->env, key, value);
+			set_var(&shell->vars, key, value);
 		update_env_ptr(shell);
 		free(key);
 		free(value);

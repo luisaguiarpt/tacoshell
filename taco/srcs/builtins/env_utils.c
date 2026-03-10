@@ -12,6 +12,7 @@
 
 #include "../../incs/minishell.h"
 
+/*
 static void	env_append(t_env **env, t_env *new)
 {
 	t_env	*tmp;
@@ -28,7 +29,11 @@ static void	env_append(t_env **env, t_env *new)
 	return ;
 }
 
-t_env	*set_env(t_env **env, char *key, char *value)
+OBSOLETE - DELETE LATER
+
+*/
+
+t_env	*set_var(t_env **env, char *key, char *value)
 {
 	t_env	*tmp;
 	t_env	*new;
@@ -57,6 +62,7 @@ t_env	*set_env(t_env **env, char *key, char *value)
 	return (*env);
 }
 
+/*
 char	*get_env(t_env *env, char *key)
 {
 	t_env	*tmp;
@@ -70,9 +76,13 @@ char	*get_env(t_env *env, char *key)
 	}
 	return ("");
 }
+
+OBSOLETE FUNCTION - DELETE LATER
+*/
+
 /*
- * Split modificado que so procura o primeiro '='
- * para casos que usam varios '=' como por exemplo: "XMODIFIERS=@im=fcitx"
+ * Modified split function that looks for the first instace of '='
+ * there are cases where multiple '=' can appear, for example: "XMODIFIERS=@im=fcitx"
  */
 
 void	env_split(char *env, char **key, char **value)

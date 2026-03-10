@@ -18,7 +18,7 @@ void char	*shorten_home_path(t_shell *shell, char *cwd)
 	char	*home_path;
 	int		home_len;
 
-	home_path = get_env(shell->env, "HOME");
+	home_path = get_var_value(shell, "HOME");
 	if (home_path && *home_path)
 	{
 		home_len = ft_strlen(home_path);
@@ -38,7 +38,7 @@ void	get_prompt(t_shell *shell)
  
 	if (shell->prompt)
 		free(shell->prompt);
-	cwd = ft_strdup(get_env(shell->env, "PWD"));
+	cwd = ft_strdup(get_var_value(shell, "PWD"));
 	if (!cwd)
 		exit_clean(shell, EXIT_FAILURE);
 	shell->prompt = shorten_home_path(shell, cwd);

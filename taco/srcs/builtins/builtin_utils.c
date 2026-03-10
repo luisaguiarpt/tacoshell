@@ -40,8 +40,8 @@ bool	is_builtin(char *cmd)
  * echo = ft_echo
  * cd = ft_cd
  * pwd = ft_pwd
- * export = set_env
- * unset = unset_env
+ * export = set_var
+ * unset = unset_var
  * env = ft_env
  * exit = print_n_bounce
  */
