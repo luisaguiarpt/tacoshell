@@ -34,19 +34,14 @@ typedef struct	s_redir
 	t_redir			*next;
 }				t_redir;
 
-
-typedef struct	s_token_list
-{
-	t_token			*token;
-	t_token_list	*next;
-}				t_token_list;
-
 typedef struct	s_token
 {
 	t_token_type	type;
 	char			*word;
 	char			*mask;
 	bool			has_dollar;
+	t_token			*prev;
+	t_token			*next;
 	t_state			state;
 }				t_token;
 

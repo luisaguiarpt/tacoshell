@@ -49,13 +49,13 @@ void	eval_loop(t_shell *shell);
 
 typedef struct s_shell
 {
-	char			*line;
-	t_variable		**vars;
-	t_lexer			*lexer;
-	t_token_list	**tokens;
-//	t_ast			*ast_root;
-	int				debug;
-	int				exit_status;
+	char		*line;
+	t_variable	**vars;
+	t_lexer		*lexer;
+	t_token		**tokens;
+//	t_ast		*ast_root;
+	int			debug;
+	int			exit_status;
 }				t_shell;
 
 #endif

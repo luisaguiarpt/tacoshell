@@ -19,6 +19,7 @@ t_token	*create_token_lexer(t_shell *shell, t_token_type type)
 	token->word = get_word_from_lexer(shell);
 	token->mask = set_expansion_mask(shell, token);
 	token->has_dollar = shell->lexer->has_dollar;
+	token->next = NULL;
 	return (token);
 }
 
@@ -34,37 +35,41 @@ t_token	*new_token(t_shell *shell, char *word, t_token_type type)
 	token->word = word;
 	token->mask = set_expansion_mask(shell, token);
 	token->has_dollar = shell->lexer->has_dollar;
+	token->next = NULL;
+	token->prev = NULL;
 	return (token);
+}
+
+t_token	*last_token(t_shell *shell)
+{
+	t_token	*last;
+
+	last = *shell->tokens;
+	while (last)
+		last = last->next;
+	return (last);
 }
 
 void	append_token(t_shell *shell, t_token *new)
 {
-	t_token_list	*token_list_node;
-	t_token_list	*tmp_list_node;
+	t_token	*last;
 
-	token_list_node = ft_calloc(1, sizeof(t_token_list));
-	if (!token_list_node)
-		exit_clean(shell, EXIT_FAILURE);
-	token_list_node->next = NULL;
-	token_list_node->token = new;
-	if (!*shell->tokens)
+	last = last_token(shell);
+	if (!last)
 	{
-		*shell->tokens = token_list_node;
+		*shell->tokens = new;
 		return ;
 	}
-	tmp_list_node = *shell->tokens;
-	while (tmp_list_node->next)
-		tmp_list_node = tmp_list_node->next;
-	tmp_list_node->next = token_list_node;
-	token_list_node->next = NULL;
+	last->next = new;
+	new->prev = last;
 }
 
 void	remove_token(t_shell *shell, t_token *token)
 {
-	t_token_list	*node;
-	t_token_list	*prev;
+	t_token	**node;
+	t_token	*prev;
 
-	node = *shell->tokens;
+	node = shell->tokens;
 	if (node->token == token)
 	{
 		*shell->tokens = NULL;
