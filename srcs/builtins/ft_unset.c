@@ -60,6 +60,6 @@ int	ft_unset(t_shell *shell, char **argv)
 		unset_var(shell, argv[i]);
 		i++;
 	}
-	//update_env_ptr(shell);
+	update_env_ptr(shell);
 	return (EXIT_SUCCESS);
 }

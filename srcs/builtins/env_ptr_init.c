@@ -68,8 +68,3 @@ int	env_ptr_init(t_shell *shell)
 	return (EXIT_SUCCESS);
 }
 
-void	update_env_ptr(t_shell *shell)
-{
-	free_array(shell->env_ptr);
-	env_ptr_init(shell);
-}

@@ -36,3 +36,11 @@ void	update_shlvl(t_shell *shell)
 	set_var(shell->vars, "SHLVL", shlvl_ascii);
 	free(shlvl_ascii);
 }
+
+void	update_env_ptr(t_shell *shell)
+{
+	if (shell->env_ptr)
+		free_array(shell->env_ptr);
+	env_ptr_init(shell);
+	return ;
+}

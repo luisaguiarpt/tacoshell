@@ -98,7 +98,7 @@ int	ft_export(t_shell *shell, char **argv)
 			//append_shell_var(shell->vars, );
 		//else
 		set_var(shell->vars, key, value);
-		//update_env_ptr(shell);
+		update_env_ptr(shell);
 		free(key);
 		free(value);
 		i++;
