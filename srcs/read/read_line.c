@@ -1,8 +1,9 @@
 #include "../incs/minishell.h"
 
-bool	read_line(t_shell *shell, char *str)
+bool	read_line(t_shell *shell)
 {
-	shell->line = readline(str);
+	get_prompt(shell);
+	shell->line = readline(shell->prompt);
 	if (!shell->line)
 	{
 		write(1, "exit\n", 5);

@@ -14,6 +14,7 @@ t_shell	init_shell(char **av, char **ep)
 
 void	set_shell_null(t_shell *shell)
 {
+	shell->prompt = NULL;
 	shell->line = NULL;
 	shell->vars = NULL;
 	shell->lexer = NULL;
