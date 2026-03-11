@@ -25,3 +25,14 @@ bool	is_op_metachar(char c)
 		return (true);
 	return (false);
 }
+
+void	update_shlvl(t_shell *shell)
+{
+	int		shlvl_int;
+	char	*shlvl_ascii;
+
+	shlvl_int = ft_atoi(get_var_value(shell, "SHLVL"));
+	shlvl_ascii = ft_itoa(shlvl_int + 1);
+	set_var(shell->vars, "SHLVL", shlvl_ascii);
+	free(shlvl_ascii);
+}

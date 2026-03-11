@@ -111,6 +111,7 @@ void	clean_lexer(t_shell *shell)
 	if (!shell->tokens)
 		return ;
 	node = *shell->tokens;
+	(void)node;
 	free_tokens(shell->tokens);
 	free(shell->tokens);
 	shell->tokens = NULL;

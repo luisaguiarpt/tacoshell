@@ -8,6 +8,7 @@ t_shell	init_shell(char **av, char **ep)
 	set_shell_debug(&shell, av);
 	//init_shell_vars_ptr(&shell);
 	shell.vars = init_shell_vars(&shell, ep);
+	update_shlvl(&shell);
 	return (shell);
 }
 
