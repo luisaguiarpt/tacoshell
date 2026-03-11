@@ -18,7 +18,8 @@ void	eval_loop(t_shell *shell)
 	setup_signals();
 	while (true)
 	{
-		read_line(shell);
+		if (!read_line(shell))
+			continue ;
 		lexer(shell);
 		parser(shell);
 		clean(shell);

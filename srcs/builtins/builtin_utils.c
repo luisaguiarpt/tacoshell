@@ -65,5 +65,5 @@ int	exec_builtin(t_shell *shell, char **argv)
 		return (ft_env(shell));
 	else if (ft_strcmp("exit", cmd) == 0)
 		(ft_exit(shell, argv));
-	return (1);
+	return (shell->exit_status);
 }

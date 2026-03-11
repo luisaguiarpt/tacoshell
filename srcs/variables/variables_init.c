@@ -53,9 +53,9 @@ t_variable	*init_var(t_shell *shell, char *ep_var)
 	var->value = init_shell_var_value(ep_var);
 	if (!var->value)
 		exit_clean(shell, EXIT_FAILURE);
-	var->exportstr= ft_strdup(ep_var);
-	if (!var->exportstr)
-		exit_clean(shell, EXIT_FAILURE);
+	//var->exportstr = ft_strdup(ep_var);
+	//if (!var->exportstr)
+		//exit_clean(shell, EXIT_FAILURE);
 	return (var);
 }
 

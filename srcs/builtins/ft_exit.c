@@ -42,6 +42,7 @@ void	ft_exit(t_shell *shell, char **argv)
 	else if (!num_check(argv[1]))
 	{
 		ft_printf_fd(2, "exit: %s: numeric argument required\n", argv[1]);
+		shell->exit_status = 2;
 		exit_code = 2;
 	}
 	else if (argv[2])

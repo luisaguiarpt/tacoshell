@@ -24,7 +24,7 @@ static void	remove_node(t_shell *shell, t_variable *current, t_variable *prev)
 	free(current->name);
 	free(current->value);
 	if (first_node)
-		shell->vars = &current->next;
+		*shell->vars = current->next;
 	free(current);
 }
 

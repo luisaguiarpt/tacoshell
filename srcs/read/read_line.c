@@ -9,7 +9,7 @@ bool	read_line(t_shell *shell)
 		write(1, "exit\n", 5);
 		exit_clean(shell, EXIT_SUCCESS);
 	}
-	if (!shell->line)
+	if (!*shell->line)
 		return (false);
 	if (*shell->line)
 		add_history(shell->line);
