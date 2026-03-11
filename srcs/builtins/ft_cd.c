@@ -16,13 +16,13 @@ static void	update_cd_vars(t_shell *shell, char *oldpwd)
 {
 	char	*newpwd;
 
-	set_var(shell->vars, "OLDPWD", oldpwd);
+	set_var(shell, "OLDPWD", oldpwd);
 	newpwd = getcwd(NULL, 0);
 	if (!newpwd)
 		perror("getcwd");
 	else
 	{
-		set_var(shell->vars, "PWD", newpwd);
+		set_var(shell, "PWD", newpwd);
 		free(newpwd);
 	}
 	update_env_ptr(shell);

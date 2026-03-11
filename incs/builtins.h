@@ -27,7 +27,7 @@ void	ft_exit(t_shell *shell, char **argv);
 // Env
 t_variable	*populate_env(char **envp);
 void		env_init(t_shell *shell, char **envp);
-t_variable	*set_var(t_variable **env, char *key, char *value);
+t_variable	*set_var(t_shell *shell, char *key, char *value);
 int			unset_var(t_shell *shell, char *name);
 void		env_split(char *env, char **name, char **value);
 

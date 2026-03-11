@@ -19,7 +19,7 @@ void	update_shlvl(t_shell *shell)
 
 	shlvl_int = ft_atoi(get_var_value(shell, "SHLVL"));
 	shlvl_ascii = ft_itoa(shlvl_int + 1);
-	set_var(shell->vars, "SHLVL", shlvl_ascii);
+	set_var(shell, "SHLVL", shlvl_ascii);
 	update_env_ptr(shell);
 	free(shlvl_ascii);
 }

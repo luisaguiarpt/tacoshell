@@ -29,11 +29,13 @@ t_variable	**init_shell_vars(t_shell *shell, char **ep);
 t_variable	*init_var(t_shell *shell, char *ep_var);
 char		*init_shell_var_name(char *ep_var);
 char		*init_shell_var_value(char *ep_var);
+t_variable	*init_var_null(t_shell *shell);
 
 // variables_list.c - Variable list functions
 void		append_shell_var(t_variable **head, t_variable *new);
 char		*get_var_value(t_shell *shell, char *key);
 char		*get_var_exportstr(t_shell *shell, char *key);
+t_variable	*var_find(t_shell *shell, char *key);
 
 // env_ptr_init.c - env_ptr initialization
 int	env_ptr_init(t_shell *shell);

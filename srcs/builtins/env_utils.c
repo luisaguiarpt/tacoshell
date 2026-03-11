@@ -33,33 +33,24 @@ OBSOLETE - DELETE LATER
 
 */
 
-t_variable	*set_var(t_variable **vars, char *name, char *value)
+t_variable	*set_var(t_shell *shell, char *name, char *value)
 {
-	t_variable	*tmp;
-	t_variable	*new;
+	t_variable	*var;
 
-	tmp = *vars;
-	while (tmp)
+	var = *shell->vars;
+	var = var_find(shell, name);
+	if (var)
 	{
-		if (ft_strcmp(name, tmp->name) == 0)
-		{
-			if (!value)
-				return (*vars);
-			free(tmp->value);
-			tmp->value = ft_strdup(value);
-			return (*vars);
-		}
-		tmp = tmp->next;
+		free(var->value);
+		var->value = ft_strdup(value);
+		return (var);
 	}
-	new = malloc(sizeof(t_variable));
-	new->name = ft_strdup(name);
+	var = init_var_null(shell);
+	var->name = ft_strdup(name);
 	if (value)
-		new->value = ft_strdup(value);
-	else
-		new->value = NULL;
-	new->next = NULL;
-	append_shell_var(vars, new);
-	return (*vars);
+		var->value = ft_strdup(value);
+	append_shell_var(shell->vars, var);
+	return (var);
 }
 
 /*

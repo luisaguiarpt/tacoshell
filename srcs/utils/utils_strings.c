@@ -67,6 +67,7 @@ char	*str_replace(t_shell *shell, char *str, char *rep, char *with)
 		else
 			new = str_app_char(shell, new, str[i++]);
 	}
+	free(str);
 	return (new);
 }
 

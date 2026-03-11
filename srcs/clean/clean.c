@@ -36,7 +36,11 @@ void	clean_redirs(t_redir *redir)
 
 	while (redir)
 	{
-		free(redir->file_path);
+		//if (redir->file_path)
+		//{
+		//	free(redir->file_path);
+		//	redir->file_path = NULL;
+		//}
 		tmp = redir;
 		redir = redir->next;
 		free(tmp);
@@ -109,12 +113,8 @@ void	free_array(char **array)
 
 void	clean_lexer(t_shell *shell)
 {
-	t_token	*node;
-
 	if (!shell->tokens)
 		return ;
-	node = *shell->tokens;
-	(void)node;
 	free_tokens(shell->tokens);
 	free(shell->tokens);
 	shell->tokens = NULL;
@@ -173,6 +173,8 @@ void	free_token(t_token *token)
 		free(token->mask);
 		token->mask = NULL;
 	}
+	token->prev = NULL;
+	token->next = NULL;
 	free(token);
 }
 

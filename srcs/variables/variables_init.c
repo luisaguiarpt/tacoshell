@@ -59,6 +59,20 @@ t_variable	*init_var(t_shell *shell, char *ep_var)
 	return (var);
 }
 
+t_variable	*init_var_null(t_shell *shell)
+{
+	t_variable	*var;
+
+	var = ft_calloc(1, sizeof(t_variable));
+	if (!var)
+		exit_clean(shell, EXIT_FAILURE);
+	var->name = NULL;
+	var->value = NULL;
+	var->exportstr = NULL;
+	var->next = NULL;
+	return (var);
+}
+
 char	*init_shell_var_name(char *ep_var)
 {
 	char	*name;

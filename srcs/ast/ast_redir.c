@@ -18,7 +18,7 @@ void	add_redir_node(t_ast_cmd *cmd, t_token *token, t_shell *shell)
 	t_redir	*new_node;
 
 	(void)shell;
-	filename = token->word;
+	filename = token->next->word;
 	new_node = redir_new(token->type, filename);
 	redir_append(cmd->redirs, new_node);
 }
