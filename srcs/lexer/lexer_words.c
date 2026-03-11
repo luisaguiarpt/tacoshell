@@ -9,7 +9,7 @@ int	replace_dollar(t_shell *shell, t_token *token, int i)
 		tmp_value = ft_itoa(shell->exit_status);
 		token->word = str_replace(shell, token->word, "$?", tmp_value);
 		upd_exp_mask(token, i, "$?", tmp_value);
-		i += ft_strlen(tmp_value);
+		i = ft_strlen(tmp_value);
 		free(tmp_value);
 	}
 	else if (token->word[i] == '$')

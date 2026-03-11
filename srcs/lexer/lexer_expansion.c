@@ -9,22 +9,24 @@ void	expansion(t_shell *shell, t_token **token)
 
 void	var_expansion(t_shell *shell, t_token **token)
 {
-	int	i;
+	int		i;
+	t_token	*tok;
 
-	if ((*token)->has_dollar == 0)
+	tok = *token;
+	if (tok->has_dollar == 0)
 		return ;
 	i = 0;
-	while ((*token)->word && (*token)->word[i])
+	while (tok->word && tok->word[i])
 	{
-		upd_tok_state((*token)->word[i], (*token));
-		if ((*token)->state == IN_SQ)
+		upd_tok_state(tok->word[i], tok);
+		if (tok->state == IN_SQ)
 			i++;
-		else if ((*token)->word[i] == '$')
-			i += replace_dollar(shell, *token, i);
+		else if (tok->word[i] == '$')
+			i += replace_dollar(shell, tok, i);
 		else
 			i++;
 	}
-	if ((*token)->has_dollar && !ft_strlen((*token)->word))
+	if (tok->has_dollar && !ft_strlen(tok->word))
 	{
 		remove_token(shell, *token);
 		*token = NULL;

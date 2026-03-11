@@ -12,6 +12,7 @@ void	clean(t_shell *shell)
 	if (shell->ast_root)
 		clean_ast(shell);
 }
+
 void	exit_clean(t_shell *shell, int exit_code)
 {
 	if (shell->prompt)
