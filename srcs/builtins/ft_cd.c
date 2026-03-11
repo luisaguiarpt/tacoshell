@@ -12,7 +12,23 @@
 
 #include "../../incs/minishell.h"
 
-static int	handle_args(t_shell *shell, char **argv, char **dir_path)
+static void	update_cd_vars(t_shell *shell, char *oldpwd)
+{
+	char	*newpwd;
+
+	set_var(shell->vars, "OLDPWD", oldpwd);
+	newpwd = getcwd(NULL, 0);
+	if (!newpwd)
+		perror("getcwd");
+	else
+	{
+		set_var(shell->vars, "PWD", newpwd);
+		free(newpwd);
+	}
+	return ;
+}
+
+static int	get_new_path(t_shell *shell, char **argv, char **dir_path)
 {
 	if (count_args(argv) > 2)
 		return (0);
@@ -30,17 +46,11 @@ static int	handle_args(t_shell *shell, char **argv, char **dir_path)
 	return (1);
 }
 
-static int	cd_checks(char *dir_path, char **tmp)
+static int	change_dir(char *dir_path)
 {
 	if (chdir(dir_path) == -1)
 	{
 		perror("cd");
-		return (EXIT_FAILURE);
-	}
-	*tmp = getcwd(NULL, 0);
-	if (!*tmp)
-	{
-		perror("getcwd");
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -48,29 +58,25 @@ static int	cd_checks(char *dir_path, char **tmp)
 
 int	ft_cd(t_shell *shell, char **argv)
 {
-	char	*dir_path;
+	char	*new_path;
 	char	*current_path;
-	char	*tmp;
 
-	tmp = NULL;
-	dir_path = NULL;
-	if (!handle_args(shell, argv, &dir_path))
+	new_path = NULL;
+	if (!get_new_path(shell, argv, &new_path))
 	{
 		ft_printf_fd(2, "Error: too many arguments\n");
 		return (EXIT_FAILURE);
 	}
-	if (cd_checks(dir_path, &tmp) == EXIT_FAILURE)
+	if (change_dir(new_path) == EXIT_FAILURE)
 	{
-		free(dir_path);
+		free(new_path);
 		return (EXIT_FAILURE);
 	}
 	current_path = ft_strdup(get_var_value(shell, "PWD"));
 	if (!current_path)
 		exit_clean(shell, EXIT_FAILURE);
-	set_var(shell->vars, "PWD", tmp);
-	set_var(shell->vars, "OLDPWD", current_path);
+	update_cd_vars(shell, current_path);
 	free(current_path);
-	free(dir_path);
-	free(tmp);
+	free(new_path);
 	return (EXIT_SUCCESS);
 }
