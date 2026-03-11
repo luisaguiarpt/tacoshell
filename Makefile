@@ -33,7 +33,8 @@ SRCS += srcs/taco/shell_init.c
 SRCS += srcs/utils/utils.c srcs/utils/utils_extra.c srcs/utils/utils_strings.c \
 		srcs/utils/wrapper_alloc.c
 # VARIABLES
-SRCS += srcs/variables/variables_init.c srcs/variables/variables_list.c
+SRCS += srcs/variables/variables_init.c srcs/variables/variables_list.c \
+		srcs/variables/variables_utils.c srcs/variables/env_ptr_init.c
 
 OBJS=$(SRCS:%.c=%.o)
 

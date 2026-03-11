@@ -25,6 +25,7 @@ static void	update_cd_vars(t_shell *shell, char *oldpwd)
 		set_var(shell->vars, "PWD", newpwd);
 		free(newpwd);
 	}
+	update_env_ptr(shell);
 	return ;
 }
 

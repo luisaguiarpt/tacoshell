@@ -35,4 +35,12 @@ void		append_shell_var(t_variable **head, t_variable *new);
 char		*get_var_value(t_shell *shell, char *key);
 char		*get_var_exportstr(t_shell *shell, char *key);
 
+// env_ptr_init.c - env_ptr initialization
+int	env_ptr_init(t_shell *shell);
+
+// variables_utils.c - Utils for variables and env_ptr
+void	update_shlvl(t_shell *shell);
+void	update_env_ptr(t_shell *shell);
+
+
 #endif

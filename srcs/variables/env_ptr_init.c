@@ -15,10 +15,10 @@
 static int	env_count(t_shell *shell)
 {
 	int		i;
-	t_env	*current;
+	t_variable	*current;
 
 	i = 0;
-	current = shell->env;
+	current = *shell->vars;
 	while (current)
 	{
 		current = current->next;
@@ -45,22 +45,22 @@ int	env_ptr_init(t_shell *shell)
 {
 	int		i;
 	int		array_size;
-	t_env	*current;
+	t_variable	*current;
 
 	i = 0;
-	current = shell->env;
+	current = *shell->vars;
 	array_size = env_count(shell);
 	shell->env_ptr = malloc((array_size + 1) * sizeof(char *));
 	if (!shell->env_ptr)
 	{
 		perror("malloc");
-		free_exit(shell, EXIT_FAILURE);
+		exit_clean(shell, EXIT_FAILURE);
 	}
 	while (current)
 	{
-		shell->env_ptr[i] = env_join(current->key, current->value);
+		shell->env_ptr[i] = env_join(current->name, current->value);
 		if (!shell->env_ptr)
-			free_exit(shell, EXIT_FAILURE);
+			exit_clean(shell, EXIT_FAILURE);
 		current = current->next;
 		i++;
 	}
