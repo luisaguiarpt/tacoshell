@@ -11,14 +11,14 @@ void	upd_exp_mask(t_token *token, int i, char *key, char *value)
 	start = i;
 	new_end = i + ft_strlen(value);
 	old_end = i + ft_strlen(key);
-	new_len = i + ft_strlen(token->word);
+	new_len = ft_strlen(token->word);
 	new_mask = ft_calloc(1, sizeof(char) * (new_len + 1));
 	if (!new_mask)
 		return ;
 	ft_memmove(new_mask, token->mask, start);
 	while (start < new_end)
 		new_mask[start++] = '1';
-	ft_memmove(&new_mask[new_end], &token->mask[old_end], new_len - new_end - 1);
+	ft_memmove(&new_mask[new_end], &token->mask[old_end], new_len - new_end);
 	free(token->mask);
 	token->mask = new_mask;
 }
