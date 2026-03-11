@@ -24,6 +24,8 @@ void	exit_clean(t_shell *shell, int exit_code)
 		clean_lexer(shell);
 	if (shell->ast_root)
 		clean_ast(shell);
+	if (shell->env_ptr)
+		free_array(shell->env_ptr);
 	exit(exit_code);
 }
 

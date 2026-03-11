@@ -27,7 +27,10 @@ void	update_shlvl(t_shell *shell)
 void	update_env_ptr(t_shell *shell)
 {
 	if (shell->env_ptr)
+	{
 		free_array(shell->env_ptr);
+		shell->env_ptr = NULL;
+	}
 	env_ptr_init(shell);
 	return ;
 }
