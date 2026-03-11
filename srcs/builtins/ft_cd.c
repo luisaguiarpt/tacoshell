@@ -17,7 +17,7 @@ static int	handle_args(t_shell *shell, char **argv, char **dir_path)
 	if (count_args(argv) > 2)
 		return (0);
 	if (!argv[1])
-		*dir_path = get_var_value(shell, "HOME");
+		*dir_path = ft_strdup(get_var_value(shell, "HOME"));
 	else if (ft_strcmp(argv[1], "-") == 0)
 	{
 		*dir_path = ft_strdup(get_var_value(shell, "OLDPWD"));
