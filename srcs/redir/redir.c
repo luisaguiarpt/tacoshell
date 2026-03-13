@@ -171,7 +171,6 @@ bool	check_delimiter(char *line, char *delimiter)
 void	heredoc_read_loop(t_shell *shell, int fd, char *delimiter)
 {
 	char	*line;
-	char	*tmp;
 	int		line_no;
 
 	line = NULL;
@@ -188,9 +187,8 @@ void	heredoc_read_loop(t_shell *shell, int fd, char *delimiter)
 			break ;
 		}
 		line_no++;
-		tmp = ft_strjoin2(line, "\n", 0);
-		write_expand(fd, tmp, shell);
-		free(tmp);
+		write_expand(fd, line, shell);
+		free(line);
 	}
 	if (line)
 		free(line);
