@@ -32,41 +32,44 @@ static int	print_export(t_shell *shell)
 	return (EXIT_SUCCESS);
 }
 
-//static void	append_env(t_env **env, char *key, char *value)
-//{
-//	t_env	*tmp;
-//	char	*new_value;
-//
-//	tmp = *env;
-//	while (tmp)
-//	{
-//		if (ft_strcmp(key, tmp->key) == 0)
-//		{
-//			if (!value)
-//				return ;
-//			new_value = ft_strjoin2(tmp->value, value, 0);
-//			tmp->value = new_value;
-//			return ;
-//		}
-//		tmp = tmp->next;
-//	}
-//	set_var(env, key, value);
-//	return ;
-//}
+static void	append_env(t_shell *shell, char *key, char *value)
+{
+	t_variable	*tmp;
+	char		*new_value;
 
-//static bool	check_append(char *str)
-//{
-//	int	i;
-//
-//	i = 0;
-//	while (str[i] && str[i + 1])
-//	{
-//		if (str[i] == '+' && str[i + 1] == '=')
-//			return (true);
-//		i++;
-//	}
-//	return (false);
-//}
+	tmp = *shell->vars;
+	while (tmp)
+	{
+		if (ft_strcmp(key, tmp->name) == 0)
+		{
+			if (!value)
+			{
+				set_var(shell, key, value);
+				return ;
+			}
+			new_value = ft_strjoin2(tmp->value, value, 0);
+			tmp->value = new_value;
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	set_var(shell, key, value);
+	return ;
+}
+
+static bool	check_append(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i + 1])
+	{
+		if (str[i] == '+' && str[i + 1] == '=')
+			return (true);
+		i++;
+	}
+	return (false);
+}
 
 int	check_var_char(char c)
 {
@@ -94,10 +97,10 @@ int	ft_export(t_shell *shell, char **argv)
 		if (check_export_arg(argv[i]) == 1)
 			return (EXIT_FAILURE);
 		env_split(argv[i], &key, &value);
-		//if (check_append(argv[i]))
-			//append_shell_var(shell->vars, );
-		//else
-		set_var(shell, key, value);
+		if (check_append(argv[i]))
+			append_env(shell, key, value);
+		else
+			set_var(shell, key, value);
 		update_env_ptr(shell);
 		free(key);
 		free(value);
