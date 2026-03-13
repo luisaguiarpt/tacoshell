@@ -61,6 +61,7 @@ void	quote_remove(t_shell *shell, t_token *t)
 
 	if (!t || !t->word || !t->mask)
 		return ;
+	//check_quote_pairs(shell, t);
 	rd = 0;
 	wr = 0;
 	t->state = NEUTRAL;

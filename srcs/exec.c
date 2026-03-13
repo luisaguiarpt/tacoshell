@@ -74,7 +74,7 @@ int	execve_handler(t_ast *node, t_shell *shell)
 	cmd_check = check_cmd(node);
 	if (cmd_check)
 	{
-		exit_clean(shell, EXIT_FAILURE);
+		exit_clean(shell, cmd_check);
 		return (cmd_check);
 	}
 	if (node->cmd->cmd_path)
@@ -114,7 +114,7 @@ int	check_cmd(t_ast *node)
 	{
 		if (stat(cmd, &st) == -1)
 		{
-			ft_printf_fd(2, "%s: No such file or directory\n", node->cmd->cmd_path);
+			ft_printf_fd(2, "%s: No such file or directory\n", cmd);
 			if (errno == EACCES)
 				return (126);
 			return (127);

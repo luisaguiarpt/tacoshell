@@ -75,10 +75,23 @@ void	remove_token(t_shell *shell, t_token *token)
 		return ;
 	prev = token->prev;
 	next = token->next;
-	free_token(token);
-	prev->next = next;
-	next->prev = prev;
-	(void)shell ;
+	if (prev && next)
+	{
+		prev->next = next;
+		next->prev = prev;
+		free_token(token);
+	}
+	else if (!prev && next)
+	{
+		*shell->tokens = next;
+		next->prev = NULL;
+		free_token(token);
+	}
+	else
+	{
+		*shell->tokens = NULL;
+		free_token(token);
+	}
 }
 //
 //t_token_list	*get_token_node(t_shell *shell, t_token *token)

@@ -13,3 +13,16 @@ void	read_write_token(t_token *token, size_t *rd, size_t *wr)
 	*wr = *wr + 1;
 	*rd = *rd + 1;
 }
+
+//void	check_squote_pairs(t_shell *shell, t_token *token)
+//{
+//	int		open;
+//	int		close;
+//	char	*word;
+//	int		i;
+//
+//	while (word[i])
+//	{
+//		if (word[i] == '\'')
+//	}
+//}

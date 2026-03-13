@@ -154,28 +154,37 @@ char	*isolate_word(char *line)
 	return (word);
 }
 
-int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell)
+bool	check_delimiter(char *line, char *delimiter)
+{
+	char	*trimmed;
+	bool	match;
+
+	trimmed = ft_strtrim(line, "\n");
+	if (ft_strcmp(trimmed, delimiter) == 0)
+		match = true;
+	else
+		match = false;
+	free(trimmed);
+	return (match);
+}
+
+void	heredoc_read_loop(t_shell *shell, int fd, char *delimiter)
 {
 	char	*line;
 	char	*tmp;
-	int		fd;
 	int		line_no;
 
 	line = NULL;
 	line_no = 1;
-	fd = open(".heredoc_tmp", O_CREAT | O_RDWR | O_TRUNC, 00664);
-	if (fd == -1)
-		return (perror("heredoc"), EXIT_FAILURE);
-	signal(SIGINT, handler_heredoc);
 	while (g_signal == 0)
 	{
 		ft_printf_fd(STDOUT_FILENO, "> ");
 		line = get_next_line(STDIN_FILENO);
-		if (ft_strcmp(curr->file_path, line) == 0 || g_signal != 0)
+		if (check_delimiter(line, delimiter) || g_signal != 0)
 			break ;
 		else if (!line)
 		{
-			ft_printf_fd(STDERR_FILENO, "warning: here-document at line %d delimited by end-of-file (wanted `%s\')\n", line_no, curr->file_path);
+			ft_printf_fd(STDERR_FILENO, "warning: here-document at line %d delimited by end-of-file (wanted `%s\')\n", line_no, delimiter);
 			break ;
 		}
 		line_no++;
@@ -185,6 +194,17 @@ int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell)
 	}
 	if (line)
 		free(line);
+}
+
+int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell)
+{
+	int		fd;
+
+	fd = open(".heredoc_tmp", O_CREAT | O_RDWR | O_TRUNC, 00664);
+	if (fd == -1)
+		return (perror("heredoc"), EXIT_FAILURE);
+	signal(SIGINT, handler_heredoc);
+	heredoc_read_loop(shell, fd, curr->file_path);
 	close(fd);
 	fd = open(".heredoc_tmp", O_RDONLY);
 	unlink(".heredoc_tmp");

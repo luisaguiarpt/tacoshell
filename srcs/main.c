@@ -22,12 +22,27 @@ void	eval_loop(t_shell *shell)
 			continue ;
 		lexer(shell);
 		parser(shell);
+		executor(shell);
 		clean(shell);
 	}
 }
 
 void	parser(t_shell *shell)
 {
+//	check_syntax(shell);
+	if (shell->tokens == NULL || (*shell->tokens)->type == TK_EOF)
+		return ;
 	shell->ast_root = create_ast(shell);
+}
+
+void	executor(t_shell *shell)
+{
+	if (shell->ast_root == NULL)
+		return ;
 	exec_control(shell->ast_root, shell);
 }
+
+//void	check_syntax(t_shell *shell)
+//{
+//	(void)shell;
+//}

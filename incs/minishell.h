@@ -52,6 +52,7 @@ extern int	g_signal;
 // main.c - Main functions
 void	eval_loop(t_shell *shell);
 void	parser(t_shell *shell);
+void	executor(t_shell *shell);
 
 typedef struct s_shell
 {

@@ -48,7 +48,7 @@ void	ft_exit(t_shell *shell, char **argv)
 	else if (argv[2])
 	{
 		write(2, "exit: too many arguments\n", 25);
-		shell->exit_status = 1;
+		shell->exit_status = 2;
 		return ;
 	}
 	if (exit_code < 0)
