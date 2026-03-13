@@ -43,12 +43,12 @@ void	ft_exit(t_shell *shell, char **argv)
 	{
 		ft_printf_fd(2, "exit: %s: numeric argument required\n", argv[1]);
 		shell->exit_status = 2;
-		exit_code = 2;
+		return ;
 	}
 	else if (argv[2])
 	{
 		write(2, "exit: too many arguments\n", 25);
-		shell->exit_status = 2;
+		shell->exit_status = 1;
 		return ;
 	}
 	if (exit_code < 0)
