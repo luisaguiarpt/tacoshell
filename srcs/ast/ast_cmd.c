@@ -15,6 +15,8 @@
 t_ast_cmd	*gen_cmd_node(t_token *start, t_token *end, t_shell *shell)
 {
 	t_ast_cmd	*cmd;
+	t_redir		*curr;
+	int			heredoc_count;
 
 	cmd = wr_calloc(1, sizeof(t_ast_cmd), shell);
 	cmd->redirs = wr_calloc(1, sizeof(t_redir), shell);
@@ -22,6 +24,14 @@ t_ast_cmd	*gen_cmd_node(t_token *start, t_token *end, t_shell *shell)
 	gen_argv_redir(cmd, start, end, shell);
 	if (cmd->argv != NULL && cmd->argv[0] != NULL && !is_builtin(cmd->argv[0]))
 		cmd->cmd_path = get_path(cmd->argv[0], shell);
+	heredoc_count = count_heredocs(*cmd->redirs);
+	curr = *cmd->redirs;
+	while (heredoc_count > 0 && curr)
+	{
+		heredoc_count--;
+		heredoc_read(curr, heredoc_count, shell);
+		curr = curr->next;
+	}
 	return (cmd);
 }
 
@@ -64,6 +74,8 @@ char	*get_path(char *av_cmd, t_shell *shell)
 
 	cmd = ft_split(av_cmd, ' ');
 	paths = ft_split(get_var_value(shell, "PATH"), ':');
+	if (!paths)
+		return (NULL);
 	i = -1;
 	while (paths[++i])
 	{

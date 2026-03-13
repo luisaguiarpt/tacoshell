@@ -22,7 +22,7 @@ SRCS += srcs/lexer/lexer.c srcs/lexer/lexer_tokens.c srcs/lexer/lexer_utils.c \
 		srcs/lexer/lexer_expansion.c srcs/lexer/lexer_words.c \
 		srcs/lexer/lexer_exp_utils.c srcs/lexer/lexer_quotes.c
 # READ
-SRCS += srcs/read/read_line.c srcs/read/get_prompt.c
+SRCS += srcs/read/read_line.c srcs/read/get_prompt.c srcs/read/heredoc.c
 # REDIR
 SRCS += srcs/redir/redir.c srcs/redir/redir_utils.c
 # SIGNALS

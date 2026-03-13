@@ -11,6 +11,7 @@ void	lexer(t_shell *shell)
 		shell->lexer->has_dollar = false;
 		token = get_next_token(shell);
 		append_token(shell, token);
+		set_heredoc_delimiter(shell, token);
 		expansion(shell, &token);
 		if (token && token->type == TK_EOF)
 			break ;

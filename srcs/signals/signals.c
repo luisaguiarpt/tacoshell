@@ -26,6 +26,15 @@ void	setup_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+void	handler_heredoc(int signo)
+{
+	(void)signo;
+	g_signal = 130;
+	write(STDOUT_FILENO, "\n", 1);
+	close(STDIN_FILENO);
+	signal(SIGINT, handle_sigint);
+}
+
 void	disable_parent_signals(void)
 {
 	signal(SIGINT, SIG_IGN);

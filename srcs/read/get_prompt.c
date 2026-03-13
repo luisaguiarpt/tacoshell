@@ -37,7 +37,8 @@ void	get_prompt(t_shell *shell)
  
 	if (shell->prompt)
 		free(shell->prompt);
-	cwd = ft_strdup(get_var_value(shell, "PWD"));
+	cwd = getcwd(NULL, 0);
+	//cwd = ft_strdup(get_var_value(shell, "PWD"));
 	if (!cwd)
 		exit_clean(shell, EXIT_FAILURE);
 	shell->prompt = shorten_home_path(shell, cwd);

@@ -12,15 +12,16 @@
 
 #include "../incs/minishell.h"
 
-t_redir	*redir_new(t_token_type	type, char *file_path)
+t_redir	*redir_new(t_token_type	type, char *file_path, char *hdoc_del)
 {
 	t_redir	*node;
 
 	node = malloc(sizeof(t_redir));
 	if (!node)
 		return (NULL);
-	node->type= type;
+	node->type = type;
 	node->file_path = file_path;
+	node->heredoc_delimiter = hdoc_del;
 	node->next = NULL;
 	return (node);
 }

@@ -39,19 +39,13 @@ typedef enum	e_state
 	IN_DQ = 2
 }				t_state;
 
-typedef struct	s_redir
-{
-	t_token_type	type;
-	char			*file_path;
-	t_redir			*next;
-}				t_redir;
-
 typedef struct	s_token
 {
 	t_token_type	type;
 	char			*word;
 	char			*mask;
 	bool			has_dollar;
+	char			*heredoc_delimiter;
 	t_token			*prev;
 	t_token			*next;
 	t_state			state;

@@ -29,7 +29,7 @@ t_variable	**init_shell_vars(t_shell *shell, char **ep)
 	if (!vars_ptr)
 		exit_clean(shell, EXIT_FAILURE);
 	i = 0;
-	while (ep[i])
+	while (ep && ep[i])
 	{
 		var = init_var(shell, ep[i]);
 		append_shell_var(vars_ptr, var);

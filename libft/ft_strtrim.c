@@ -39,7 +39,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	j = ft_strlen(s1) - 1;
 	while (trim(set, s1[i]))
 		i++;
-	while (trim(set, s1[j]))
+	while (j >= 0 && trim(set, s1[j]))
 		j--;
 	trimmed = ft_substr(s1, i, (j - i + 1));
 	return (trimmed);

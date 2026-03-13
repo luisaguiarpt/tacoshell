@@ -16,6 +16,10 @@
 // read_line.c - Wrapper for readline
 bool	read_line(t_shell *shell);
 
+// heredoc.c - Heredoc functions
+void	write_expand(int fd, char *line, t_shell *shell);
+void	set_heredoc_delimiter(t_shell *shell, t_token *node);
+
 // get_prompt.c
 void	get_prompt(t_shell *shell);
 
