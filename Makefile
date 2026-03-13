@@ -25,6 +25,8 @@ SRCS += srcs/lexer/lexer.c srcs/lexer/lexer_tokens.c srcs/lexer/lexer_utils.c \
 SRCS += srcs/read/read_line.c srcs/read/get_prompt.c srcs/read/heredoc.c
 # REDIR
 SRCS += srcs/redir/redir.c srcs/redir/redir_utils.c
+# SYNTAX
+SRCS += srcs/syntax/syntax.c
 # SIGNALS
 SRCS += srcs/signals/signals.c
 # SHELL

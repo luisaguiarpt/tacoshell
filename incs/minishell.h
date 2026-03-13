@@ -31,6 +31,7 @@
 
 // Includes
 # include "typedefs.h"
+# include "syntax.h"
 # include "ast.h"
 # include "builtins.h"
 # include "shell.h"

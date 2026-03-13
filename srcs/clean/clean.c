@@ -7,6 +7,11 @@ void	clean(t_shell *shell)
 		free(shell->line);
 		shell->line = NULL;
 	}
+//	if (shell->prompt)
+//	{
+//		free(shell->prompt);
+//		shell->prompt = NULL;
+//	}
 	if (shell->lexer)
 		clean_lexer(shell);
 	if (shell->ast_root)
