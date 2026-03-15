@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_exp_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldias-da <ldias-da@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/15 14:23:19 by ldias-da          #+#    #+#             */
+/*   Updated: 2026/03/15 14:23:22 by ldias-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/minishell.h"
 
 void	upd_exp_mask(t_token *token, int i, char *key, char *value)
@@ -40,7 +52,7 @@ char	*set_expansion_mask(t_shell *shell, t_token *token)
 	char	*mask;
 	size_t	len;
 	size_t	i;
-	
+
 	len = ft_strlen(token->word);
 	mask = ft_calloc(1, (len + 1) * sizeof(char));
 	if (!mask)

@@ -12,8 +12,6 @@
 
 #include "../incs/minishell.h"
 
-void	*free_mem_arr(char **arr, int index);
-
 t_ast	*create_ast(t_shell *shell)
 {
 	t_token	*start;
@@ -60,13 +58,6 @@ t_ast	*create_ast_node(t_ast_node_type type,
 	return (node);
 }
 
-static void	set_syntax_error(t_shell *shell)
-{
-	ft_printf_fd(2, "Syntax error.\n");
-	shell->syntax_error = 2;
-	shell->exit_status = true;
-}
-
 void	gen_argv_redir(t_ast_cmd *cmd,
 		t_token *s, t_token *end, t_shell *shell)
 {
@@ -88,7 +79,6 @@ void	gen_argv_redir(t_ast_cmd *cmd,
 		else
 		{
 			cmd->argv[i] = ft_strdup(s->word);
-			//cmd->argv[i] = rm_quotes(ft_substr(s->start, 0, s->length), shell);
 			if (!cmd->argv[i])
 				return ((void)free_mem_arr(cmd->argv, i));
 			i++;

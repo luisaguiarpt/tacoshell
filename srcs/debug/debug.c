@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/15 15:45:38 by josepedr          #+#    #+#             */
+/*   Updated: 2026/01/15 19:53:51 by josepedr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/minishell.h"
 
 void	set_shell_debug(t_shell *shell, char **av)
@@ -24,7 +36,7 @@ void	set_shell_debug(t_shell *shell, char **av)
 void	print_env_var(t_variable **vars_ptr)
 {
 	t_variable	*var;
- 
+
 	var = *vars_ptr;
 	printf("--- VARIABLES ---\n");
 	while (var)

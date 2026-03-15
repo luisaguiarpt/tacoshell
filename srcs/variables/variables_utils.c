@@ -20,7 +20,7 @@ void	update_shlvl(t_shell *shell)
 	shlvl_ascii = get_var_value(shell, "SHLVL");
 	if (shlvl_ascii == NULL)
 		shlvl_int = 0;
-	else 
+	else
 		shlvl_int = ft_atoi(shlvl_ascii);
 	shlvl_ascii = ft_itoa(shlvl_int + 1);
 	set_var(shell, "SHLVL", shlvl_ascii);

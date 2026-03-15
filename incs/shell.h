@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   taco.h                                             :+:      :+:    :+:   */
+/*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josepedr <josepedr@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,5 +16,8 @@
 // shell_init.c - shell struct initialization
 t_shell	init_shell(char **av, char **ep);
 void	set_shell_null(t_shell *shell);
+void	init_tokens_ptr(t_shell *shell);
+void	init_shell_vars_ptr(t_shell *shell);
+void	setup_signals(void);
 
 #endif

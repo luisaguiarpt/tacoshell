@@ -25,4 +25,3 @@ bool	is_op_metachar(char c)
 		return (true);
 	return (false);
 }
-

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_expansion.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldias-da <ldias-da@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/15 14:23:31 by ldias-da          #+#    #+#             */
+/*   Updated: 2026/03/15 14:23:32 by ldias-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/minishell.h"
 
 void	expansion(t_shell *shell, t_token **token)
@@ -54,6 +66,7 @@ void	word_split(t_shell *shell, t_token *token)
 	}
 }
 
+// t->state == 0 because of norminette (0 == NEUTRAL)
 void	quote_remove(t_shell *shell, t_token *t)
 {
 	size_t	rd;
@@ -61,7 +74,6 @@ void	quote_remove(t_shell *shell, t_token *t)
 
 	if (!t || !t->word || !t->mask)
 		return ;
-	//check_quote_pairs(shell, t);
 	rd = 0;
 	wr = 0;
 	t->state = NEUTRAL;
@@ -71,7 +83,7 @@ void	quote_remove(t_shell *shell, t_token *t)
 			upd_rd_state(t, IN_DQ, &rd);
 		else if (t->mask[rd] == '0' && t->word[rd] == '"' && t->state == IN_DQ)
 			upd_rd_state(t, NEUTRAL, &rd);
-		else if (t->mask[rd] == '0' && t->word[rd] == '\'' && t->state == NEUTRAL)
+		else if (t->mask[rd] == '0' && t->word[rd] == '\'' && t->state == 0)
 			upd_rd_state(t, IN_SQ, &rd);
 		else if (t->mask[rd] == '0' && t->word[rd] == '\'' && t->state == IN_SQ)
 			upd_rd_state(t, NEUTRAL, &rd);

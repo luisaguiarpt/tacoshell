@@ -12,6 +12,53 @@
 
 #include "../../incs/minishell.h"
 
+int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell)
+{
+	int		fd;
+
+	fd = open(".heredoc_tmp", O_CREAT | O_RDWR | O_TRUNC, 00664);
+	if (fd == -1)
+		return (perror("heredoc"), EXIT_FAILURE);
+	signal(SIGINT, handler_heredoc);
+	heredoc_read_loop(shell, fd, curr->heredoc_delimiter);
+	close(fd);
+	if (heredoc_curr == 0)
+	{
+		curr->heredoc_fd = open(".heredoc_tmp", O_RDONLY);
+	}
+	unlink(".heredoc_tmp");
+	return (fd);
+}
+
+void	heredoc_read_loop(t_shell *shell, int fd, char *delimiter)
+{
+	char	*line;
+	int		line_no;
+
+	line = NULL;
+	line_no = 1;
+	while (g_signal == 0)
+	{
+		ft_printf_fd(STDOUT_FILENO, "> ");
+		line = get_next_line(STDIN_FILENO);
+		if (check_delimiter(line, delimiter) || g_signal != 0)
+		{
+			free(delimiter);
+			break ;
+		}
+		else if (!line)
+		{
+			ft_printf_fd(STDERR_FILENO, ERRMSG_HD_EOF, line_no, delimiter);
+			break ;
+		}
+		line_no++;
+		write_expand(fd, line, shell);
+		free(line);
+	}
+	if (line)
+		free(line);
+}
+
 void	set_heredoc_delimiter(t_shell *shell, t_token *node)
 {
 	(void)shell;
@@ -35,54 +82,6 @@ bool	check_delimiter(char *line, char *delimiter)
 		match = false;
 	free(trimmed);
 	return (match);
-}
-
-void	heredoc_read_loop(t_shell *shell, int fd, char *delimiter)
-{
-	char	*line;
-	int		line_no;
-
-	line = NULL;
-	line_no = 1;
-	while (g_signal == 0)
-	{
-		ft_printf_fd(STDOUT_FILENO, "> ");
-		line = get_next_line(STDIN_FILENO);
-		if (check_delimiter(line, delimiter) || g_signal != 0)
-		{
-			free(delimiter);
-			break ;
-		}
-		else if (!line)
-		{
-			ft_printf_fd(STDERR_FILENO, "warning: here-document at line %d delimited by end-of-file (wanted `%s\')\n", line_no, delimiter);
-			break ;
-		}
-		line_no++;
-		write_expand(fd, line, shell);
-		free(line);
-	}
-	if (line)
-		free(line);
-}
-
-int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell)
-{
-	int		fd;
-
-	fd = open(".heredoc_tmp", O_CREAT | O_RDWR | O_TRUNC, 00664);
-	if (fd == -1)
-		return (perror("heredoc"), EXIT_FAILURE);
-	signal(SIGINT, handler_heredoc);
-	heredoc_read_loop(shell, fd, curr->heredoc_delimiter);
-	close(fd);
-	if (heredoc_curr == 0)
-	{
-		curr->heredoc_fd = open(".heredoc_tmp", O_RDONLY);
-	}
-	unlink(".heredoc_tmp");
-	//close(fd);
-	return (fd);
 }
 
 void	write_expand(int fd, char *line, t_shell *shell)

@@ -41,22 +41,6 @@ void	redir_append(t_redir **lst, t_redir *new)
 	last->next = new;
 }
 
-void	redir_clean(t_redir **lst)
-{
-	t_redir	*tmp;
-
-	if (!lst)
-		return ;
-	while (*lst)
-	{
-		tmp = (*lst)->next;
-		if ((*lst)->file_path)
-			free((*lst)->file_path);
-		free(*lst);
-		*lst = tmp;
-	}
-}
-
 t_redir	*redir_last(t_redir *lst)
 {
 	t_redir	*ptr;

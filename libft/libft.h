@@ -87,12 +87,11 @@ int		ft_unsigned_putnbr(unsigned int n);
 int		print_pointer(unsigned long n);
 
 // ft_printf_fd
-int	ft_printf_fd(int fd, const char *format, ...);
-int	ft_putstrfd(int fd, char *str);
-int	ft_putcharfd(int fd, char c);
-int	ft_putnbrfd(int fd, int n);
-int	ft_unsigned_putnbrfd(int fd, unsigned int n);
-
+int		ft_printf_fd(int fd, const char *format, ...);
+int		ft_putstrfd(int fd, char *str);
+int		ft_putcharfd(int fd, char c);
+int		ft_putnbrfd(int fd, int n);
+int		ft_unsigned_putnbrfd(int fd, unsigned int n);
 
 // get_next_line
 # ifndef BUFFER_SIZE

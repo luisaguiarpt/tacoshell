@@ -13,9 +13,10 @@
 #ifndef SYNTAX_H
 # define SYNTAX_H
 
-# define ERR_MSG_PIPE "syntax error near unexpected token `|'\n"
+# define ERRMSG_PIPE "syntax error near unexpected token `|'\n"
 
-void	check_syntax(t_shell *shell);
-void	syntax_pipe_start(t_shell *shell);
+void		check_syntax(t_shell *shell);
+void		syntax_pipe_start(t_shell *shell);
+void	set_syntax_error(t_shell *shell);
 
 #endif

@@ -34,13 +34,12 @@ static char	*shorten_home_path(t_shell *shell, char *cwd)
 void	get_prompt(t_shell *shell)
 {
 	char	*cwd;
- 
+
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return ;
 	if (shell->prompt)
 		free(shell->prompt);
-		//exit_clean(shell, EXIT_FAILURE);
 	shell->prompt = shorten_home_path(shell, cwd);
 	free(cwd);
 }

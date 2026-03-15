@@ -1,13 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_tokens.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldias-da <ldias-da@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/15 14:23:44 by ldias-da          #+#    #+#             */
+/*   Updated: 2026/03/15 14:23:45 by ldias-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/minishell.h"
 
-void	init_tokens_ptr(t_shell *shell)
-{
-	shell->tokens = ft_calloc(1, sizeof(t_token *));
-	if (!shell->tokens)
-		exit_clean(shell, EXIT_FAILURE);
-}
-
-t_token	*create_token_lexer(t_shell *shell, t_token_type type)
+t_token	*new_token_lexer(t_shell *shell, t_token_type type)
 {
 	t_token	*token;
 
@@ -95,16 +100,3 @@ void	remove_token(t_shell *shell, t_token *token)
 		free_token(token);
 	}
 }
-//
-//t_token_list	*get_token_node(t_shell *shell, t_token *token)
-//{
-//	t_token_list	*node;
-//
-//	node = *shell->tokens;
-//	while (node)
-//	{
-//		if (node->token == token)
-//			return (node);
-//		node = node->next;
-//	}
-//}

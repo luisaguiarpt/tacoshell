@@ -12,23 +12,17 @@
 
 #include "../../incs/minishell.h"
 
-//static void	swap_head(t_env **sorted_head, t_env **node)
-//{
-//	t_env	*tmp;
-//
-//	tmp = *sorted_head;
-//	*sorted_head = *node;
-//	(*node)->next = tmp;
-//}
-//
-//static void	swap_body(t_env **sorted, t_env **node)
-//{
-//	t_env	*tmp;
-//
-//	tmp = (*sorted)->next;
-//	(*sorted)->next = *node;
-//	(*node)->next = tmp;
-//}
+int	check_var_char(char c)
+{
+	if (is_digit(c))
+		return (0);
+	else if (is_alpha(c))
+		return (0);
+	else if (c == '_')
+		return (0);
+	else
+		return (1);
+}
 
 int	check_export_arg(char *argv)
 {
@@ -55,32 +49,3 @@ int	check_export_arg(char *argv)
 	}
 	return (0);
 }
-
-//t_env	*sort_env(t_env *unsorted)
-//{
-//	t_env	*sorted_head;
-//	t_env	*sorted;
-//	t_env	*node;
-//
-//	sorted_head = NULL;
-//	while (unsorted)
-//	{
-//		sorted = sorted_head;
-//		node = unsorted;
-//		unsorted = unsorted->next;
-//		if (!sorted_head)
-//		{
-//			sorted_head = node;
-//			sorted_head->next = NULL;
-//		}
-//		else if (ft_strcmp(node->key, sorted_head->key) < 0)
-//			swap_head(&sorted_head, &node);
-//		else
-//		{
-//			while (sorted->next && ft_strcmp(node->key, sorted->next->key) >= 0)
-//				sorted = sorted->next;
-//			swap_body(&sorted, &node);
-//		}
-//	}
-//	return (sorted_head);
-//}

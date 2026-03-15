@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldias-da <ldias-da@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/15 14:54:52 by ldias-da          #+#    #+#             */
+/*   Updated: 2026/03/15 14:54:53 by ldias-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/minishell.h"
 
 void	handle_ctrl_c(t_shell *shell)
@@ -18,12 +30,6 @@ void	handle_sigint(int signo)
 		rl_redisplay();
 		signal(SIGINT, handle_sigint);
 	}
-}
-
-void	setup_signals(void)
-{
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
 }
 
 void	handler_heredoc(int signo)

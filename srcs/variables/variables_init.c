@@ -12,13 +12,6 @@
 
 #include "../../incs/minishell.h"
 
-void	init_shell_vars_ptr(t_shell *shell)
-{
-	shell->vars = ft_calloc(1, sizeof(t_variable *));
-	if (!shell->vars)
-		exit_clean(shell, EXIT_FAILURE);
-}
-
 t_variable	**init_shell_vars(t_shell *shell, char **ep)
 {
 	t_variable	*var;
@@ -35,7 +28,7 @@ t_variable	**init_shell_vars(t_shell *shell, char **ep)
 		append_shell_var(vars_ptr, var);
 		i++;
 	}
-	if (shell->debug)
+	if (shell->debug & PRT_VAR)
 		print_env_var(vars_ptr);
 	return (vars_ptr);
 }
@@ -53,9 +46,6 @@ t_variable	*init_var(t_shell *shell, char *ep_var)
 	var->value = init_shell_var_value(ep_var);
 	if (!var->value)
 		exit_clean(shell, EXIT_FAILURE);
-	//var->exportstr = ft_strdup(ep_var);
-	//if (!var->exportstr)
-		//exit_clean(shell, EXIT_FAILURE);
 	return (var);
 }
 

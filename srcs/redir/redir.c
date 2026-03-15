@@ -12,9 +12,6 @@
 
 #include "../../incs/minishell.h"
 
-int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell);
-int	count_heredocs(t_redir *head);
-
 static int	handle_in(char *path)
 {
 	int	fd;
@@ -58,8 +55,6 @@ static int	handle_heredoc(t_redir *curr)
 	int	fd;
 
 	fd = curr->heredoc_fd;
-	//if (fd == -1)
-		//return (perror(path), EXIT_FAILURE);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	return (0);
@@ -69,61 +64,23 @@ int	handle_redirs(t_redir *head, t_shell *shell)
 {
 	int		heredoc_count;
 	int		heredoc_curr;
-	t_redir	*tmp;
+	t_redir	*r;
 
 	(void)shell;
-	tmp = head;
+	r = head;
 	heredoc_count = count_heredocs(head);
 	heredoc_curr = heredoc_count;
-	while (tmp && g_signal == 0)
+	while (r && g_signal == 0)
 	{
-		if (tmp->type == TK_REDIR_IN && handle_in(tmp->file_path))
+		if (r->type == TK_REDIR_IN && handle_in(r->file_path))
 			return (EXIT_FAILURE);
-		else if (tmp->type == TK_REDIR_OUT && handle_out(tmp->file_path, tmp->next))
+		else if (r->type == TK_REDIR_OUT && handle_out(r->file_path, r->next))
 			return (EXIT_FAILURE);
-		else if (tmp->type == TK_APPEND && handle_append(tmp->file_path, tmp->next))
+		else if (r->type == TK_APPEND && handle_append(r->file_path, r->next))
 			return (EXIT_FAILURE);
-		else if (tmp->type == TK_HERE_DOC && handle_heredoc(tmp))
+		else if (r->type == TK_HERE_DOC && handle_heredoc(r))
 			return (EXIT_FAILURE);
-		tmp = tmp->next;
+		r = r->next;
 	}
 	return (g_signal);
-}
-
-int	count_heredocs(t_redir *head)
-{
-	int	count;
-
-	count = 0;
-	while (head)
-	{
-		if (head->type == TK_HERE_DOC)
-			count++;
-		head = head->next;
-	}
-	return (count);
-}
-// Returns a malloc'd char * of a single word (delimited by an ending space)
-char	*isolate_word(char *line)
-{
-	char	*word;
-	size_t	i;
-	size_t	k;
-
-	i = 0;
-	if (!line)
-		return (NULL);
-	while ((line[i] && is_posix_var(line[i])) || (i == 0 && line[i] == '$'))
-		i++;
-	word = ft_calloc(i + 1, sizeof(char));
-	if (!word)
-		return (NULL);
-	k = 0;
-	while (k < i)
-	{
-		word[k] = line[k];
-		k++;
-	}
-	word[i] = 0;
-	return (word);
 }

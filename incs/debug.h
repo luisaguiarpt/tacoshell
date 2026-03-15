@@ -25,4 +25,3 @@ void	print_tokens(t_shell *shell);
 void	print_token_type(t_token *token);
 
 #endif
-

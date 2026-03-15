@@ -16,29 +16,25 @@
 # include "minishell.h"
 
 // Builtin commands
-int		ft_cd(t_shell *shell, char **argv);
-int		ft_echo(char **argv);
-int		ft_pwd(t_shell *shell);
-int		ft_env(t_shell *shell);
-int		ft_export(t_shell *shell, char **argv);
-int		ft_unset(t_shell *shell, char **argv);
-void	ft_exit(t_shell *shell, char **argv);
+int			ft_cd(t_shell *shell, char **argv);
+int			ft_echo(char **argv);
+int			ft_pwd(t_shell *shell);
+int			ft_env(t_shell *shell);
+int			ft_export(t_shell *shell, char **argv);
+int			ft_unset(t_shell *shell, char **argv);
+void		ft_exit(t_shell *shell, char **argv);
 
-// Env
-t_variable	*populate_env(char **envp);
-void		env_init(t_shell *shell, char **envp);
+// env_utils.c - Env utils
 t_variable	*set_var(t_shell *shell, char *key, char *value);
-int			unset_var(t_shell *shell, char *name);
 void		env_split(char *env, char **name, char **value);
 
-// Export
-t_variable	*sort_env(t_variable *unsorted);
-int	check_export_arg(char *argv);
-int	check_var_char(char c);
+// export_utils.c - Export utils
+int			check_var_char(char c);
+int			check_export_arg(char *argv);
 
-// Utils - builtin_utils.c
-int		count_args(char **argv);
-int		exec_builtin(t_shell *shell, char **argv);
-bool	is_builtin(char *cmd);
+// builtin_utils.c - Builtin utils
+int			count_args(char **argv);
+int			exec_builtin(t_shell *shell, char **argv);
+bool		is_builtin(char *cmd);
 
 #endif

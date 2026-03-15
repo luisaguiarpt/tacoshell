@@ -5,18 +5,18 @@ LIBREADLINE=-lreadline -lncurses
 SRCS = srcs/main.c
 # AST
 SRCS += srcs/ast/ast.c srcs/ast/ast_cmd.c srcs/ast/ast_debug.c \
-		srcs/ast/ast_misc.c srcs/ast/ast_redir.c srcs/ast/ast_utils.c
+		srcs/ast/ast_misc.c srcs/ast/ast_utils.c
 # BUILT-INS
 SRCS += srcs/builtins/ft_cd.c srcs/builtins/ft_echo.c srcs/builtins/ft_env.c \
 		srcs/builtins/ft_exit.c srcs/builtins/ft_export.c srcs/builtins/ft_pwd.c \
 		srcs/builtins/ft_unset.c srcs/builtins/env_utils.c \
 		srcs/builtins/export_utils.c srcs/builtins/builtin_utils.c
 # CLEAN
-SRCS += srcs/clean/clean.c
+SRCS += srcs/clean/clean.c srcs/clean/clean_utils.c srcs/clean/free.c
 # DEBUG
 SRCS += srcs/debug/debug.c
 # EXECS
-SRCS += srcs/exec.c
+SRCS += srcs/exec/exec.c srcs/exec/exec_handlers.c srcs/exec/exec_utils.c
 # LEXER
 SRCS += srcs/lexer/lexer.c srcs/lexer/lexer_tokens.c srcs/lexer/lexer_utils.c \
 		srcs/lexer/lexer_expansion.c srcs/lexer/lexer_words.c \

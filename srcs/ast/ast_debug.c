@@ -12,10 +12,8 @@
 
 #include "../../incs/minishell.h"
 
-void	debug_ast(t_ast	*node, char *flag)
+void	debug_ast(t_ast	*node)
 {
-	if (!flag)
-		return ;
 	print_ast(node, 0, 0);
 	printf("\n\nDETAILS:\n\n");
 	print_ast_dfs(node);
@@ -27,38 +25,33 @@ void	print_ast(t_ast *node, int depth, int line)
 	int	i;
 
 	if (!node)
-		return;
-
+		return ;
 	printf("\n\n\n");
-	// Print right subtree first
 	print_ast(node->right, depth + 1, 1);
-
-	// Indentation
-	for (i = 0; i < depth; i++)
+	i = 0;
+	while (i < depth)
+	{
 		printf("         ");
-
-	// Print current node
+		i++;
+	}
 	if (line == 1)
 		printf(" / ");
 	else if (line == 2)
 		printf(" \\ ");
 	if (node->cmd && node->cmd->argv)
-	{
 		printf("%s (%d)\n", node->cmd->argv[0], node->type);
-
-	}
 	else
 		printf("[PIPE %d]\n", node->type);
-
-	// Print left subtree
 	print_ast(node->left, depth + 1, 2);
 }
 
 void	print_ast_cmds(t_ast *node)
 {
-	char	**av = node->cmd->argv;
-	int i = 0;
+	char	**av;
+	int		i;
 
+	i = 0;
+	av = node->cmd->argv;
 	printf("[NODE %d]\n", node->type);
 	printf("CMD PATH:\n");
 	printf("\t%s\n", node->cmd->cmd_path);
@@ -73,9 +66,10 @@ void	print_ast_cmds(t_ast *node)
 
 void	print_ast_redirs(t_ast *node)
 {
-	printf("REDIRS:\n");
-	t_redir	**curr = node->cmd->redirs;
+	t_redir	**curr;
 
+	printf("REDIRS:\n");
+	curr = node->cmd->redirs;
 	while (*curr)
 	{
 		printf("\tTYPE: %d | PATH: %s\n", (*curr)->type, (*curr)->file_path);
@@ -86,9 +80,7 @@ void	print_ast_redirs(t_ast *node)
 void	print_ast_dfs(t_ast *node)
 {
 	if (!node)
-		return;
-
-	// Visit node
+		return ;
 	if (node->cmd)
 	{
 		print_ast_cmds(node);
@@ -96,8 +88,6 @@ void	print_ast_dfs(t_ast *node)
 	}
 	else
 		printf("[NODE %d]\n\n", node->type);
-
-	// Traverse children
 	print_ast_dfs(node->left);
 	print_ast_dfs(node->right);
 }

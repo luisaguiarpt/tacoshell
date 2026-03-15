@@ -36,16 +36,6 @@ bool	is_builtin(char *cmd)
 		return (false);
 }
 
-/*
- * echo = ft_echo
- * cd = ft_cd
- * pwd = ft_pwd
- * export = set_var
- * unset = unset_var
- * env = ft_env
- * exit = print_n_bounce
- */
-
 int	exec_builtin(t_shell *shell, char **argv)
 {
 	char	*cmd;

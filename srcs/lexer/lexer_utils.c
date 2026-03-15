@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldias-da <ldias-da@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/15 14:23:52 by ldias-da          #+#    #+#             */
+/*   Updated: 2026/03/15 14:23:53 by ldias-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/minishell.h"
 
 void	skip_space(t_lexer *lexer)
@@ -25,7 +37,7 @@ char	peek(t_lexer *lexer)
 	return (*lexer->current);
 }
 
-bool	match(char	expected, t_lexer *lexer)
+bool	match(char expected, t_lexer *lexer)
 {
 	if (lexer->current[1] == '\0')
 		return (false);

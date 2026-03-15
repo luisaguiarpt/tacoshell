@@ -14,7 +14,7 @@
 
 static int	env_count(t_shell *shell)
 {
-	int		i;
+	int			i;
 	t_variable	*current;
 
 	i = 0;
@@ -43,8 +43,8 @@ static char	*env_join(char *key, char *value)
 
 int	env_ptr_init(t_shell *shell)
 {
-	int		i;
-	int		array_size;
+	int			i;
+	int			array_size;
 	t_variable	*current;
 
 	i = 0;
@@ -67,4 +67,3 @@ int	env_ptr_init(t_shell *shell)
 	shell->env_ptr[i] = NULL;
 	return (EXIT_SUCCESS);
 }
-

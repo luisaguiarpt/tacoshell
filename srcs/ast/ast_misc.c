@@ -26,8 +26,7 @@ bool	is_word(t_token token)
 	return (false);
 }
 
-// incs minition checks to see if the token is a redir token,
-// and if the following token is a valid token
+// checks to see if the token is a redir token,
 bool	is_redir_operator(t_token token)
 {
 	if (token.type >= TK_REDIR_OUT && token.type <= TK_HERE_DOC)

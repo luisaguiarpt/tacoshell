@@ -13,9 +13,9 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-typedef struct	s_redir t_redir;
+typedef struct s_redir	t_redir;
 
-typedef enum	e_token_type
+typedef enum e_token_type
 {
 	TK_PIPE = 0,
 	TK_AMPERSAND = 1,
@@ -29,17 +29,17 @@ typedef enum	e_token_type
 	TK_AND = 9,
 	TK_SEMI = 10,
 	TK_SEMI_SEMI = 11,
-	TK_EOF = 12 
+	TK_EOF = 12
 }				t_token_type;
 
-typedef enum	e_state
+typedef enum e_state
 {
 	NEUTRAL = 0,
 	IN_SQ = 1,
 	IN_DQ = 2
 }				t_state;
 
-typedef struct	s_token
+typedef struct s_token
 {
 	t_token_type	type;
 	char			*word;
@@ -51,7 +51,7 @@ typedef struct	s_token
 	t_state			state;
 }				t_token;
 
-typedef struct	s_lexer
+typedef struct s_lexer
 {
 	char	*start;
 	char	*current;
@@ -62,7 +62,6 @@ typedef struct	s_lexer
 
 // lexer.c - Lexer
 void	init_lexer(t_shell *shell);
-void	lexer(t_shell *shell);
 t_token	*get_next_token(t_shell *shell);
 t_token	*read_word_token(t_shell *shell);
 t_token	*read_op_token(t_shell *shell);
@@ -97,8 +96,7 @@ bool	match(char expected, t_lexer *lexer);
 bool	is_at_end(t_lexer *lexer);
 
 // lexer_tokens.c - Lexer token list utils
-void	init_tokens_ptr(t_shell *shell);
-t_token	*create_token_lexer(t_shell *shell, t_token_type type);
+t_token	*new_token_lexer(t_shell *shell, t_token_type type);
 t_token	*new_token(t_shell *shell, char *word, t_token_type type);
 void	append_token(t_shell *shell, t_token *new);
 void	remove_token(t_shell *shell, t_token *token);

@@ -14,11 +14,8 @@
 
 static int	print_export(t_shell *shell)
 {
-	//t_variable	*tmp_env;
 	t_variable	*current;
 
-	//tmp_env = init_shell_vars(shell, shell->vars);
-	//tmp_env = sort_env(tmp_env);
 	current = *shell->vars;
 	while (current)
 	{
@@ -28,7 +25,6 @@ static int	print_export(t_shell *shell)
 			ft_printf("declare -x %s\n", current->name);
 		current = current->next;
 	}
-	//free_env_struct(tmp_env);
 	return (EXIT_SUCCESS);
 }
 
@@ -69,18 +65,6 @@ static bool	check_append(char *str)
 		i++;
 	}
 	return (false);
-}
-
-int	check_var_char(char c)
-{
-	if (is_digit(c))
-		return (0);
-	else if (is_alpha(c))
-		return (0);
-	else if (c == '_')
-		return (0);
-	else
-		return (1);
 }
 
 int	ft_export(t_shell *shell, char **argv)
