@@ -31,7 +31,7 @@ SRCS += srcs/syntax/syntax.c srcs/syntax/syntax_utils.c \
 # SIGNALS
 SRCS += srcs/signals/signals.c
 # SHELL
-SRCS += srcs/taco/shell_init.c
+SRCS += srcs/taco/shell_init.c srcs/taco/shell_utils.c
 # UTILS
 SRCS += srcs/utils/utils.c srcs/utils/utils_extra.c srcs/utils/utils_strings.c \
 		srcs/utils/wrapper_alloc.c

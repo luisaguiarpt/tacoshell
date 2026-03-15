@@ -28,6 +28,7 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <termios.h>
 
 // Includes
 # include "typedefs.h"
@@ -58,16 +59,17 @@ void	executor(t_shell *shell);
 
 typedef struct s_shell
 {
-	char		*line;
-	char		*prompt;
-	bool		syntax_error;
-	int			debug;
-	int			exit_status;
-	t_variable	**vars;
-	t_lexer		*lexer;
-	t_token		**tokens;
-	t_ast		*ast_root;
-	char		**env_ptr;
+	char			*line;
+	char			*prompt;
+	bool			syntax_error;
+	int				debug;
+	int				exit_status;
+	t_variable		**vars;
+	t_lexer			*lexer;
+	t_token			**tokens;
+	t_ast			*ast_root;
+	char			**env_ptr;
+	struct termios	*orig_termios;
 }		t_shell;
 
 #endif

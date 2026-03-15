@@ -12,49 +12,16 @@
 
 #include "../../incs/minishell.h"
 
-t_shell	init_shell(char **av, char **ep)
+void	save_terminal_state(t_shell *shell)
 {
-	t_shell	shell;
-
-	set_shell_null(&shell);
-	set_shell_debug(&shell, av);
-	shell.vars = init_shell_vars(&shell, ep);
-	save_terminal_state(&shell);
-	update_shlvl(&shell);
-	return (shell);
-}
-
-void	set_shell_null(t_shell *shell)
-{
-	shell->prompt = NULL;
-	shell->line = NULL;
-	shell->vars = NULL;
-	shell->lexer = NULL;
-	shell->tokens = NULL;
-	shell->ast_root = NULL;
-	shell->env_ptr = NULL;
-	shell->orig_termios = NULL;
-	shell->debug = 0;
-	shell->syntax_error = 0;
-	shell->exit_status = 0;
-}
-
-void	init_tokens_ptr(t_shell *shell)
-{
-	shell->tokens = ft_calloc(1, sizeof(t_token *));
-	if (!shell->tokens)
+	shell->orig_termios = ft_calloc(1, sizeof(struct termios));
+	if (!shell->orig_termios)
 		exit_clean(shell, EXIT_FAILURE);
+	tcgetattr(STDIN_FILENO, shell->orig_termios);
 }
 
-void	init_shell_vars_ptr(t_shell *shell)
+void	restore_terminal_state(t_shell *shell)
 {
-	shell->vars = ft_calloc(1, sizeof(t_variable *));
-	if (!shell->vars)
-		exit_clean(shell, EXIT_FAILURE);
-}
-
-void	setup_signals(void)
-{
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	if (shell->orig_termios)
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, shell->orig_termios);
 }

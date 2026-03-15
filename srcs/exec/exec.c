@@ -79,17 +79,19 @@ void	exec_pipe(t_ast *node, int input_fd, t_shell *shell)
 		exit_clean(shell, shell->exit_status);
 	if (pid == 0)
 	{
+		close(pipefd[1]);
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		exec_pipeline(node->right, STDIN_FILENO, shell);
+	}
+	else
+	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 		exec_pipeline(node->left, input_fd, shell);
-	}
-	else
-	{
-		close(pipefd[1]);
-		exec_pipeline(node->right, pipefd[0], shell);
-		if (input_fd != 0)
-			close(input_fd);
+		//if (input_fd != 0)
+			//close(input_fd);
 		waitpid(pid, NULL, 0);
 	}
 	exit_clean(shell, g_signal);
