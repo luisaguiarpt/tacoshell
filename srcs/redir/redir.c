@@ -55,8 +55,11 @@ static int	handle_heredoc(t_redir *curr)
 	int	fd;
 
 	fd = curr->heredoc_fd;
-	dup2(fd, STDIN_FILENO);
-	close(fd);
+	if (fd >= 0)
+	{
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
 	return (0);
 }
 

@@ -21,7 +21,7 @@ bool	is_space(char c)
 
 bool	is_op_metachar(char c)
 {
-	if (c == '|' || c == '<' || c == '>' || c == '&' || c == ';')
+	if (c == '|' || c == '<' || c == '>')
 		return (true);
 	return (false);
 }

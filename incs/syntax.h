@@ -23,7 +23,8 @@ void		syntax_pipe_start(t_shell *shell);
 void		syntax_pipe_end(t_shell *shell);
 void		syntax_redirs(t_shell *shell);
 void		syntax_quotes(t_shell *shell, t_token *token);
-void		syntax_operators(t_shell *shell);
+void		syntax_operators_start(t_shell *shell);
+void		syntax_operators_end(t_shell *shell);
 
 // syntax_utils.c
 void		set_syntax_error_tok(t_shell *shell, t_token *token, int exit_status);

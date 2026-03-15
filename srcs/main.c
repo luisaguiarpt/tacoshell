@@ -27,9 +27,9 @@ int	main(int ac, char **av, char **ep)
 
 void	eval_loop(t_shell *shell)
 {
-	setup_signals();
 	while (true)
 	{
+		setup_signals();
 		if (!read_line(shell))
 			continue ;
 		lexer(shell);

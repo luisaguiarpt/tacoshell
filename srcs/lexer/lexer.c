@@ -65,14 +65,14 @@ t_token	*read_op_token(t_shell *shell)
 		return (advance(2, shell->lexer), new_token_lexer(shell, TK_OR));
 	else if (c == '|')
 		return (advance(1, shell->lexer), new_token_lexer(shell, TK_PIPE));
-	if (c == '&' && match('&', shell->lexer))
-		return (advance(2, shell->lexer), new_token_lexer(shell, TK_AND));
-	else if (c == '&')
-		return (advance(1, shell->lexer), new_token_lexer(shell, TK_AMPERSAND));
-	if (c == ';' && match(';', shell->lexer))
-		return (advance(2, shell->lexer), new_token_lexer(shell, TK_SEMI_SEMI));
-	else if (c == ';')
-		return (advance(1, shell->lexer), new_token_lexer(shell, TK_SEMI));
+//	if (c == '&' && match('&', shell->lexer))
+//		return (advance(2, shell->lexer), new_token_lexer(shell, TK_AND));
+//	else if (c == '&')
+//		return (advance(1, shell->lexer), new_token_lexer(shell, TK_AMPERSAND));
+//	if (c == ';' && match(';', shell->lexer))
+//		return (advance(2, shell->lexer), new_token_lexer(shell, TK_SEMI_SEMI));
+//	else if (c == ';')
+//		return (advance(1, shell->lexer), new_token_lexer(shell, TK_SEMI));
 	else
 		return (advance(1, shell->lexer), new_token_lexer(shell, TK_EOF));
 }

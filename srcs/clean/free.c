@@ -58,6 +58,11 @@ void	free_token(t_token *token)
 		free(token->mask);
 		token->mask = NULL;
 	}
+	if (token->heredoc_delimiter)
+	{
+		free(token->heredoc_delimiter);
+		token->heredoc_delimiter = NULL;
+	}
 	token->prev = NULL;
 	token->next = NULL;
 	free(token);

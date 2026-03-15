@@ -14,14 +14,16 @@
 
 void	check_syntax(t_shell *shell)
 {
-	if (!shell->syntax_error)
-		syntax_pipe_start(shell);
-	if (!shell->syntax_error)
-		syntax_pipe_end(shell);
+//	if (!shell->syntax_error)
+//		syntax_pipe_start(shell);
+//	if (!shell->syntax_error)
+//		syntax_pipe_end(shell);
 	if (!shell->syntax_error)
 		syntax_redirs(shell);
 	if (!shell->syntax_error)
-		syntax_operators(shell);
+		syntax_operators_start(shell);
+	if (!shell->syntax_error)
+		syntax_operators_end(shell);
 }
 
 void	syntax_quotes(t_shell *shell, t_token *token)
@@ -95,11 +97,22 @@ void	syntax_pipe_end(t_shell *shell)
 	}
 }
 
-void	syntax_operators(t_shell *shell)
+void	syntax_operators_start(t_shell *shell)
 {
 	t_token	*head;
 
 	head = *shell->tokens;
 	if (is_token_operator(head))
 		set_syntax_error_tok(shell, head, 2);
+}
+
+void	syntax_operators_end(t_shell *shell)
+{
+	t_token	*last;
+
+	last = last_token(shell);
+	if (last->prev)
+		last = last->prev;
+	if (is_token_operator(last))
+		set_syntax_error_tok(shell, last, 2);
 }

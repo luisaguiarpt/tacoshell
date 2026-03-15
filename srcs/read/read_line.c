@@ -16,6 +16,7 @@ bool	read_line(t_shell *shell)
 {
 	get_prompt(shell);
 	shell->line = readline(shell->prompt);
+	handle_ctrl_c(shell);
 	if (!shell->line)
 	{
 		write(1, "exit\n", 5);

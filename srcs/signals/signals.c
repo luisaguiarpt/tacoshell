@@ -14,9 +14,11 @@
 
 void	handle_ctrl_c(t_shell *shell)
 {
-	shell->exit_status = 130;
-	g_signal = 0;
-	return ;
+	if (g_signal != 0)
+	{
+		shell->exit_status = g_signal;
+		g_signal = 0;
+	}
 }
 
 void	handle_sigint(int signo)

@@ -21,6 +21,7 @@ t_redir	*redir_new(t_token_type	type, char *file_path, char *hdoc_del)
 		return (NULL);
 	node->type = type;
 	node->file_path = file_path;
+	node->heredoc_fd = -1;
 	node->heredoc_delimiter = hdoc_del;
 	node->next = NULL;
 	return (node);
