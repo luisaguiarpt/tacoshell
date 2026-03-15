@@ -19,7 +19,7 @@ static int	print_export(t_shell *shell)
 	current = *shell->vars;
 	while (current)
 	{
-		if (current->value != NULL && *current->value)
+		if (current->value != NULL)
 			ft_printf("declare -x %s=\"%s\"\n", current->name, current->value);
 		else
 			ft_printf("declare -x %s\n", current->name);

@@ -26,7 +26,7 @@ void	print_ast(t_ast *node, int depth, int line)
 
 	if (!node)
 		return ;
-	printf("\n\n\n");
+	printf("\n\n");
 	print_ast(node->right, depth + 1, 1);
 	i = 0;
 	while (i < depth)

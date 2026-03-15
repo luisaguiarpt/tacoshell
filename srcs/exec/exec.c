@@ -37,7 +37,6 @@ void	exec_control(t_ast *node, t_shell *shell)
 	restore_parent_signals();
 }
 
-// Need to implement checks for pipe() and fork() for correctness
 void	exec_pipeline(t_ast *node, int input_fd, t_shell *shell)
 {
 	if (node->type == CMD_NODE)

@@ -33,5 +33,6 @@ void		set_syntax_error_quotes(t_shell *shell, char *str, int exit_status);
 
 // syntax_misc.c
 bool		is_token_operator(t_token *token);
+bool		is_token_redir(t_token *token);
 
 #endif

@@ -67,36 +67,6 @@ void	syntax_redirs(t_shell *shell)
 	}
 }
 
-void	syntax_pipe_start(t_shell *shell)
-{
-	t_token	*head;
-
-	head = *shell->tokens;
-	if (head->type == TK_PIPE)
-	{
-		ft_printf_fd(STDERR_FILENO, ERRMSG_PIPE);
-		shell->exit_status = 2;
-		shell->syntax_error = true;
-		return ;
-	}
-}
-
-void	syntax_pipe_end(t_shell *shell)
-{
-	t_token	*last;
-
-	last = last_token(shell);
-	if (last->prev)
-		last = last->prev;
-	if (last->type == TK_PIPE)
-	{
-		ft_printf_fd(STDERR_FILENO, ERRMSG_PIPE);
-		shell->exit_status = 2;
-		shell->syntax_error = true;
-		return ;
-	}
-}
-
 void	syntax_operators_start(t_shell *shell)
 {
 	t_token	*head;
