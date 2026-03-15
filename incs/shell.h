@@ -20,8 +20,4 @@ void	init_tokens_ptr(t_shell *shell);
 void	init_shell_vars_ptr(t_shell *shell);
 void	setup_signals(void);
 
-// shell_utils.c - Terminal IO settings
-void	restore_terminal_state(t_shell *shell);
-void	save_terminal_state(t_shell *shell);
-
 #endif

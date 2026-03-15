@@ -69,7 +69,7 @@ typedef struct s_shell
 	t_token			**tokens;
 	t_ast			*ast_root;
 	char			**env_ptr;
-	struct termios	*orig_termios;
+	struct termios	orig_termios;
 }		t_shell;
 
 #endif

@@ -40,9 +40,7 @@ void	exit_clean(t_shell *shell, int exit_code)
 		clean_ast(shell);
 	if (shell->env_ptr)
 		free_array(shell->env_ptr);
-	restore_terminal_state(shell);
-	if (shell->orig_termios)
-		free(shell->orig_termios);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &shell->orig_termios);
 	exit(exit_code);
 }
 
