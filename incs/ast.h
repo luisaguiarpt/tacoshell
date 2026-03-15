@@ -28,8 +28,7 @@ typedef struct s_ast_cmd
 typedef enum e_ast_node_type
 {
 	PIPE_NODE = 1,
-	CMD_NODE = 2,
-	BUILTIN_NODE = 3 // may or may not be used!!
+	CMD_NODE = 2
 }				t_ast_node_type;
 
 typedef struct s_ast

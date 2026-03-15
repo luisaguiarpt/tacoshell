@@ -37,7 +37,7 @@ int	replace_dollar_var(t_shell *shell, t_token *token, int i)
 	tmp_key = parse_var_name(&token->word[i]);
 	tmp_value = get_var_value(shell, &tmp_key[1]);
 	if (!ft_strcmp(tmp_key, "$"))
-		return (++i);
+		return (free(tmp_key), ++i);
 	if (tmp_value)
 	{
 		token->word = str_replace(shell, token->word, tmp_key, tmp_value);

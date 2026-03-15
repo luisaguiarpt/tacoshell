@@ -49,6 +49,7 @@ void	lexer(t_shell *shell)
 	{
 		shell->lexer->has_dollar = false;
 		token = get_next_token(shell);
+		syntax_quotes(shell, token);
 		append_token(shell, token);
 		set_heredoc_delimiter(shell, token);
 		expansion(shell, &token);

@@ -46,7 +46,7 @@ bool	is_digit(char c)
 bool	is_metachar(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n' || c == '|' || c == '&'
-		|| c == ';' || c == '(' || c == ')' || c == '<' || c == '>')
+		|| c == ';' || c == '<' || c == '>')
 		return (true);
 	return (false);
 }

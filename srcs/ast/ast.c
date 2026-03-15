@@ -66,7 +66,7 @@ void	gen_argv_redir(t_ast_cmd *cmd,
 
 	n_words = count_cmd_args(s, end);
 	if (n_words < 0)
-		return (set_syntax_error(shell));
+		return (set_syntax_error_tok(shell, s->next, 2));
 	cmd->argv = wr_calloc(n_words + 1, sizeof(char *), shell);
 	i = 0;
 	while (end && s != end->next && s->type != TK_EOF)

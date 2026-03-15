@@ -26,7 +26,8 @@ SRCS += srcs/read/read_line.c srcs/read/get_prompt.c srcs/read/heredoc.c
 # REDIR
 SRCS += srcs/redir/redir.c srcs/redir/redir_utils.c
 # SYNTAX
-SRCS += srcs/syntax/syntax.c
+SRCS += srcs/syntax/syntax.c srcs/syntax/syntax_utils.c \
+		srcs/syntax/syntax_misc.c
 # SIGNALS
 SRCS += srcs/signals/signals.c
 # SHELL
