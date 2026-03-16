@@ -33,6 +33,7 @@ int		builtin_handler(t_shell *shell, t_ast *node);
 int		execve_handler(t_shell *shell, t_ast *node);
 int		exec_external(t_shell *shell, t_ast *node);
 void	close_safely(int *fd);
+int		handle_sigterm(t_shell *shell, int wstatus);
 
 // exec_utils.c
 void	save_original_fds(t_shell *shell);

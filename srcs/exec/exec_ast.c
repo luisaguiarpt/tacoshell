@@ -58,7 +58,8 @@ int	exec_pipe(t_shell *shell, t_ast *node)
 	waitpid(pid_out, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		shell->exit_status = WEXITSTATUS(wstatus);
-	restore_parent_signals();
+	handle_sigterm(shell, wstatus);
+	setup_signals();
 	return (EXIT_SUCCESS);
 }
 
@@ -80,11 +81,12 @@ int	fork_in(t_shell *shell, t_ast *in, int pipefd[2])
 
 void	exec_in_pipe(t_shell *shell, t_ast *in, int pipefd[2])
 {
+	enable_child_signals();
 	close_safely(&pipefd[0]);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close_safely(&pipefd[1]);
 	exec_node(shell, in);
-	close(STDOUT_FILENO);
+	//close(STDOUT_FILENO);
 	exit_clean(shell, shell->exit_status);
 	return ;
 }
@@ -107,11 +109,12 @@ int	fork_out(t_shell *shell, t_ast *out, int pipefd[2])
 
 void	exec_out_pipe(t_shell *shell, t_ast *out, int pipefd[2])
 {
+	enable_child_signals();
 	close_safely(&pipefd[1]);
 	dup2(pipefd[0], STDIN_FILENO);
 	close_safely(&pipefd[0]);
 	exec_node(shell, out);
-	close(STDIN_FILENO);
+	//close(STDIN_FILENO);
 	exit_clean(shell, shell->exit_status);
 	return ;
 }

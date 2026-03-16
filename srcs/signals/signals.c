@@ -12,13 +12,19 @@
 
 #include "../incs/minishell.h"
 
-void	handle_ctrl_c(t_shell *shell)
+void	handle_readline(t_shell *shell)
 {
 	if (g_signal != 0)
 	{
 		shell->exit_status = g_signal;
 		g_signal = 0;
 	}
+}
+
+void	handle_ctrl_c(int signo)
+{
+	(void)signo;
+	g_signal = 130;
 }
 
 void	handle_sigint(int signo)
@@ -43,13 +49,22 @@ void	handler_heredoc(int signo)
 	signal(SIGINT, handle_sigint);
 }
 
+void	handle_backslash(int signo)
+{
+	(void)signo;
+	g_signal = 131;
+}
+
+void	enable_child_signals(void)
+{
+	signal(SIGINT, handle_ctrl_c);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_DFL);
+}
+
 void	disable_parent_signals(void)
 {
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-}
-
-void	restore_parent_signals(void)
-{
-	signal(SIGINT, handle_sigint);
+	signal(SIGPIPE, SIG_DFL);
 }
