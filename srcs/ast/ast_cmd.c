@@ -43,9 +43,9 @@ int	count_cmd_args(t_token *start, t_token *end)
 
 	n = 0;
 	curr = start;
-	while (curr != end)
+	while (curr && curr != end)
 	{
-		if (is_word(*curr))
+		if (!is_redir_operator(*curr))
 		{
 			n++;
 			curr = curr->next;
