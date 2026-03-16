@@ -36,6 +36,8 @@ void	set_shell_null(t_shell *shell)
 	shell->debug = 0;
 	shell->syntax_error = 0;
 	shell->exit_status = 0;
+	shell->orig_fds[0] = -1;
+	shell->orig_fds[1] = -1;
 }
 
 void	init_tokens_ptr(t_shell *shell)

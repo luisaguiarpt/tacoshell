@@ -12,16 +12,24 @@
 
 #include "../../incs/minishell.h"
 
-void	save_fds(int fds[2])
+void	save_original_fds(t_shell *shell)
 {
-	fds[0] = dup(STDIN_FILENO);
-	fds[1] = dup(STDOUT_FILENO);
+	shell->orig_fds[0] = dup(STDIN_FILENO);
+	shell->orig_fds[1] = dup(STDOUT_FILENO);
 }
 
-void	restore_fds(int fds[2])
+void	restore_original_fds(t_shell *shell)
 {
-	dup2(fds[0], STDIN_FILENO);
-	dup2(fds[1], STDOUT_FILENO);
+	if (shell->orig_fds[0] != -1)
+	{
+		dup2(shell->orig_fds[0], STDIN_FILENO);
+		close_safely(&shell->orig_fds[0]);
+	}
+	if (shell->orig_fds[1] != -1)
+	{
+		dup2(shell->orig_fds[1], STDOUT_FILENO);
+		close_safely(&shell->orig_fds[1]);
+	}
 }
 
 bool	contains_slash(char *cmd)

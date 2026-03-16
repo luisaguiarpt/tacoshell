@@ -65,14 +65,14 @@ static int	handle_heredoc(t_redir *curr)
 
 int	handle_redirs(t_redir *head, t_shell *shell)
 {
-	int		heredoc_count;
-	int		heredoc_curr;
+	//int		heredoc_count;
+	//int		heredoc_curr;
 	t_redir	*r;
 
 	(void)shell;
 	r = head;
-	heredoc_count = count_heredocs(head);
-	heredoc_curr = heredoc_count;
+	//heredoc_count = count_heredocs(head);
+	//heredoc_curr = heredoc_count;
 	while (r && g_signal == 0)
 	{
 		if (r->type == TK_REDIR_IN && handle_in(r->file_path))

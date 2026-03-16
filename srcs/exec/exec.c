@@ -77,37 +77,22 @@ void	exec_pipe(t_ast *node, int input_fd, t_shell *shell)
 	pid = fork();
 	if (pid == -1)
 		exit_clean(shell, shell->exit_status);
-	//if (pid == 0)
-	//{
-	//	close(pipefd[1]);
-	//	dup2(pipefd[0], STDIN_FILENO);
-	//	close(pipefd[0]);
-	//	exec_pipeline(node->right, STDIN_FILENO, shell);
-	//}
-	//else
-	//{
-	//	close(pipefd[0]);
-	//	dup2(pipefd[1], STDOUT_FILENO);
-	//	close(pipefd[1]);
-	//	exec_pipeline(node->left, input_fd, shell);
-	//	close(STDOUT_FILENO);
-	//	waitpid(pid, NULL, 0);
-	//}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (pid == 0)
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
-		exec_pipeline(node->left, input_fd, shell);
+		exec_pipeline(node->left, pipefd[0], shell);
 		close(STDOUT_FILENO);
 	}
 	else
 	{
 		close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
-		exec_pipeline(node->right, pipefd[0], shell);
-		if (input_fd != 0)
-			close(input_fd);
+		exec_pipeline(node->right, input_fd, shell);
+		close(input_fd);
 		close(STDOUT_FILENO);
 		waitpid(pid, NULL, 0);
 	}

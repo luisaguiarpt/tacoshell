@@ -64,12 +64,13 @@ typedef struct s_shell
 	bool			syntax_error;
 	int				debug;
 	int				exit_status;
+	char			**env_ptr;
 	t_variable		**vars;
 	t_lexer			*lexer;
 	t_token			**tokens;
 	t_ast			*ast_root;
-	char			**env_ptr;
 	struct termios	orig_termios;
+	int				orig_fds[2];
 }		t_shell;
 
 #endif

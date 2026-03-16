@@ -74,9 +74,12 @@ void	parser(t_shell *shell)
 
 void	executor(t_shell *shell)
 {
+	save_original_fds(shell);
 	if (shell->syntax_error)
 		return ;
 	if (shell->ast_root == NULL)
 		return ;
-	exec_control(shell->ast_root, shell);
+	exec_node(shell, shell->ast_root);
+	restore_original_fds(shell);
+	//exec_control(shell->ast_root, shell);
 }

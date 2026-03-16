@@ -12,33 +12,41 @@
 
 #include "../../incs/minishell.h"
 
-void	builtin_handler(t_ast *node, int fds[2], t_shell *shell)
+int	builtin_handler(t_shell *shell, t_ast *node)
 {
-	if (handle_redirs(*node->cmd->redirs, shell) == EXIT_FAILURE)
-	{
-		restore_fds(fds);
-		shell->exit_status = EXIT_FAILURE;
-		return ;
-	}
 	shell->exit_status = exec_builtin(shell, node->cmd->argv);
-	restore_fds(fds);
-	return ;
+	return (shell->exit_status);
 }
 
-int	execve_handler(t_ast *node, t_shell *shell)
+int	execve_handler(t_shell *shell, t_ast *node)
+{
+	pid_t	pid;
+	int		wstatus;
+
+	disable_parent_signals();
+	pid = fork();
+	if (pid == 0)
+		return (exec_external(shell, node));
+	else if (pid < 0)
+		exit_clean(shell, EXIT_FAILURE);
+	waitpid(pid, &wstatus, 0);
+	restore_parent_signals();
+	if (WIFEXITED(wstatus))
+		shell->exit_status = WEXITSTATUS(wstatus);
+	return (shell->exit_status);
+}
+
+int	exec_external(t_shell *shell, t_ast *node)
 {
 	int	cmd_check;
 	int	exit_status;
 
 	cmd_check = check_cmd(node);
 	if (cmd_check)
-	{
-		exit_clean(shell, cmd_check);
-		return (cmd_check);
-	}
+		return (exit_clean(shell, cmd_check), cmd_check);
 	if (node->cmd->cmd_path)
 		execve(node->cmd->cmd_path, node->cmd->argv, shell->env_ptr);
-	else if (ft_strchr(*node->cmd->argv, '/'))
+	else if (contains_slash(*node->cmd->argv))
 		execve(node->cmd->argv[0], node->cmd->argv, shell->env_ptr);
 	if (errno == EACCES || errno == ENOEXEC)
 	{
@@ -52,4 +60,12 @@ int	execve_handler(t_ast *node, t_shell *shell)
 	}
 	exit_clean(shell, exit_status);
 	return (exit_status);
+}
+
+void	close_safely(int *fd)
+{
+	if (*fd == -1)
+		return ;
+	close(*fd);
+	*fd = -1;
 }

@@ -16,7 +16,8 @@ SRCS += srcs/clean/clean.c srcs/clean/clean_utils.c srcs/clean/free.c
 # DEBUG
 SRCS += srcs/debug/debug.c
 # EXECS
-SRCS += srcs/exec/exec.c srcs/exec/exec_handlers.c srcs/exec/exec_utils.c
+SRCS += srcs/exec/exec_handlers.c srcs/exec/exec_utils.c \
+		srcs/exec/exec_ast.c
 # LEXER
 SRCS += srcs/lexer/lexer.c srcs/lexer/lexer_tokens.c srcs/lexer/lexer_utils.c \
 		srcs/lexer/lexer_expansion.c srcs/lexer/lexer_words.c \
@@ -80,10 +81,13 @@ fclean: clean
 
 re: fclean all
 
-valgrind: all 
+valgrind: re
 	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_read ./minishell
 
 gdval: all 
 	valgrind --vgdb=yes --vgdb-error=0 --leak-check=full --show-leak-kinds=all --suppressions=sup_read ./minishell
+
+trace: all
+	valgrind --track-fds=yes --trace-children=yes --suppressions=sup_read ./minishell 
 
 .PHONY: all clean fclean re

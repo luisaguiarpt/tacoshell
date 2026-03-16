@@ -66,7 +66,7 @@ int	ft_cd(t_shell *shell, char **argv)
 	if (!get_new_path(shell, argv, &new_path))
 	{
 		ft_printf_fd(2, "Error: too many arguments\n");
-		return (EXIT_FAILURE);
+		return (2);
 	}
 	if (change_dir(new_path) == EXIT_FAILURE)
 	{
