@@ -81,5 +81,4 @@ void	executor(t_shell *shell)
 		return ;
 	exec_node(shell, shell->ast_root);
 	restore_original_fds(shell);
-	//exec_control(shell->ast_root, shell);
 }

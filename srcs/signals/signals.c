@@ -46,7 +46,8 @@ void	handler_heredoc(int signo)
 	g_signal = 130;
 	write(STDOUT_FILENO, "\n", 1);
 	close(STDIN_FILENO);
-	signal(SIGINT, handle_sigint);
+	//signal(SIGINT, handle_ctrl_c);
+	//signal(SIGQUIT, SIG_IGN);
 }
 
 void	handle_backslash(int signo)
@@ -66,5 +67,5 @@ void	disable_parent_signals(void)
 {
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGPIPE, SIG_DFL);
+	//signal(SIGPIPE, SIG_DFL);
 }

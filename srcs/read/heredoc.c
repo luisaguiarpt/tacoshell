@@ -26,6 +26,7 @@ int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell)
 	if (heredoc_curr == 0 && g_signal == 0)
 		curr->heredoc_fd = open(".heredoc_tmp", O_RDONLY);
 	unlink(".heredoc_tmp");
+	setup_signals();
 	return (fd);
 }
 
