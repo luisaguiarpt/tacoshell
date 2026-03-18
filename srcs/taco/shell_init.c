@@ -19,7 +19,7 @@ t_shell	init_shell(char **av, char **ep)
 	set_shell_null(&shell);
 	set_shell_debug(&shell, av);
 	shell.vars = init_shell_vars(&shell, ep);
-	tcgetattr(STDIN_FILENO, &shell.orig_termios);
+//	tcgetattr(STDIN_FILENO, &shell.orig_termios);
 	update_shlvl(&shell);
 	return (shell);
 }

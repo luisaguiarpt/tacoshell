@@ -40,16 +40,6 @@ void	handle_sigint(int signo)
 	}
 }
 
-void	handler_heredoc(int signo)
-{
-	(void)signo;
-	g_signal = 130;
-	write(STDOUT_FILENO, "\n", 1);
-	close(STDIN_FILENO);
-	//signal(SIGINT, handle_ctrl_c);
-	//signal(SIGQUIT, SIG_IGN);
-}
-
 void	handle_backslash(int signo)
 {
 	(void)signo;

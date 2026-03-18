@@ -44,7 +44,7 @@ void	exit_clean(t_shell *shell, int exit_code)
 	close_safely(&shell->orig_fds[1]);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &shell->orig_termios);
+	//tcsetattr(STDIN_FILENO, TCSAFLUSH, &shell->orig_termios);
 	exit(exit_code);
 }
 
