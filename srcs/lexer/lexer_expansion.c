@@ -53,9 +53,14 @@ void	word_split(t_shell *shell, t_token *token)
 	i = 0;
 	if (!token)
 		return ;
+	token->state = NEUTRAL;
 	while (token->word && token->word[i])
 	{
-		if (token->word[i] == ' ' && token->mask[i] == 1)
+		if (token->state == NEUTRAL && token->word[i] == '"')
+			token->state = IN_DQ;
+		else if (token->state == IN_DQ && token->word[i] == '"')
+			token->state = NEUTRAL;
+		if (token->word[i] == ' ' && token->mask[i] == '1' && token->state == NEUTRAL)
 		{
 			new_token = split_token(shell, token, i);
 			append_token(shell, new_token);
@@ -109,9 +114,16 @@ t_token	*split_token(t_shell *shell, t_token *token, int i)
 	if (!new_mask)
 		exit_clean(shell, EXIT_FAILURE);
 	new_tok = new_token(shell, new_word, TK_WORD);
+	free(new_tok->mask);
+	new_tok->mask = new_mask;
 	tmp = token->word;
 	token->word = ft_substr(token->word, 0, i);
 	if (!token->word)
+		exit_clean(shell, EXIT_FAILURE);
+	free(tmp);
+	tmp = token->mask;
+	token->mask = ft_substr(token->mask, 0, i);
+	if (!token->mask)
 		exit_clean(shell, EXIT_FAILURE);
 	free(tmp);
 	return (new_tok);

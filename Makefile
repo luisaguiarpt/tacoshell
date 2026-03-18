@@ -30,7 +30,7 @@ SRCS += srcs/redir/redir.c srcs/redir/redir_utils.c
 SRCS += srcs/syntax/syntax.c srcs/syntax/syntax_utils.c \
 		srcs/syntax/syntax_misc.c
 # SIGNALS
-SRCS += srcs/signals/signals.c
+SRCS += srcs/signals/signals.c srcs/signals/signals_read.c
 # SHELL
 SRCS += srcs/taco/shell_init.c
 # UTILS

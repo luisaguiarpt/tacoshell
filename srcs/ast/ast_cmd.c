@@ -68,27 +68,27 @@ int	count_cmd_args(t_token *start, t_token *end)
 char	*get_path(char *av_cmd, t_shell *shell)
 {
 	int		i;
-	char	**cmd;
+	char	*cmd;
 	char	**paths;
 	char	*cmd_path;
 
-	cmd = ft_split(av_cmd, ' ');
+	cmd = av_cmd; //ft_split(av_cmd, ' ');
 	paths = ft_split(get_var_value(shell, "PATH"), ':');
 	if (!paths)
 		return (NULL);
 	i = -1;
 	while (paths[++i])
 	{
-		cmd_path = ft_strjoin2(ft_strjoin(paths[i], "/"), cmd[0], 0);
+		cmd_path = ft_strjoin2(ft_strjoin(paths[i], "/"), cmd, 0);
 		if (access(cmd_path, X_OK) == 0)
 		{
-			ft_free_tab(cmd);
+			//ft_free_tab(cmd);
 			ft_free_tab(paths);
 			return (cmd_path);
 		}
 		free(cmd_path);
 	}
-	ft_free_tab(cmd);
+	//ft_free_tab(cmd);
 	ft_free_tab(paths);
 	return (NULL);
 }

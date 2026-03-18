@@ -14,12 +14,18 @@
 # define SIGNALS_H
 
 // signals.c - Signal setup and handling
-void	handle_ctrl_c(int signo);
-void	handle_sigint(int signo);
-void	handler_heredoc(int signo);
-void	disable_parent_signals(void);
-void	restore_parent_signals(void);
-void	enable_child_signals(void);
-void	handle_readline(t_shell *shell);
+void		handle_ctrl_c(int signo);
+void		handle_sigint(int signo);
+void		handler_heredoc(int signo);
+void		disable_parent_signals(void);
+void		restore_parent_signals(void);
+void		enable_child_signals(void);
+void		handle_readline(t_shell *shell);
+
+// signals_read.c - Signal functions for reads
+void		setup_heredoc_signals(void);
+void		handler_heredoc(int signo);
+bool		check_heredoc_interrupt(t_shell *shell);
+void		handle_readline(t_shell *shell);
 
 #endif

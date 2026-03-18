@@ -67,6 +67,19 @@ static bool	check_append(char *str)
 	return (false);
 }
 
+bool	check_valid_assignment(t_shell *shell, char **key, char **new_value)
+{
+	if (var_exists(shell, *key))
+	{
+		if (get_var_value(shell, *key) && !*new_value)
+		{
+			free(*key);
+			return (false);
+		}
+	}
+	return (true);
+}
+
 int	ft_export(t_shell *shell, char **argv)
 {
 	char	*key;
@@ -75,12 +88,14 @@ int	ft_export(t_shell *shell, char **argv)
 
 	if (!argv[1])
 		return (print_export(shell), EXIT_SUCCESS);
-	i = 1;
-	while (argv[i])
+	i = 0;
+	while (argv[++i])
 	{
 		if (check_export_arg(argv[i]) == 1)
 			return (EXIT_FAILURE);
 		env_split(argv[i], &key, &value);
+		if (!check_valid_assignment(shell, &key, &value))
+			break ;
 		if (check_append(argv[i]))
 			append_env(shell, key, value);
 		else
@@ -88,7 +103,6 @@ int	ft_export(t_shell *shell, char **argv)
 		update_env_ptr(shell);
 		free(key);
 		free(value);
-		i++;
 	}
 	return (EXIT_SUCCESS);
 }

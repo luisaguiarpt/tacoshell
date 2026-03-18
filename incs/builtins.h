@@ -31,6 +31,7 @@ void		env_split(char *env, char **name, char **value);
 // export_utils.c - Export utils
 int			check_var_char(char c);
 int			check_export_arg(char *argv);
+bool		var_exists(t_shell *shell, char *var);
 
 // builtin_utils.c - Builtin utils
 int			count_args(char **argv);

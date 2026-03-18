@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   signals_read.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldias-da <ldias-da@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,40 +12,41 @@
 
 #include "../incs/minishell.h"
 
-void	handle_ctrl_c(int signo)
+void	setup_heredoc_signals(void)
+{
+	struct sigaction sa;
+
+	ft_bzero(&sa, sizeof(sa));
+	sa.sa_handler = handler_heredoc;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+}
+
+void	handler_heredoc(int signo)
 {
 	(void)signo;
 	g_signal = 130;
+	write(STDOUT_FILENO, "\n", 1);
 }
 
-void	handle_sigint(int signo)
+bool	check_heredoc_interrupt(t_shell *shell)
 {
-	if (signo == SIGINT)
+	if (g_signal != 0)
 	{
-		g_signal = 130;
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		signal(SIGINT, handle_sigint);
+		g_signal = 0;
+		shell->exit_status = 130;
+		shell->syntax_error = true;
+		return (true);
 	}
+	return (false);
 }
 
-void	handle_backslash(int signo)
+void	handle_readline(t_shell *shell)
 {
-	(void)signo;
-	g_signal = 131;
-}
-
-void	enable_child_signals(void)
-{
-	signal(SIGINT, handle_ctrl_c);
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGPIPE, SIG_DFL);
-}
-
-void	disable_parent_signals(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	if (g_signal != 0)
+	{
+		shell->exit_status = g_signal;
+		g_signal = 0;
+	}
 }

@@ -32,6 +32,22 @@ t_variable	*set_var(t_shell *shell, char *name, char *value)
 	return (var);
 }
 
+bool	var_exists(t_shell *shell, char *var)
+{
+	t_variable	*tmp;
+
+	if (!var)
+		return (false);
+	tmp = *shell->vars;
+	while (tmp)
+	{
+		if (ft_strcmp(var, tmp->name) == 0)
+			return (true);
+		tmp = tmp->next;
+	}
+	return (false);
+}
+
 void	env_split(char *env, char **key, char **value)
 {
 	int	i;

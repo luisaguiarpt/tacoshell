@@ -12,26 +12,6 @@
 
 #include "../../incs/minishell.h"
 
-static void	setup_heredoc_signals(void)
-{
-	struct sigaction sa;
-
-	ft_bzero(&sa, sizeof(sa));
-	sa.sa_handler = handler_heredoc;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-
-	//signal(SIGQUIT, SIG_IGN);
-}
-
-void	handler_heredoc(int signo)
-{
-	(void)signo;
-	g_signal = 130;
-	write(STDOUT_FILENO, "\n", 1);
-}
-
 int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell)
 {
 	int		fd;
@@ -41,7 +21,6 @@ int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell)
 	if (fd == -1)
 		return (perror("heredoc"), EXIT_FAILURE);
 	setup_heredoc_signals();
-	//signal(SIGINT, handler_heredoc);
 	heredoc_read_loop(shell, fd, curr->heredoc_delimiter);
 	close(fd);
 	if (heredoc_curr == 0 && g_signal == 0)
@@ -49,18 +28,6 @@ int	heredoc_read(t_redir *curr, int heredoc_curr, t_shell *shell)
 	unlink(".heredoc_tmp");
 	setup_signals();
 	return (fd);
-}
-
-bool	check_heredoc_interrupt(t_shell *shell)
-{
-	if (g_signal != 0)
-	{
-		g_signal = 0;
-		shell->exit_status = 130;
-		shell->syntax_error = true;
-		return (true);
-	}
-	return (false);
 }
 
 void	heredoc_read_loop(t_shell *shell, int fd, char *delimiter)
