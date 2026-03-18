@@ -60,11 +60,16 @@ void	heredoc_read_loop(t_shell *shell, int fd, char *delimiter)
 
 void	set_heredoc_delimiter(t_shell *shell, t_token *node)
 {
-	(void)shell;
+	char	*tmp;
+
 	if (!node->prev)
 		return ;
 	if (node->prev->type == TK_HERE_DOC)
-		node->prev->heredoc_delimiter = rm_quotes(ft_strdup(node->word), shell);
+	{
+		tmp = rm_quotes(ft_strdup(node->word), shell);
+		free(node->prev->heredoc_delimiter);
+		node->prev->heredoc_delimiter = tmp;
+	}
 }
 
 bool	check_delimiter(char *line, char *delimiter)
