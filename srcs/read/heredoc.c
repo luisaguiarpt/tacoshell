@@ -64,7 +64,7 @@ void	set_heredoc_delimiter(t_shell *shell, t_token *node)
 	if (!node->prev)
 		return ;
 	if (node->prev->type == TK_HERE_DOC)
-		node->prev->heredoc_delimiter = ft_strdup(node->word);
+		node->prev->heredoc_delimiter = rm_quotes(ft_strdup(node->word), shell);
 }
 
 bool	check_delimiter(char *line, char *delimiter)
