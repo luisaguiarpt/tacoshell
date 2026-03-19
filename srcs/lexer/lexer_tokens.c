@@ -86,17 +86,15 @@ void	remove_token(t_shell *shell, t_token *token)
 	{
 		prev->next = next;
 		next->prev = prev;
-		free_token(token);
 	}
 	else if (!prev && next)
 	{
 		*shell->tokens = next;
 		next->prev = NULL;
-		free_token(token);
 	}
+	else if (prev && !next)
+		prev->next = NULL;
 	else
-	{
 		*shell->tokens = NULL;
-		free_token(token);
-	}
+	free_token(token);
 }

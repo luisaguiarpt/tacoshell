@@ -42,6 +42,7 @@ void	free_tokens(t_token **node_ptr)
 		free_token(node);
 		node = tmp;
 	}
+	*node_ptr = NULL;
 }
 
 void	free_token(t_token *token)
