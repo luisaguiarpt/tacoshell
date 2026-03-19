@@ -63,22 +63,6 @@ int	exec_pipe(t_shell *shell, t_ast *node)
 	return (EXIT_SUCCESS);
 }
 
-int	fork_in(t_shell *shell, t_ast *in, int pipefd[2])
-{
-	pid_t	pid_in;
-
-	pid_in = fork();
-	if (pid_in < 0)
-	{
-		close_safely(&pipefd[0]);
-		close_safely(&pipefd[1]);
-		exit_clean(shell, EXIT_FAILURE);
-	}
-	else if (pid_in == 0)
-		exec_in_pipe(shell, in, pipefd);
-	return (pid_in);
-}
-
 void	exec_in_pipe(t_shell *shell, t_ast *in, int pipefd[2])
 {
 	enable_child_signals();
@@ -88,22 +72,6 @@ void	exec_in_pipe(t_shell *shell, t_ast *in, int pipefd[2])
 	exec_node(shell, in);
 	exit_clean(shell, shell->exit_status);
 	return ;
-}
-
-int	fork_out(t_shell *shell, t_ast *out, int pipefd[2])
-{
-	pid_t	pid_out;
-
-	pid_out = fork();
-	if (pid_out < 0)
-	{
-		close_safely(&pipefd[0]);
-		close_safely(&pipefd[1]);
-		exit_clean(shell, EXIT_FAILURE);
-	}
-	else if (pid_out == 0)
-		exec_out_pipe(shell, out, pipefd);
-	return (pid_out);
 }
 
 void	exec_out_pipe(t_shell *shell, t_ast *out, int pipefd[2])

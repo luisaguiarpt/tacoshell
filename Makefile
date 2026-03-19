@@ -17,7 +17,7 @@ SRCS += srcs/clean/clean.c srcs/clean/clean_utils.c srcs/clean/free.c
 SRCS += srcs/debug/debug.c
 # EXECS
 SRCS += srcs/exec/exec_handlers.c srcs/exec/exec_utils.c \
-		srcs/exec/exec_ast.c
+		srcs/exec/exec_ast.c srcs/exec/exec_ast_forks.c
 # LEXER
 SRCS += srcs/lexer/lexer.c srcs/lexer/lexer_tokens.c srcs/lexer/lexer_utils.c \
 		srcs/lexer/lexer_expansion.c srcs/lexer/lexer_words.c \

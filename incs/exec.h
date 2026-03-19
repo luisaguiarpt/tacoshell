@@ -23,10 +23,12 @@
 void	exec_node(t_shell *shell, t_ast *node);
 int		exec_cmd(t_shell *shell, t_ast *node);
 int		exec_pipe(t_shell *shell, t_ast *node);
-int		fork_in(t_shell *shell, t_ast *in, int pipefd[2]);
-int		fork_out(t_shell *shell, t_ast *out, int pipefd[2]);
 void	exec_in_pipe(t_shell *shell, t_ast *in, int pipefd[2]);
 void	exec_out_pipe(t_shell *shell, t_ast *out, int pipefd[2]);
+
+// exec_ast_forks.c
+int		fork_in(t_shell *shell, t_ast *in, int pipefd[2]);
+int		fork_out(t_shell *shell, t_ast *out, int pipefd[2]);
 
 // exec_handlers.c - Builtin and execve handlers
 int		builtin_handler(t_shell *shell, t_ast *node);
