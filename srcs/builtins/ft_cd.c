@@ -40,7 +40,7 @@ static int	get_new_path(t_shell *shell, char **argv, char **dir_path)
 		*dir_path = ft_strdup(get_var_value(shell, "OLDPWD"));
 		printf("%s\n", *dir_path);
 	}
-	else if (argv[1][0] == '~' && argv[1][1] == '/')
+	else if (argv[1][0] == '~')
 		*dir_path = ft_strjoin(get_var_value(shell, "HOME"), &argv[1][1]);
 	else
 		*dir_path = ft_strdup(argv[1]);
