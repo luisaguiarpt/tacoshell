@@ -14,7 +14,7 @@
 
 void	setup_heredoc_signals(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	ft_bzero(&sa, sizeof(sa));
 	sa.sa_handler = handler_heredoc;

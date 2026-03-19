@@ -46,9 +46,9 @@ void	syntax_quotes(t_shell *shell, t_token *token)
 		i++;
 	}
 	if (state == IN_DQ)
-		set_syntax_error_quotes(shell, "\"", 2);
+		set_syntax_err_quotes(shell, "\"", 2);
 	else if (state == IN_SQ)
-		set_syntax_error_quotes(shell, "'", 2);
+		set_syntax_err_quotes(shell, "'", 2);
 }
 
 void	syntax_redirs(t_shell *shell)
@@ -60,7 +60,7 @@ void	syntax_redirs(t_shell *shell)
 	{
 		if (is_redir_operator(*token) && !is_word(*token->next))
 		{
-			set_syntax_error_tok(shell, token->next, 2);
+			set_syntax_err_tok(shell, token->next, 2);
 			return ;
 		}
 		token = token->next;
@@ -73,7 +73,7 @@ void	syntax_operators_start(t_shell *shell)
 
 	head = *shell->tokens;
 	if (is_token_operator(head))
-		set_syntax_error_tok(shell, head, 2);
+		set_syntax_err_tok(shell, head, 2);
 }
 
 void	syntax_operators_end(t_shell *shell)
@@ -84,5 +84,5 @@ void	syntax_operators_end(t_shell *shell)
 	if (last->prev)
 		last = last->prev;
 	if (is_token_operator(last))
-		set_syntax_error_tok(shell, last, 2);
+		set_syntax_err_tok(shell, last, 2);
 }

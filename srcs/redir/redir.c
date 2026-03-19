@@ -65,10 +65,9 @@ static int	handle_heredoc(t_redir *curr)
 
 int	handle_redirs(t_redir *head, t_shell *shell)
 {
+	t_redir	*r;
 	//int		heredoc_count;
 	//int		heredoc_curr;
-	t_redir	*r;
-
 	(void)shell;
 	r = head;
 	//heredoc_count = count_heredocs(head);

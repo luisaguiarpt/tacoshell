@@ -13,8 +13,8 @@
 #ifndef READ_H
 # define READ_H
 
-# define ERRMSG_HD_EOF "warning: here-document at line %d" \
-	" delimited by end-of-file (wanted `%s')\n"
+# define ERRMSG_HD_EOF \
+	"warning: here-document at line %d delimited by end-of-file (wanted `%s')\n"
 
 // read_line.c - Wrapper for readline
 bool	read_line(t_shell *shell);
@@ -28,6 +28,6 @@ bool	check_delimiter(char *line, char *delimiter);
 void	write_expand(int fd, char *line, t_shell *shell);
 
 // get_prompt.c
-void		get_prompt(t_shell *shell);
+void	get_prompt(t_shell *shell);
 
 #endif

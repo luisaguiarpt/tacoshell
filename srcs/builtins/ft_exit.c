@@ -73,9 +73,10 @@ bool	is_out_of_range(char *str)
 			sign = -1;
 	while (str[i])
 	{
-		if (res > (unsigned long long)LLONG_MAX / 10 ||
-			(res == (unsigned long long)LLONG_MAX / 10 &&
-			((unsigned long long)(str[i] - '0')) > (unsigned long long)LLONG_MAX % 10 + (sign == -1)))
+		if (res > (unsigned long long)LLONG_MAX / 10
+			|| (res == (unsigned long long)LLONG_MAX / 10
+				&& ((unsigned long long)(str[i] - '0'))
+			> (unsigned long long)LLONG_MAX % 10 + (sign == -1)))
 			return (true);
 		res = res * 10 + (str[i] - '0');
 		i++;

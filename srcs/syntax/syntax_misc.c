@@ -18,7 +18,7 @@ bool	is_token_operator(t_token *token)
 
 	type = token->type;
 	if (type == TK_PIPE || type == TK_AMPERSAND || type == TK_OR
-			|| type == TK_AND || type == TK_SEMI || type == TK_SEMI_SEMI)
+		|| type == TK_AND || type == TK_SEMI || type == TK_SEMI_SEMI)
 		return (true);
 	return (false);
 }
@@ -29,7 +29,7 @@ bool	is_token_redir(t_token *token)
 
 	type = token->type;
 	if (type == TK_REDIR_OUT || type == TK_REDIR_IN
-			|| type == TK_APPEND || type == TK_HERE_DOC)
+		|| type == TK_APPEND || type == TK_HERE_DOC)
 		return (true);
 	return (false);
 }

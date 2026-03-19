@@ -12,7 +12,7 @@
 
 #include "../../incs/minishell.h"
 
-void	set_syntax_error_tok(t_shell *shell, t_token *token, int exit_status)
+void	set_syntax_err_tok(t_shell *shell, t_token *token, int exit_status)
 {
 	if (token->type == TK_EOF)
 		ft_printf_fd(2, ERRMSG_TOK, "newline");
@@ -22,14 +22,14 @@ void	set_syntax_error_tok(t_shell *shell, t_token *token, int exit_status)
 	shell->exit_status = exit_status;
 }
 
-void	set_syntax_error_str(t_shell *shell, char *str, int exit_status)
+void	set_syntax_err_str(t_shell *shell, char *str, int exit_status)
 {
 	ft_printf_fd(2, ERRMSG_TOK, str);
 	shell->syntax_error = true;
 	shell->exit_status = exit_status;
 }
 
-void	set_syntax_error_quotes(t_shell *shell, char *str, int exit_status)
+void	set_syntax_err_quotes(t_shell *shell, char *str, int exit_status)
 {
 	ft_printf_fd(2, ERRMSG_QUOTES, str);
 	shell->syntax_error = true;

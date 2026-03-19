@@ -60,7 +60,8 @@ void	word_split(t_shell *shell, t_token *token)
 			token->state = IN_DQ;
 		else if (token->state == IN_DQ && token->word[i] == '"')
 			token->state = NEUTRAL;
-		if (token->word[i] == ' ' && token->mask[i] == '1' && token->state == NEUTRAL)
+		if (token->word[i] == ' ' && token->mask[i] == '1'
+			&& token->state == NEUTRAL)
 		{
 			new_token = split_token(shell, token, i);
 			append_token(shell, new_token);

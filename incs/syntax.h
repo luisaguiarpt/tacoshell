@@ -27,9 +27,9 @@ void		syntax_operators_start(t_shell *shell);
 void		syntax_operators_end(t_shell *shell);
 
 // syntax_utils.c
-void		set_syntax_error_tok(t_shell *shell, t_token *token, int exit_status);
-void		set_syntax_error_str(t_shell *shell, char *str, int exit_status);
-void		set_syntax_error_quotes(t_shell *shell, char *str, int exit_status);
+void		set_syntax_err_tok(t_shell *shell, t_token *token, int exit_status);
+void		set_syntax_err_str(t_shell *shell, char *str, int exit_status);
+void		set_syntax_err_quotes(t_shell *shell, char *str, int exit_status);
 
 // syntax_misc.c
 bool		is_token_operator(t_token *token);
