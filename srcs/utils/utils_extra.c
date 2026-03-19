@@ -25,3 +25,9 @@ bool	is_op_metachar(char c)
 		return (true);
 	return (false);
 }
+
+int	set_exit_status(t_shell *shell, int exit_status)
+{
+	shell->exit_status = exit_status;
+	return (exit_status);
+}

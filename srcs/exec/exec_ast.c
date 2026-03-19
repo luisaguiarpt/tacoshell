@@ -27,7 +27,7 @@ int	exec_cmd(t_shell *shell, t_ast *node)
 	if (!node)
 		return (0);
 	if (handle_redirs(*node->cmd->redirs, shell))
-		return (EXIT_FAILURE);
+		return (set_exit_status(shell, EXIT_FAILURE));
 	if (is_builtin(node->cmd->argv[0]))
 		return (builtin_handler(shell, node));
 	else

@@ -23,6 +23,7 @@ bool	is_metachar(char c);
 // utils_extra.c - More utils
 bool	is_space(char c);
 bool	is_op_metachar(char c);
+int		set_exit_status(t_shell *shell, int exit_status);
 
 // utils_strings.c - String utils
 char	*str_replace_first(t_shell *shell, char *str, char *rep, char *with);
