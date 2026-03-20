@@ -12,7 +12,21 @@
 
 #include "../../incs/minishell.h"
 
-static int	env_count(t_shell *shell)
+char	*env_join(char *key, char *value)
+{
+	char	*result;
+
+	result = ft_strjoin2(ft_strjoin(key, "="), value, 0);
+	if (!result)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	else
+		return (result);
+}
+
+int	env_count(t_shell *shell)
 {
 	int			i;
 	t_variable	*current;
@@ -25,20 +39,6 @@ static int	env_count(t_shell *shell)
 		i++;
 	}
 	return (i);
-}
-
-static char	*env_join(char *key, char *value)
-{
-	char	*result;
-
-	result = ft_strjoin2(ft_strjoin(key, "="), value, 0);
-	if (!result)
-	{
-		perror("malloc");
-		return (NULL);
-	}
-	else
-		return (result);
 }
 
 int	env_ptr_init(t_shell *shell)

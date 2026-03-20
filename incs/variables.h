@@ -39,6 +39,9 @@ t_variable	*var_find(t_shell *shell, char *key);
 
 // env_ptr_init.c - env_ptr initialization
 int			env_ptr_init(t_shell *shell);
+char		*env_join(char *key, char *value);
+int			env_count(t_shell *shell);
+
 
 // variables_utils.c - Utils for variables and env_ptr
 void		update_shlvl(t_shell *shell);

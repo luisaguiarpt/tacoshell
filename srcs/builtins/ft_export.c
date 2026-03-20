@@ -14,17 +14,18 @@
 
 static int	print_export(t_shell *shell)
 {
-	t_variable	*current;
+	char	**vars;
+	int		i;
 
-	current = *shell->vars;
-	while (current)
+	vars = dup_env_ptr(shell);
+	sort_vars(vars);
+	i = 0;
+	while (vars[i])
 	{
-		if (current->value != NULL)
-			ft_printf("declare -x %s=\"%s\"\n", current->name, current->value);
-		else
-			ft_printf("declare -x %s\n", current->name);
-		current = current->next;
+		print_var(vars[i]);
+		i++;
 	}
+	free_array(vars);
 	return (EXIT_SUCCESS);
 }
 
@@ -67,7 +68,7 @@ static bool	check_append(char *str)
 	return (false);
 }
 
-bool	check_valid_assignment(t_shell *shell, char **key, char **new_value)
+static bool	check_valid_assignment(t_shell *shell, char **key, char **new_value)
 {
 	if (var_exists(shell, *key))
 	{

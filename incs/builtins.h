@@ -27,11 +27,14 @@ void		ft_exit(t_shell *shell, char **argv);
 // env_utils.c - Env utils
 t_variable	*set_var(t_shell *shell, char *key, char *value);
 void		env_split(char *env, char **name, char **value);
+bool		var_exists(t_shell *shell, char *var);
 
 // export_utils.c - Export utils
 int			check_var_char(char c);
 int			check_export_arg(char *argv);
-bool		var_exists(t_shell *shell, char *var);
+char		**dup_env_ptr(t_shell *shell);
+void		sort_vars(char **vars);
+void		print_var(char *var);
 
 // builtin_utils.c - Builtin utils
 int			count_args(char **argv);
